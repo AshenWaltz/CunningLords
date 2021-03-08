@@ -1,0 +1,7 @@
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\CunningLords\bin\Win64_Shipping_Client\CunningLords.dll
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\CunningLords\bin\Win64_Shipping_Client\CunningLords.pdb
+C:\Users\Up\Desktop\Tese\ThesisSolution\CunningLords\CunningLords\obj\Debug\CunningLords.csprojAssemblyReference.cache
+C:\Users\Up\Desktop\Tese\ThesisSolution\CunningLords\CunningLords\obj\Debug\CunningLords.csproj.CoreCompileInputs.cache
+C:\Users\Up\Desktop\Tese\ThesisSolution\CunningLords\CunningLords\obj\Debug\CunningLords.csproj.CopyComplete
+C:\Users\Up\Desktop\Tese\ThesisSolution\CunningLords\CunningLords\obj\Debug\CunningLords.dll
+C:\Users\Up\Desktop\Tese\ThesisSolution\CunningLords\CunningLords\obj\Debug\CunningLords.pdb
