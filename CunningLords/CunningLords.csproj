@@ -70,6 +70,8 @@
   <!-- Files & Classes -->
   <ItemGroup>
     <Compile Include="Patches\MissionAI.cs" />
+    <Compile Include="Patches\MissionAIHelloWorld.cs" />
+    <Compile Include="Patches\Utilities.cs" />
     <Compile Include="SubModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Readme.txt" />

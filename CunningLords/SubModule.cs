@@ -5,9 +5,8 @@ namespace CunningLords
 {
     public class SubModule : MBSubModuleBase
     {
-		protected override void OnBeforeInitialModuleScreenSetAsRoot()
+		protected override void OnSubModuleLoad()
 		{
-			base.OnBeforeInitialModuleScreenSetAsRoot();
 			Harmony harmony = new Harmony("mod.ashenwaltz.bannerlord.cunninglords");
 			harmony.PatchAll();
 		}

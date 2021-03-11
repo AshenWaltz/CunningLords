@@ -10,108 +10,188 @@ using TaleWorlds.MountAndBlade;
 
 namespace CunningLords.Patches
 {
-    [HarmonyPatch(typeof(Mission), "OnTick")]
-    public class MissionAI
+    class MissionAI
     {
-        public static BattleSideEnum PlayerBattleSide {get; set; } = BattleSideEnum.None;
+        
+        public static BattleSideEnum PlayerBattleSide { get; set; } = BattleSideEnum.None;
 
-        private static int FrameCounter = 0;
-        private static void Postfix(Mission __instance)
+        [HarmonyPatch(typeof(MissionCombatantsLogic))]
+        [HarmonyPatch("EarlyStart")]
+        //This class is used to load tactics into the AI Teams, the tactics themselves determine the behaviour of each Formation within a Team
+        class TeamTacticsInitializer
         {
-            MissionAI.PlayerBattleSide = __instance.MainAgent.Team.Side;
-
-            if(FrameCounter == 0)
+            static void Postfix(MissionCombatantsLogic __instance)
             {
-                InformationManager.DisplayMessage(new InformationMessage("Within Battle Mission"));
+                //MissionAI.PlayerBattleSide = __instance.Mission.MainAgent.Team.Side; //Crashes
 
-                foreach(Team t in MissionAI.GetAllEnemyTeams(__instance))
+                List<Team> enemyTeams = Utilities.GetAllEnemyTeams(__instance.Mission);
+
+                if (__instance.Mission.MissionTeamAIType == Mission.MissionTeamAITypeEnum.FieldBattle)
                 {
-                    InformationManager.DisplayMessage(new InformationMessage("Enemy Team: " + t.ToString()));
-                }
-
-                foreach (Formation f in MissionAI.GetAllEnemyFormations(__instance))
-                {
-                    InformationManager.DisplayMessage(new InformationMessage("Enemy Formations: " + f.ToString()));
-                }
-
-                foreach (Formation f in MissionAI.GetAllFormationsOfTypeAndSide(__instance, FormationClass.Infantry, "Enemy"))
-                {
-                    InformationManager.DisplayMessage(new InformationMessage("Enemy Formations of type infantry: " + f.ToString()));
-                }
-            }
-            
-
-        }
-
-        private static List<Team> GetAllEnemyTeams(Mission __instance)
-        {
-            return (from t in __instance.Teams where t.Side != MissionAI.PlayerBattleSide select t).ToList<Team>();
-        }
-
-        private static List<Team> GetAllAllyTeams(Mission __instance)
-        {
-            return (from t in __instance.Teams where t.Side == MissionAI.PlayerBattleSide select t).ToList<Team>();
-        }
-
-        private static List<Formation> GetAllEnemyFormations(Mission __instance)
-        {
-            List<Formation> list = new List<Formation>();
-            List<Team> allEnemyTeams = MissionAI.GetAllEnemyTeams(__instance);
-            bool notNullorZeroVerifier = allEnemyTeams != null && allEnemyTeams.Count > 0;
-            if (notNullorZeroVerifier)
-            {
-                foreach(Team t in allEnemyTeams)
-                {
-                    foreach(Formation f in t.FormationsIncludingSpecial)
+                    foreach (Team team in enemyTeams)
                     {
-                        list.Add(f);
+                        if(team.Side == BattleSideEnum.Attacker)
+                        {
+                            team.ClearTacticOptions();
+                            team.AddTacticOption(new TacticFullScaleAttack(team));
+                        }
+                        else if(team.Side == BattleSideEnum.Defender)
+                        {
+                            team.ClearTacticOptions();
+                            team.AddTacticOption(new TacticDefensiveEngagement(team));
+                        }
                     }
                 }
             }
-            return list;
         }
 
-        private static List<Formation> GetAllAllyFormations(Mission __instance)
+        /*
+        [HarmonyPatch(typeof(TacticFullScaleAttack))]
+        class OverrideTacticFullScaleAttack
         {
-            List<Formation> list = new List<Formation>();
-            List<Team> allAllyTeams = MissionAI.GetAllAllyTeams(__instance);
-            bool notNullorZeroVerifier = allAllyTeams != null && allAllyTeams.Count > 0;
-            if (notNullorZeroVerifier)
+            [HarmonyPostfix]
+            [HarmonyPatch("Advance")]
+            private static void PostfixAdvance(ref Formation ___mainInfantry, ref Formation ____archers, 
+                ref Formation ___rightCavalry, ref Formation ___leftCavalry)
             {
-                foreach (Team t in allAllyTeams)
+                bool infantryNotNull = ___mainInfantry != null;
+                bool archersNotNull = ____archers != null;
+                bool rightCavalryNotNull = ___rightCavalry != null;
+                bool leftCavalryNotNull = ___leftCavalry != null;
+
+                if (infantryNotNull)
                 {
-                    foreach (Formation f in t.FormationsIncludingSpecial)
-                    {
-                        list.Add(f);
-                    }
+                    ___mainInfantry.AI.ResetBehaviorWeights();
+                    ___mainInfantry.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                }
+
+                if (archersNotNull)
+                {
+                    ____archers.AI.ResetBehaviorWeights();
+                    ____archers.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                }
+
+                if (rightCavalryNotNull)
+                {
+                    ___rightCavalry.AI.ResetBehaviorWeights();
+                    ___rightCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                }
+
+                if (leftCavalryNotNull)
+                {
+                    ___leftCavalry.AI.ResetBehaviorWeights();
+                    ___leftCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
                 }
             }
-            return list;
+
+            [HarmonyPostfix]
+            [HarmonyPatch("Attack")]
+            private static void PostfixAttack(ref Formation ___mainInfantry, ref Formation ____archers,
+                ref Formation ___rightCavalry, ref Formation ___leftCavalry)
+            {
+                bool infantryNotNull = ___mainInfantry != null;
+                bool archersNotNull = ____archers != null;
+                bool rightCavalryNotNull = ___rightCavalry != null;
+                bool leftCavalryNotNull = ___leftCavalry != null;
+
+                if (infantryNotNull)
+                {
+                    ___mainInfantry.AI.ResetBehaviorWeights();
+                    ___mainInfantry.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                }
+
+                if (archersNotNull)
+                {
+                    ____archers.AI.ResetBehaviorWeights();
+                    ____archers.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                }
+
+                if (rightCavalryNotNull)
+                {
+                    ___rightCavalry.AI.ResetBehaviorWeights();
+                    ___rightCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                }
+
+                if (leftCavalryNotNull)
+                {
+                    ___leftCavalry.AI.ResetBehaviorWeights();
+                    ___leftCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                }
+            }
         }
 
-        private static List<Formation> GetAllFormationsOfTypeAndSide(Mission __instance, FormationClass formationClass, string side = "Ally")
+        [HarmonyPatch(typeof(TacticDefensiveEngagement))]
+        class OverrideTacticDefensiveEngagement
         {
-            List<Formation> list = new List<Formation>();
-            List<Formation> allFormations;
-            if (side == "Ally")
+            [HarmonyPostfix]
+            [HarmonyPatch("Defend")]
+            private static void PostfixDefend(ref Formation ___mainInfantry, ref Formation ____archers,
+                ref Formation ___rightCavalry, ref Formation ___leftCavalry)
             {
-                allFormations = MissionAI.GetAllAllyFormations(__instance);
-            }
-            else{
-                allFormations = MissionAI.GetAllEnemyFormations(__instance);
-            }
-            bool notNullorZeroVerifier = allFormations != null && allFormations.Count > 0;
-            if (notNullorZeroVerifier)
-            {
-                foreach (Formation f in allFormations)
+                bool infantryNotNull = ___mainInfantry != null;
+                bool archersNotNull = ____archers != null;
+                bool rightCavalryNotNull = ___rightCavalry != null;
+                bool leftCavalryNotNull = ___leftCavalry != null;
+
+                if (infantryNotNull)
                 {
-                    if(f.FormationIndex == formationClass)
-                    {
-                        list.Add(f);
-                    }
+                    ___mainInfantry.AI.ResetBehaviorWeights();
+                    ___mainInfantry.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                }
+
+                if (archersNotNull)
+                {
+                    ____archers.AI.ResetBehaviorWeights();
+                    ____archers.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                }
+
+                if (rightCavalryNotNull)
+                {
+                    ___rightCavalry.AI.ResetBehaviorWeights();
+                    ___rightCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                }
+
+                if (leftCavalryNotNull)
+                {
+                    ___leftCavalry.AI.ResetBehaviorWeights();
+                    ___leftCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
                 }
             }
-            return list;
-        }
+
+            [HarmonyPostfix]
+            [HarmonyPatch("Engage")]
+            private static void PostfixEngage(ref Formation ___mainInfantry, ref Formation ____archers,
+                ref Formation ___rightCavalry, ref Formation ___leftCavalry)
+            {
+                bool infantryNotNull = ___mainInfantry != null;
+                bool archersNotNull = ____archers != null;
+                bool rightCavalryNotNull = ___rightCavalry != null;
+                bool leftCavalryNotNull = ___leftCavalry != null;
+
+                if (infantryNotNull)
+                {
+                    ___mainInfantry.AI.ResetBehaviorWeights();
+                    ___mainInfantry.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                }
+
+                if (archersNotNull)
+                {
+                    ____archers.AI.ResetBehaviorWeights();
+                    ____archers.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                }
+
+                if (rightCavalryNotNull)
+                {
+                    ___rightCavalry.AI.ResetBehaviorWeights();
+                    ___rightCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                }
+
+                if (leftCavalryNotNull)
+                {
+                    ___leftCavalry.AI.ResetBehaviorWeights();
+                    ___leftCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                }
+            }
+        }*/
     }
 }
