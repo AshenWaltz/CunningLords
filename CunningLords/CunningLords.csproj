@@ -66,9 +66,11 @@
       <HintPath>%(Identity)</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <!-- Files & Classes -->
   <ItemGroup>
+    <Compile Include="Patches\Commands.cs" />
     <Compile Include="Patches\MissionAI.cs" />
     <Compile Include="Patches\MissionAIHelloWorld.cs" />
     <Compile Include="Patches\Utilities.cs" />
