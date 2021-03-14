@@ -45,24 +45,24 @@ namespace CunningLords.Patches
             }
         }
 
-        /*
+        
         [HarmonyPatch(typeof(TacticFullScaleAttack))]
         class OverrideTacticFullScaleAttack
         {
             [HarmonyPostfix]
             [HarmonyPatch("Advance")]
-            private static void PostfixAdvance(ref Formation ___mainInfantry, ref Formation ____archers, 
-                ref Formation ___rightCavalry, ref Formation ___leftCavalry)
+            static void PostfixAdvance(ref Formation ____mainInfantry, ref Formation ____archers, 
+                ref Formation ____rightCavalry, ref Formation ____leftCavalry)
             {
-                bool infantryNotNull = ___mainInfantry != null;
+                bool infantryNotNull = ____mainInfantry != null;
                 bool archersNotNull = ____archers != null;
-                bool rightCavalryNotNull = ___rightCavalry != null;
-                bool leftCavalryNotNull = ___leftCavalry != null;
+                bool rightCavalryNotNull = ____rightCavalry != null;
+                bool leftCavalryNotNull = ____leftCavalry != null;
 
                 if (infantryNotNull)
                 {
-                    ___mainInfantry.AI.ResetBehaviorWeights();
-                    ___mainInfantry.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                    ____mainInfantry.AI.ResetBehaviorWeights();
+                    ____mainInfantry.AI.SetBehaviorWeight<BehaviorStop>(2f);
                 }
 
                 if (archersNotNull)
@@ -73,31 +73,31 @@ namespace CunningLords.Patches
 
                 if (rightCavalryNotNull)
                 {
-                    ___rightCavalry.AI.ResetBehaviorWeights();
-                    ___rightCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                    ____rightCavalry.AI.ResetBehaviorWeights();
+                    ____rightCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
                 }
 
                 if (leftCavalryNotNull)
                 {
-                    ___leftCavalry.AI.ResetBehaviorWeights();
-                    ___leftCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                    ____leftCavalry.AI.ResetBehaviorWeights();
+                    ____leftCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
                 }
             }
 
             [HarmonyPostfix]
             [HarmonyPatch("Attack")]
-            private static void PostfixAttack(ref Formation ___mainInfantry, ref Formation ____archers,
-                ref Formation ___rightCavalry, ref Formation ___leftCavalry)
+            static void PostfixAttack(ref Formation ____mainInfantry, ref Formation ____archers,
+                ref Formation ____rightCavalry, ref Formation ____leftCavalry)
             {
-                bool infantryNotNull = ___mainInfantry != null;
+                bool infantryNotNull = ____mainInfantry != null;
                 bool archersNotNull = ____archers != null;
-                bool rightCavalryNotNull = ___rightCavalry != null;
-                bool leftCavalryNotNull = ___leftCavalry != null;
+                bool rightCavalryNotNull = ____rightCavalry != null;
+                bool leftCavalryNotNull = ____leftCavalry != null;
 
                 if (infantryNotNull)
                 {
-                    ___mainInfantry.AI.ResetBehaviorWeights();
-                    ___mainInfantry.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                    ____mainInfantry.AI.ResetBehaviorWeights();
+                    ____mainInfantry.AI.SetBehaviorWeight<BehaviorStop>(2f);
                 }
 
                 if (archersNotNull)
@@ -108,35 +108,36 @@ namespace CunningLords.Patches
 
                 if (rightCavalryNotNull)
                 {
-                    ___rightCavalry.AI.ResetBehaviorWeights();
-                    ___rightCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                    ____rightCavalry.AI.ResetBehaviorWeights();
+                    ____rightCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
                 }
 
                 if (leftCavalryNotNull)
                 {
-                    ___leftCavalry.AI.ResetBehaviorWeights();
-                    ___leftCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                    ____leftCavalry.AI.ResetBehaviorWeights();
+                    ____leftCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
                 }
             }
         }
 
+        
         [HarmonyPatch(typeof(TacticDefensiveEngagement))]
         class OverrideTacticDefensiveEngagement
         {
             [HarmonyPostfix]
             [HarmonyPatch("Defend")]
-            private static void PostfixDefend(ref Formation ___mainInfantry, ref Formation ____archers,
-                ref Formation ___rightCavalry, ref Formation ___leftCavalry)
+            private static void PostfixDefend(ref Formation ____mainInfantry, ref Formation ____archers,
+                ref Formation ____rightCavalry, ref Formation ____leftCavalry)
             {
-                bool infantryNotNull = ___mainInfantry != null;
+                bool infantryNotNull = ____mainInfantry != null;
                 bool archersNotNull = ____archers != null;
-                bool rightCavalryNotNull = ___rightCavalry != null;
-                bool leftCavalryNotNull = ___leftCavalry != null;
+                bool rightCavalryNotNull = ____rightCavalry != null;
+                bool leftCavalryNotNull = ____leftCavalry != null;
 
                 if (infantryNotNull)
                 {
-                    ___mainInfantry.AI.ResetBehaviorWeights();
-                    ___mainInfantry.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                    ____mainInfantry.AI.ResetBehaviorWeights();
+                    ____mainInfantry.AI.SetBehaviorWeight<BehaviorStop>(2f);
                 }
 
                 if (archersNotNull)
@@ -147,31 +148,31 @@ namespace CunningLords.Patches
 
                 if (rightCavalryNotNull)
                 {
-                    ___rightCavalry.AI.ResetBehaviorWeights();
-                    ___rightCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                    ____rightCavalry.AI.ResetBehaviorWeights();
+                    ____rightCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
                 }
 
                 if (leftCavalryNotNull)
                 {
-                    ___leftCavalry.AI.ResetBehaviorWeights();
-                    ___leftCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                    ____leftCavalry.AI.ResetBehaviorWeights();
+                    ____leftCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
                 }
             }
 
             [HarmonyPostfix]
             [HarmonyPatch("Engage")]
-            private static void PostfixEngage(ref Formation ___mainInfantry, ref Formation ____archers,
-                ref Formation ___rightCavalry, ref Formation ___leftCavalry)
+            private static void PostfixEngage(ref Formation ____mainInfantry, ref Formation ____archers,
+                ref Formation ____rightCavalry, ref Formation ____leftCavalry)
             {
-                bool infantryNotNull = ___mainInfantry != null;
+                bool infantryNotNull = ____mainInfantry != null;
                 bool archersNotNull = ____archers != null;
-                bool rightCavalryNotNull = ___rightCavalry != null;
-                bool leftCavalryNotNull = ___leftCavalry != null;
+                bool rightCavalryNotNull = ____rightCavalry != null;
+                bool leftCavalryNotNull = ____leftCavalry != null;
 
                 if (infantryNotNull)
                 {
-                    ___mainInfantry.AI.ResetBehaviorWeights();
-                    ___mainInfantry.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                    ____mainInfantry.AI.ResetBehaviorWeights();
+                    ____mainInfantry.AI.SetBehaviorWeight<BehaviorStop>(2f);
                 }
 
                 if (archersNotNull)
@@ -182,16 +183,16 @@ namespace CunningLords.Patches
 
                 if (rightCavalryNotNull)
                 {
-                    ___rightCavalry.AI.ResetBehaviorWeights();
-                    ___rightCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                    ____rightCavalry.AI.ResetBehaviorWeights();
+                    ____rightCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
                 }
 
                 if (leftCavalryNotNull)
                 {
-                    ___leftCavalry.AI.ResetBehaviorWeights();
-                    ___leftCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
+                    ____leftCavalry.AI.ResetBehaviorWeights();
+                    ____leftCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
                 }
             }
-        }*/
+        }
     }
 }

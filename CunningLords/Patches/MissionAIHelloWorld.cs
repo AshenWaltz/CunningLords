@@ -18,7 +18,14 @@ namespace CunningLords.Patches
         private static int FrameCounter = 0;
         private static void Postfix(Mission __instance)
         {
-            MissionAIHelloWorld.PlayerBattleSide = __instance.MainAgent.Team.Side;
+            if(__instance != null && __instance.MainAgent != null )
+            {
+                MissionAIHelloWorld.PlayerBattleSide = __instance.MainAgent.Team.Side;
+            }
+            else
+            {
+                return;
+            }
 
             if(MissionAIHelloWorld.FrameCounter == 0)
             {
