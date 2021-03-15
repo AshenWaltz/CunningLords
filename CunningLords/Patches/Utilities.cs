@@ -97,7 +97,7 @@ namespace CunningLords.Patches
 
         public static void PrintRelevantData(Mission mission)
         {
-            BattleSideEnum playerSide = BattleSideEnum.None;
+            /*BattleSideEnum playerSide = BattleSideEnum.None;
 
             if (mission != null && mission.MainAgent != null)
             {
@@ -123,7 +123,7 @@ namespace CunningLords.Patches
             foreach (Formation f in Utilities.GetAllFormationsOfTypeAndSide(mission, FormationClass.Infantry, "Enemy"))
             {
                 InformationManager.DisplayMessage(new InformationMessage("Enemy Formations of type infantry: " + f.FormationIndex.ToString()));
-            }
+            }*/
 
             Utilities.PrintInfluenceMapDataForFormationOfType(FormationClass.Infantry, mission);
 
@@ -167,22 +167,25 @@ namespace CunningLords.Patches
                 float distance = formation.QuerySystem.MedianPosition.AsVec2.Distance(f.QuerySystem.MedianPosition.AsVec2);
 
                 //Dot product between formations
-                Vec2 enemyDirection = formation.QuerySystem.EstimatedDirection;
+                /*Vec2 enemyDirection = formation.QuerySystem.EstimatedDirection;
                 Vec2 aliedDirection = f.QuerySystem.EstimatedDirection;
 
-                float dotProduct = formation.QuerySystem.EstimatedDirection.DotProduct(f.QuerySystem.EstimatedDirection);
+                float dotProduct = formation.QuerySystem.EstimatedDirection.DotProduct(f.QuerySystem.EstimatedDirection);*/
+
+                //Risk of flanking
+                float flankingRisk = calculateFlankingRisk(formation, f, mission);
 
                 //Count difference between formations
                 int countAllyUnits = f.CountOfUnits;
                 int countEnemyUnits = formation.CountOfUnits;
 
-                int countUnitsDifference = countAllyUnits - countEnemyUnits;
+                int countUnitsDifference = Math.Max(countAllyUnits - countEnemyUnits, 0);
 
                 //Local Ally power
                 float localAllyPower = f.QuerySystem.LocalAllyPower;
                 float localEnemyPower = formation.QuerySystem.LocalAllyPower;
 
-                float localPowerDifference = localAllyPower - localEnemyPower;
+                float localPowerDifference = Math.Max(0.0f, localAllyPower - localEnemyPower);
                 //Is Shielded
                 float allyShieldRatio = 0.0f;
                 float enemyShieldRatio = 0.0f;
@@ -212,31 +215,55 @@ namespace CunningLords.Patches
                 float allyMissileRange = f.QuerySystem.MissileRange;
                 float enemyMissileRange = formation.QuerySystem.MissileRange;
 
+                float missileRangeRisk = Math.Max(0.0f, allyMissileRange - distance);
+
                 //Formation Speed
                 float allyMovementSpeed = f.QuerySystem.MovementSpeed;
                 float enemyMovementSpeed = formation.QuerySystem.MovementSpeed;
 
                 //Risk Calculation
-                float tempRiskValue = 1.0f;
-                if (formation.FormationIndex == FormationClass.Infantry)
+                float tempRiskValue = -1.0f;
+                if (allyType == FormationClass.Infantry)
                 {
-                    //ToDO
-                    tempRiskValue = ((1 / distance) + dotProduct + ((float)countUnitsDifference) + localPowerDifference);
+                    float distanceDampeningFactor = 1.0f;
+
+                    InformationManager.DisplayMessage(new InformationMessage("Entered as Infantry"));
+
+
+
+                    tempRiskValue = ((allyMovementSpeed / distance) + distanceDampeningFactor * flankingRisk + ((float)countUnitsDifference) + localPowerDifference + allyShieldRatio);
+
+                    InformationManager.DisplayMessage(new InformationMessage("Calculated Risk: " + tempRiskValue.ToString()));
                 }
-                else if (formation.FormationIndex == FormationClass.Ranged)
+                else if (allyType == FormationClass.Ranged)
                 {
-                    //ToDO
-                    tempRiskValue = ((1 / distance) + dotProduct + ((float)countUnitsDifference) + localPowerDifference);
+                    float distanceDampeningFactor = 1.0f;
+
+                    InformationManager.DisplayMessage(new InformationMessage("Entered as Ranged"));
+
+                    tempRiskValue = ((allyMovementSpeed / distance) + distanceDampeningFactor * flankingRisk + ((float)countUnitsDifference) + localPowerDifference + missileRangeRisk);
+
+                    InformationManager.DisplayMessage(new InformationMessage("Calculated Risk: " + tempRiskValue.ToString()));
                 }
-                else if (formation.FormationIndex == FormationClass.Cavalry)
+                else if (allyType == FormationClass.Cavalry)
                 {
-                    //ToDO
-                    tempRiskValue = ((1 / distance) + dotProduct + ((float)countUnitsDifference) + localPowerDifference);
+                    float distanceDampeningFactor = 1.0f;
+
+                    InformationManager.DisplayMessage(new InformationMessage("Entered as Cavalry"));
+
+                    tempRiskValue = ((allyMovementSpeed / distance) + distanceDampeningFactor * flankingRisk + ((float)countUnitsDifference) + localPowerDifference + allyShieldRatio);
+
+                    InformationManager.DisplayMessage(new InformationMessage("Calculated Risk: " + tempRiskValue.ToString()));
                 }
-                else if (formation.FormationIndex == FormationClass.HorseArcher)
+                else if (allyType == FormationClass.HorseArcher)
                 {
-                    //ToDO
-                    tempRiskValue = ((1 / distance) + dotProduct + ((float)countUnitsDifference) + localPowerDifference);
+                    float distanceDampeningFactor = 1.0f;
+
+                    InformationManager.DisplayMessage(new InformationMessage("Entered as Horse Archers"));
+
+                    tempRiskValue = ((allyMovementSpeed / distance) + distanceDampeningFactor * flankingRisk + ((float)countUnitsDifference) + localPowerDifference + missileRangeRisk);
+
+                    InformationManager.DisplayMessage(new InformationMessage("Calculated Risk: " + tempRiskValue.ToString()));
                 }
 
                 if (tempRiskValue > riskFactor)
@@ -254,5 +281,45 @@ namespace CunningLords.Patches
 
             return Tuple.Create(riskFactor, distanceThreat, powerThreat, classThreat);
         }
+
+        public static float calculateFlankingRisk(Formation enemy, Formation ally, Mission mission)
+        {
+            float risk = -1.0f;
+
+            Vec2 enemyPosition = enemy.QuerySystem.MedianPosition.AsVec2;
+            Vec2 alliedPosition = ally.QuerySystem.MedianPosition.AsVec2;
+
+            Vec2 enemyDirection = enemy.QuerySystem.EstimatedDirection;
+            Vec2 aliedDirection = ally.QuerySystem.EstimatedDirection;
+
+            float dotProduct = enemyDirection.DotProduct(aliedDirection);
+
+            if(dotProduct <= -0.4f)
+            {
+                risk = 0.0f;
+            }
+            else if ((dotProduct > -0.4f) && (dotProduct <= 0.5f))
+            {
+                Vec2 directVector = new Vec2(enemyPosition.X - alliedPosition.X, enemyPosition.Y - alliedPosition.Y);
+
+                float auxiliaryDotProduct = directVector.DotProduct(aliedDirection);
+
+                if (auxiliaryDotProduct > 0 && auxiliaryDotProduct <= 0.5)
+                {
+                    risk = 2.0f;
+                }
+                else if(auxiliaryDotProduct > 0.5)
+                {
+                    risk = 4.0f;
+                }
+                else
+                {
+                    risk = 1.0f;
+                }
+            }
+
+            return risk;
+        }
+
     }
 }

@@ -15,6 +15,13 @@ namespace CunningLords.Patches
         
         public static BattleSideEnum PlayerBattleSide { get; set; } = BattleSideEnum.None;
 
+        [HarmonyPatch(typeof(TeamAIComponent))]
+        [HarmonyPatch("MakeDecision")]
+        class TeamAIOverride
+        {
+            //ToDo
+        }
+
         [HarmonyPatch(typeof(MissionCombatantsLogic))]
         [HarmonyPatch("EarlyStart")]
         //This class is used to load tactics into the AI Teams, the tactics themselves determine the behaviour of each Formation within a Team
