@@ -19,7 +19,19 @@ namespace CunningLords.Patches
         [HarmonyPatch("MakeDecision")]
         class TeamAIOverride
         {
+            //Make Decision original logic
+            // 1. lists all avilable tactics
+            // 2. Checks if current state of mission is continue, if there are tactics available or if there are teams
+            // 3. checks if there are enemy teams. If not, attributes tactic charge if it has it, if not, return first tactic
+            // 4. Verify if defense is applicable - Check this function for more data on Teams
+            // 5. See which tactics has the highest weight. Current tactic is multiplied by 1.5.
+
             //ToDo
+
+            static void Postfix(TeamAIComponent __instance)
+            {
+
+            }
         }
 
         [HarmonyPatch(typeof(MissionCombatantsLogic))]
