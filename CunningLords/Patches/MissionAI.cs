@@ -143,6 +143,9 @@ namespace CunningLords.Patches
         [HarmonyPatch(typeof(TacticDefensiveEngagement))]
         class OverrideTacticDefensiveEngagement
         {
+
+            private static int tickCounter = 0;
+
             [HarmonyPostfix]
             [HarmonyPatch("Defend")]
             private static void PostfixDefend(ref Formation ____mainInfantry, ref Formation ____archers,
@@ -212,6 +215,19 @@ namespace CunningLords.Patches
                     ____leftCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
                 }
             }
+
+            [HarmonyPostfix]
+            [HarmonyPatch("TickOccasionally")]
+            protected static internal void PostfixTickOccasionally(TacticDefensiveEngagement __instance)
+            {
+                /*tickCounter++;
+
+                if ((tickCounter/1000) == 0) 
+                {
+                    __instance.Engage();
+                }*/
+            }
+
         }
     }
 }
