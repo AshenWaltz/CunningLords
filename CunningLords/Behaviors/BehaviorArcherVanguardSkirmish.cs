@@ -10,7 +10,7 @@ namespace CunningLords.Behaviors
     public class BehaviorArcherVanguardSkirmish : BehaviorComponent
     {
 
-        public BehaviorArcherVanguardSkirmish(Formation formation) : base(/*formation*/)
+        internal BehaviorArcherVanguardSkirmish(Formation formation) : base(formation)
         {
             this.CalculateCurrentOrder();
         }

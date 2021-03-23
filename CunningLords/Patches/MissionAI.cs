@@ -7,6 +7,7 @@ using TaleWorlds.Engine;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
+using CunningLords.Tactics;
 
 namespace CunningLords.Patches
 {
@@ -52,12 +53,14 @@ namespace CunningLords.Patches
                         if(team.Side == BattleSideEnum.Attacker)
                         {
                             team.ClearTacticOptions();
-                            team.AddTacticOption(new TacticFullScaleAttack(team));
+                            //team.AddTacticOption(new TacticFullScaleAttack(team));
+                            team.AddTacticOption(new TacticDefaultDefense(team));
                         }
                         else if(team.Side == BattleSideEnum.Defender)
                         {
                             team.ClearTacticOptions();
-                            team.AddTacticOption(new TacticDefensiveEngagement(team));
+                            //team.AddTacticOption(new TacticDefensiveEngagement(team));
+                            team.AddTacticOption(new TacticDefaultDefense(team));
                         }
                     }
                 }
