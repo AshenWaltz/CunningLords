@@ -71,6 +71,17 @@
   <!-- Files & Classes -->
   <ItemGroup>
     <Compile Include="Behaviors\BehaviorArcherVanguardSkirmish.cs" />
+    <Compile Include="BehaviorTreelogic\BTReturnEnum.cs" />
+    <Compile Include="BehaviorTreelogic\Selector.cs" />
+    <Compile Include="BehaviorTreelogic\Sequence.cs" />
+    <Compile Include="BehaviorTreelogic\Task.cs" />
+    <Compile Include="BehaviorTreelogic\TaskAttackFlank.cs" />
+    <Compile Include="BehaviorTreelogic\TaskBehindVolley.cs" />
+    <Compile Include="BehaviorTreelogic\TaskHoldLine.cs" />
+    <Compile Include="BehaviorTreelogic\TaskInitialVolley.cs" />
+    <Compile Include="BehaviorTreelogic\TaskProtectFlank.cs" />
+    <Compile Include="BehaviorTreelogic\TaskRangedHarrassment.cs" />
+    <Compile Include="BehaviorTreelogic\TaskRangedRearHarrassment.cs" />
     <Compile Include="Patches\Commands.cs" />
     <Compile Include="Patches\MissionAI.cs" />
     <Compile Include="Patches\MissionAIHelloWorld.cs" />

@@ -7,6 +7,7 @@ using TaleWorlds.Engine;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
+using CunningLords.BehaviorTreelogic;
 
 namespace CunningLords.Tactics
 {
@@ -16,8 +17,6 @@ namespace CunningLords.Tactics
         private bool _hasBattleBeenJoined;
 
         private int _AIControlledFormationCount;
-
-		private testtesttest test = new testtesttest();
 
 		/*protected Formation _maininfantry;
         protected Formation _archers;
@@ -145,7 +144,48 @@ namespace CunningLords.Tactics
         protected override void TickOccasionally()
         {
 
-			if((tickCounter / 10) == 0)
+			//Infantry Hold Line
+			TaskHoldLine MIHold = new TaskHoldLine(this._mainInfantry);
+
+			//Archers Volley
+			TaskInitialVolley AInitialVolley = new TaskInitialVolley(this._archers);
+			TaskBehindVolley ABehindVolley = new TaskBehindVolley(this._archers);
+			Selector archerSelector = new Selector();
+			archerSelector.addTask(AInitialVolley);
+			archerSelector.addTask(ABehindVolley);
+
+			//Horse Archers
+			TaskRangedHarrassment HARangedHar = new TaskRangedHarrassment(this._rangedCavalry);
+			TaskRangedRearHarrassment HARangedRearHar = new TaskRangedRearHarrassment(this._rangedCavalry);
+			Selector horseArcherSelector = new Selector();
+			horseArcherSelector.addTask(HARangedHar);
+			horseArcherSelector.addTask(HARangedRearHar);
+
+			//Right Cavalry
+			TaskAttackFlank RCAttackFlank = new TaskAttackFlank(this._rightCavalry);
+			TaskProtectFlank RCProtectFlank = new TaskProtectFlank(this._rightCavalry);
+			Selector rightCavalrySelector = new Selector();
+			rightCavalrySelector.addTask(RCAttackFlank);
+			rightCavalrySelector.addTask(RCProtectFlank);
+
+			//Left Cavalry
+			TaskAttackFlank LCAttackFlank = new TaskAttackFlank(this._leftCavalry);
+			TaskProtectFlank LCProtectFlank = new TaskProtectFlank(this._leftCavalry);
+			Selector leftCavalrySelector = new Selector();
+			leftCavalrySelector.addTask(LCAttackFlank);
+			leftCavalrySelector.addTask(LCProtectFlank);
+
+			//Final Tree
+			Sequence tree = new Sequence();
+			tree.addTask(MIHold);
+			tree.addTask(archerSelector);
+			tree.addTask(horseArcherSelector);
+			tree.addTask(rightCavalrySelector);
+			tree.addTask(leftCavalrySelector);
+
+
+			tree.run();
+			/*if((tickCounter / 10) == 0)
             {
 				Defend();
             }
@@ -162,7 +202,7 @@ namespace CunningLords.Tactics
 				tickCounter = 0;
             }
 
-			tickCounter++;
+			tickCounter++;*/
 			/*if (!base.AreFormationsCreated)
 			{
 				return;
@@ -209,12 +249,5 @@ namespace CunningLords.Tactics
 			formation.AI.SetBehaviorWeight<BehaviorReserve>(1f);
 		}
 
-		public class testtesttest
-        {
-			public testtesttest()
-            {
-
-			}
-        }
     }
 }
