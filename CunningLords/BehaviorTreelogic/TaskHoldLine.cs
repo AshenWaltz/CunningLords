@@ -12,7 +12,7 @@ namespace CunningLords.BehaviorTreelogic
 {
     class TaskHoldLine : Task
     {
-        public TaskHoldLine(Formation f = null) : base(f)
+        public TaskHoldLine(Formation f) : base(f)
         {
             this.formation = f;
         }

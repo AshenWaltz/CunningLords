@@ -12,7 +12,7 @@ namespace CunningLords.BehaviorTreelogic
 {
     class TaskAttackFlank : Task
     {
-        public TaskAttackFlank(Formation f = null) : base(f)
+        public TaskAttackFlank(Formation f) : base(f)
         {
             this.formation = f;
         }

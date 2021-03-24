@@ -176,7 +176,7 @@ namespace CunningLords.Tactics
 			leftCavalrySelector.addTask(LCProtectFlank);
 
 			//Final Tree
-			Sequence tree = new Sequence();
+			Sequence tree = new Sequence(null);
 			tree.addTask(MIHold);
 			tree.addTask(archerSelector);
 			tree.addTask(horseArcherSelector);

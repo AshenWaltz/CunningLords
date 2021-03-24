@@ -16,7 +16,7 @@ namespace CunningLords.BehaviorTreelogic
 
         protected List<Task> children;
 
-        public Task(Formation f = null)
+        public Task(Formation f)
         {
             this.formation = f;
             this.children = new List<Task>();

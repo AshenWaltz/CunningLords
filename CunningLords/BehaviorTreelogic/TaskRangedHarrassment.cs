@@ -12,7 +12,7 @@ namespace CunningLords.BehaviorTreelogic
 {
     class TaskRangedHarrassment : Task
     {
-        public TaskRangedHarrassment(Formation f = null) : base(f)
+        public TaskRangedHarrassment(Formation f) : base(f)
         {
             this.formation = f;
         }

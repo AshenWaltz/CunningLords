@@ -12,7 +12,7 @@ namespace CunningLords.BehaviorTreelogic
 {
     class TaskInitialVolley : Task
     {
-        public TaskInitialVolley(Formation f = null) : base(f)
+        public TaskInitialVolley(Formation f) : base(f)
         {
             this.formation = f;
         }
