@@ -12,8 +12,9 @@ namespace CunningLords.BehaviorTreelogic
 {
     class Selector : Task
     {
-        public Selector(Formation f = null) : base(f)
+        public Selector(Formation f) : base(f)
         {
+            this.formation = f;
         }
 
         public override BTReturnEnum run()

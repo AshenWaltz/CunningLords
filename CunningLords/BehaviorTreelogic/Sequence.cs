@@ -12,8 +12,9 @@ namespace CunningLords.BehaviorTreelogic
 {
     class Sequence : Task
     {
-        public Sequence(Formation f = null) : base(f)
+        public Sequence(Formation f) : base(f)
         {
+            this.formation = f;
         }
 
         public override BTReturnEnum run()

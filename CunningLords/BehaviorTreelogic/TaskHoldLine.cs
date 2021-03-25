@@ -14,6 +14,14 @@ namespace CunningLords.BehaviorTreelogic
     {
         public TaskHoldLine(Formation f) : base(f)
         {
+            /*if(f != null)
+            {
+                InformationManager.DisplayMessage(new InformationMessage("f: " + f.ToString()));
+            }
+            else
+            {
+                InformationManager.DisplayMessage(new InformationMessage("f: null" ));
+            }*/
             this.formation = f;
         }
 

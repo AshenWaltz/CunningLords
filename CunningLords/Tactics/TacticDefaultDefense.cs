@@ -18,19 +18,23 @@ namespace CunningLords.Tactics
 
         private int _AIControlledFormationCount;
 
+		private Task tree;
+
 		/*protected Formation _maininfantry;
         protected Formation _archers;
         protected Formation _leftCavalry;
         protected Formation _rightCavalry;
         protected Formation _rangedCavalry;*/
 
-		private static int tickCounter = 0;
+		private int tickCounter = 0;
 
         public TacticDefaultDefense(Team team) : base(team)
         {
             _hasBattleBeenJoined = false;
             _AIControlledFormationCount = base.Formations.Count((Formation f) => f.IsAIControlled);
-        }
+
+			AssignTacticFormations1121();
+		}
 
 		private void Defend()
         {
@@ -143,48 +147,69 @@ namespace CunningLords.Tactics
         }
         protected override void TickOccasionally()
         {
+            if (!base.AreFormationsCreated)
+            {
+				return;
+            }
+			else if(base.AreFormationsCreated && this.tickCounter == 0)
+            {
+				//Infantry Hold Line
+				TaskHoldLine MIHold = new TaskHoldLine(this._mainInfantry);
 
-			//Infantry Hold Line
-			TaskHoldLine MIHold = new TaskHoldLine(this._mainInfantry);
+				//Archers Volley
+				TaskInitialVolley AInitialVolley = new TaskInitialVolley(this._archers);
+				TaskBehindVolley ABehindVolley = new TaskBehindVolley(this._archers);
+				Selector archerSelector = new Selector(null);
+				archerSelector.addTask(AInitialVolley);
+				archerSelector.addTask(ABehindVolley);
 
-			//Archers Volley
-			TaskInitialVolley AInitialVolley = new TaskInitialVolley(this._archers);
-			TaskBehindVolley ABehindVolley = new TaskBehindVolley(this._archers);
-			Selector archerSelector = new Selector();
-			archerSelector.addTask(AInitialVolley);
-			archerSelector.addTask(ABehindVolley);
+				//Horse Archers
+				TaskRangedHarrassment HARangedHar = new TaskRangedHarrassment(this._rangedCavalry);
+				TaskRangedRearHarrassment HARangedRearHar = new TaskRangedRearHarrassment(this._rangedCavalry);
+				Selector horseArcherSelector = new Selector(null);
+				horseArcherSelector.addTask(HARangedHar);
+				horseArcherSelector.addTask(HARangedRearHar);
 
-			//Horse Archers
-			TaskRangedHarrassment HARangedHar = new TaskRangedHarrassment(this._rangedCavalry);
-			TaskRangedRearHarrassment HARangedRearHar = new TaskRangedRearHarrassment(this._rangedCavalry);
-			Selector horseArcherSelector = new Selector();
-			horseArcherSelector.addTask(HARangedHar);
-			horseArcherSelector.addTask(HARangedRearHar);
+				//Right Cavalry
+				TaskAttackFlank RCAttackFlank = new TaskAttackFlank(this._rightCavalry);
+				TaskProtectFlank RCProtectFlank = new TaskProtectFlank(this._rightCavalry);
+				Selector rightCavalrySelector = new Selector(null);
+				rightCavalrySelector.addTask(RCAttackFlank);
+				rightCavalrySelector.addTask(RCProtectFlank);
 
-			//Right Cavalry
-			TaskAttackFlank RCAttackFlank = new TaskAttackFlank(this._rightCavalry);
-			TaskProtectFlank RCProtectFlank = new TaskProtectFlank(this._rightCavalry);
-			Selector rightCavalrySelector = new Selector();
-			rightCavalrySelector.addTask(RCAttackFlank);
-			rightCavalrySelector.addTask(RCProtectFlank);
+				//Left Cavalry
+				TaskAttackFlank LCAttackFlank = new TaskAttackFlank(this._leftCavalry);
+				TaskProtectFlank LCProtectFlank = new TaskProtectFlank(this._leftCavalry);
+				Selector leftCavalrySelector = new Selector(null);
+				leftCavalrySelector.addTask(LCAttackFlank);
+				leftCavalrySelector.addTask(LCProtectFlank);
 
-			//Left Cavalry
-			TaskAttackFlank LCAttackFlank = new TaskAttackFlank(this._leftCavalry);
-			TaskProtectFlank LCProtectFlank = new TaskProtectFlank(this._leftCavalry);
-			Selector leftCavalrySelector = new Selector();
-			leftCavalrySelector.addTask(LCAttackFlank);
-			leftCavalrySelector.addTask(LCProtectFlank);
+				//Final Tree
+				this.tree = new Sequence(null);
+				this.tree.addTask(MIHold);
+				this.tree.addTask(archerSelector);
+				this.tree.addTask(horseArcherSelector);
+				this.tree.addTask(rightCavalrySelector);
+				this.tree.addTask(leftCavalrySelector);
 
-			//Final Tree
-			Sequence tree = new Sequence(null);
-			tree.addTask(MIHold);
-			tree.addTask(archerSelector);
-			tree.addTask(horseArcherSelector);
-			tree.addTask(rightCavalrySelector);
-			tree.addTask(leftCavalrySelector);
+				this.tree.run();
+				this.tickCounter++;
+			}
+			else if (base.AreFormationsCreated && this.tickCounter != 0)
+            {
+				this.tree.run();
+			}
 
+			/*if (this._mainInfantry != null)
+			{
+				InformationManager.DisplayMessage(new InformationMessage("_mainInfantry: " + this._mainInfantry.ToString()));
+			}
+			else
+			{
+				InformationManager.DisplayMessage(new InformationMessage("_mainInfantry : null"));
+			}*/
 
-			tree.run();
+			
 			/*if((tickCounter / 10) == 0)
             {
 				Defend();
