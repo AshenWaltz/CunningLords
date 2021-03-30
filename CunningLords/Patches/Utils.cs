@@ -10,7 +10,7 @@ using TaleWorlds.MountAndBlade;
 
 namespace CunningLords.Patches
 {
-    class Utilities
+    class Utils
     {
         public static List<Team> GetAllEnemyTeams(Mission __instance)
         {
@@ -25,7 +25,7 @@ namespace CunningLords.Patches
         public static List<Formation> GetAllEnemyFormations(Mission __instance)
         {
             List<Formation> list = new List<Formation>();
-            List<Team> allEnemyTeams = Utilities.GetAllEnemyTeams(__instance);
+            List<Team> allEnemyTeams = Utils.GetAllEnemyTeams(__instance);
             bool notNullorZeroVerifier = allEnemyTeams != null && allEnemyTeams.Count > 0;
             if (notNullorZeroVerifier)
             {
@@ -43,7 +43,7 @@ namespace CunningLords.Patches
         public static List<Formation> GetAllAllyFormations(Mission __instance)
         {
             List<Formation> list = new List<Formation>();
-            List<Team> allAllyTeams = Utilities.GetAllAllyTeams(__instance);
+            List<Team> allAllyTeams = Utils.GetAllAllyTeams(__instance);
             bool notNullorZeroVerifier = allAllyTeams != null && allAllyTeams.Count > 0;
             if (notNullorZeroVerifier)
             {
@@ -64,11 +64,11 @@ namespace CunningLords.Patches
             List<Formation> allFormations;
             if (side == "Ally")
             {
-                allFormations = Utilities.GetAllAllyFormations(__instance);
+                allFormations = Utils.GetAllAllyFormations(__instance);
             }
             else
             {
-                allFormations = Utilities.GetAllEnemyFormations(__instance);
+                allFormations = Utils.GetAllEnemyFormations(__instance);
             }
             bool notNullorZeroVerifier = allFormations != null && allFormations.Count > 0;
             if (notNullorZeroVerifier)
@@ -90,7 +90,7 @@ namespace CunningLords.Patches
             {
                 if (Input.IsKeyDown(InputKey.E))
                 {
-                    Utilities.PrintRelevantData(mission);
+                    Utils.PrintRelevantData(mission);
                 }
             }
         }
@@ -125,7 +125,7 @@ namespace CunningLords.Patches
                 InformationManager.DisplayMessage(new InformationMessage("Enemy Formations of type infantry: " + f.FormationIndex.ToString()));
             }*/
 
-            Utilities.PrintInfluenceMapDataForFormationOfType(FormationClass.Infantry, mission);
+            Utils.PrintInfluenceMapDataForFormationOfType(FormationClass.Infantry, mission);
 
         }
 
@@ -133,7 +133,7 @@ namespace CunningLords.Patches
         {
             //List<Formation> alliedFormations = Utilities.GetAllAllyFormations(mission);
             //List<Formation> enemyFormations = Utilities.GetAllEnemyFormations(mission);
-            List<Formation> formation = Utilities.GetAllFormationsOfTypeAndSide(mission, formationClass, "Enemy");
+            List<Formation> formation = Utils.GetAllFormationsOfTypeAndSide(mission, formationClass, "Enemy");
 
             if(formation.Count <= 1)
             {
@@ -152,7 +152,7 @@ namespace CunningLords.Patches
 
         public static Tuple<float, float, float, FormationClass> GetinfluenceMapDataForFormation(Formation formation, Mission mission)
         {
-            List<Formation> alliedFormations = Utilities.GetAllAllyFormations(mission);
+            List<Formation> alliedFormations = Utils.GetAllAllyFormations(mission);
 
             //Return Values
             float riskFactor = -1.0f;
@@ -324,16 +324,69 @@ namespace CunningLords.Patches
 
         //AUXILIARY FUNCTIONS
 
-        public float NormalizeNumericScore(float value, float lowerStart, float upperStart, float lowerEnd, float upperEnd)
+        public static float NormalizeNumericScore(float value, float lowerStart, float upperStart, float lowerEnd, float upperEnd)
         {
             return ((upperEnd - lowerEnd) * ((value - lowerStart) / (upperStart - lowerStart) + lowerEnd));
         }
 
-        public FormationClass GetSkirmishersGreatestEnemy(Formation formation)
+        public static FormationClass GetSkirmishersGreatestEnemy(Formation formation) //Should return data about the formation's Team!?
         {
+            BattleSideEnum enemySide = formation.Team.Side;
+
+            List<Team> playerTeams = (from t in Mission.Current.Teams where t.Side != enemySide select t).ToList<Team>();
+
             FormationClass mainThreat = FormationClass.Unset;
+            float score = -1f;
+
+            foreach (Team t in playerTeams)
+            {
+                foreach (Formation f in t.Formations)
+                {
+                    float movSpeed = f.QuerySystem.MovementSpeed;
+                    float maxUnitCount = f.QuerySystem.Team.AllyUnitCount;
+                    float formationUnitCount = f.CountOfUnits;
+                    float aux_score = NormalizeNumericScore(movSpeed, 0f, 66f, 0f, 100f) + NormalizeNumericScore(formationUnitCount, 0f, maxUnitCount, 0f, 50f);
+
+                    if(aux_score > score)
+                    {
+                        score = aux_score;
+                        mainThreat = f.FormationIndex;
+                    }
+                }
+            }
 
             return mainThreat;
+        }
+
+        public static List<Tuple<Formation, float>> GetDistanceFromAllEnemies(Formation formation)
+        {
+            BattleSideEnum enemySide = formation.Team.Side;
+
+            List<Team> playerTeams = (from t in Mission.Current.Teams where t.Side != enemySide select t).ToList<Team>();
+
+            List<Tuple<Formation, float>> distances = new List<Tuple<Formation, float>>();
+
+            foreach (Team t in playerTeams)
+            {
+                foreach (Formation f in t.Formations)
+                {
+                    float dist = formation.QuerySystem.AveragePosition.Distance(f.QuerySystem.AveragePosition);
+                    Tuple<Formation, float> aux = new Tuple<Formation, float>(f, dist);
+                    distances.Add(aux);
+                }
+            }
+
+            return distances;
+        }
+
+        public static Vec2 AddVec2(Vec2 v1, Vec2 v2)
+        {
+            return new Vec2(v1.X + v2.X, v1.Y + v2.Y);
+        }
+
+        public static Vec2 MultVec2(float f, Vec2 v)
+        {
+            return new Vec2(f * v.X, f * v.Y);
         }
     }
 }

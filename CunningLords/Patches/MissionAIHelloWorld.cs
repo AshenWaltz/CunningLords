@@ -49,7 +49,7 @@ namespace CunningLords.Patches
                 MissionAIHelloWorld.FrameCounter++;
             }
 
-            Utilities.ManageInputKeys(__instance);
+            Utils.ManageInputKeys(__instance);
         }
 
         private static List<Team> GetAllEnemyTeams(Mission __instance)

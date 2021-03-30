@@ -44,7 +44,7 @@ namespace CunningLords.Patches
             {
                 //MissionAI.PlayerBattleSide = __instance.Mission.MainAgent.Team.Side; //Crashes
 
-                List<Team> enemyTeams = Utilities.GetAllEnemyTeams(__instance.Mission);
+                List<Team> enemyTeams = Utils.GetAllEnemyTeams(__instance.Mission);
 
                 if (__instance.Mission.MissionTeamAIType == Mission.MissionTeamAITypeEnum.FieldBattle)
                 {

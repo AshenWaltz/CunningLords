@@ -32,9 +32,41 @@ namespace CunningLords.Behaviors
 
                 FormationClass mainThreat = FormationClass.Unset;
 
-                if (!___formation.Team.IsPlayerTeam)
+                if (!___formation.Team.IsPlayerTeam) //Only works if there are only 2 teams, the player's and the AI's
                 {
-                    //mainThreat = Utilities.GetSkirmishersGreatestEnemy(___formation);
+                    mainThreat = Utils.GetSkirmishersGreatestEnemy(___formation);
+
+                    List<Tuple<Formation, float>> distances = Utils.GetDistanceFromAllEnemies(___formation);
+
+                    List<Formation> tooCloseForConfort = new List<Formation>();
+
+                    foreach (Tuple<Formation, float> tup in distances)
+                    {
+                        if (tup.Item2 < (0.6 * ___formation.QuerySystem.MissileRange))
+                        {
+                            tooCloseForConfort.Add(tup.Item1);
+                        }
+                    }
+
+                    Vec2 escapeVector = new Vec2(0,0);
+
+                    if (tooCloseForConfort.Count > 1)
+                    {
+                        foreach(Formation f in tooCloseForConfort)
+                        {
+                            escapeVector = Utils.AddVec2(escapeVector, f.QuerySystem.AveragePosition);
+                        }
+                    }
+
+                    escapeVector = escapeVector.Normalized();
+
+                    escapeVector = Utils.MultVec2(5, escapeVector);
+
+                    escapeVector = Utils.AddVec2(escapeVector, ___formation.QuerySystem.AveragePosition);
+
+                    WorldPosition position = ___formation.QuerySystem.MedianPosition;
+                    position.SetVec2(escapeVector);
+                    ____currentOrder = MovementOrder.MovementOrderMove(position);
                 }
             }
         }
