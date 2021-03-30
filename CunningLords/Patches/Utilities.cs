@@ -321,5 +321,19 @@ namespace CunningLords.Patches
             return risk;
         }
 
+
+        //AUXILIARY FUNCTIONS
+
+        public float NormalizeNumericScore(float value, float lowerStart, float upperStart, float lowerEnd, float upperEnd)
+        {
+            return ((upperEnd - lowerEnd) * ((value - lowerStart) / (upperStart - lowerStart) + lowerEnd));
+        }
+
+        public FormationClass GetSkirmishersGreatestEnemy(Formation formation)
+        {
+            FormationClass mainThreat = FormationClass.Unset;
+
+            return mainThreat;
+        }
     }
 }
