@@ -329,13 +329,13 @@ namespace CunningLords.Patches
             return ((upperEnd - lowerEnd) * ((value - lowerStart) / (upperStart - lowerStart) + lowerEnd));
         }
 
-        public static FormationClass GetSkirmishersGreatestEnemy(Formation formation) //Should return data about the formation's Team!?
+        public static Formation GetSkirmishersGreatestEnemy(Formation formation)
         {
             BattleSideEnum enemySide = formation.Team.Side;
 
             List<Team> playerTeams = (from t in Mission.Current.Teams where t.Side != enemySide select t).ToList<Team>();
 
-            FormationClass mainThreat = FormationClass.Unset;
+            Formation mainThreat = null;
             float score = -1f;
 
             foreach (Team t in playerTeams)
@@ -350,7 +350,7 @@ namespace CunningLords.Patches
                     if(aux_score > score)
                     {
                         score = aux_score;
-                        mainThreat = f.FormationIndex;
+                        mainThreat = f;
                     }
                 }
             }

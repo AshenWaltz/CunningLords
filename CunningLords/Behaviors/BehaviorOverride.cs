@@ -30,11 +30,11 @@ namespace CunningLords.Behaviors
                     return;
                 }
 
-                FormationClass mainThreat = FormationClass.Unset;
+                Formation mainThreat = null;
 
                 if (!___formation.Team.IsPlayerTeam) //Only works if there are only 2 teams, the player's and the AI's
                 {
-                    mainThreat = Utils.GetSkirmishersGreatestEnemy(___formation);
+                    mainThreat = Utils.GetSkirmishersGreatestEnemy(___formation); //Careful if null
 
                     List<Tuple<Formation, float>> distances = Utils.GetDistanceFromAllEnemies(___formation);
 
@@ -50,19 +50,40 @@ namespace CunningLords.Behaviors
 
                     Vec2 escapeVector = new Vec2(0,0);
 
-                    if (tooCloseForConfort.Count > 1)
+                    if (tooCloseForConfort.Count > 1) //Too close from more than 1 formation
                     {
                         foreach(Formation f in tooCloseForConfort)
                         {
-                            escapeVector = Utils.AddVec2(escapeVector, f.QuerySystem.AveragePosition);
+                            escapeVector = Utils.AddVec2(escapeVector, ___formation.QuerySystem.AveragePosition - f.QuerySystem.AveragePosition);
                         }
+
+                        escapeVector = escapeVector.Normalized();
+
+                        escapeVector = Utils.MultVec2(5, escapeVector);
+
+                        escapeVector = Utils.AddVec2(escapeVector, ___formation.QuerySystem.AveragePosition);
+
                     }
+                    else if (tooCloseForConfort.Count == 1) //Too close too one formation
+                    {
+                        escapeVector = ___formation.QuerySystem.AveragePosition - tooCloseForConfort.First().QuerySystem.AveragePosition;
 
-                    escapeVector = escapeVector.Normalized();
+                        escapeVector = Utils.MultVec2(5, escapeVector);
 
-                    escapeVector = Utils.MultVec2(5, escapeVector);
+                        escapeVector = Utils.AddVec2(escapeVector, ___formation.QuerySystem.AveragePosition);
 
-                    escapeVector = Utils.AddVec2(escapeVector, ___formation.QuerySystem.AveragePosition);
+                    }
+                    else //No formations close, must approach
+                    {
+                        escapeVector = ___formation.QuerySystem.AveragePosition - mainThreat.QuerySystem.AveragePosition;
+
+                        escapeVector = escapeVector.Normalized();
+
+                        escapeVector = Utils.MultVec2((___formation.QuerySystem.MissileRange * 0.75f), escapeVector);
+
+                        escapeVector = Utils.AddVec2(mainThreat.QuerySystem.AveragePosition, escapeVector);
+
+                    }
 
                     WorldPosition position = ___formation.QuerySystem.MedianPosition;
                     position.SetVec2(escapeVector);
