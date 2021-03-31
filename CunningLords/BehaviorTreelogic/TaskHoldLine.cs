@@ -29,7 +29,7 @@ namespace CunningLords.BehaviorTreelogic
         {
             if((this.formation != null))
             {
-                InformationManager.DisplayMessage(new InformationMessage("Infantry: Hold Line"));
+                //InformationManager.DisplayMessage(new InformationMessage("Infantry: Hold Line"));
                 this.formation.AI.ResetBehaviorWeights();
                 this.formation.AI.SetBehaviorWeight<BehaviorDefend>(2f);
                 return BTReturnEnum.succeeded;

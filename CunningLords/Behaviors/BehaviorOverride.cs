@@ -15,9 +15,10 @@ namespace CunningLords.Behaviors
     {
 
         [HarmonyPatch(typeof(BehaviorMountedSkirmish))]
-        [HarmonyPatch("")]
-        class TeamAIOverride
+        class OverrideBehaviorMountedSkirmish
         {
+            [HarmonyPatch(typeof(BehaviorMountedSkirmish))]
+            [HarmonyPatch("CalculateCurrentOrder")]
             private static void Postfix(ref Formation ___formation, BehaviorMountedSkirmish __instance, ref bool ____engaging, ref MovementOrder ____currentOrder)
             {
                 //1. Only do if it is enemy
@@ -52,7 +53,9 @@ namespace CunningLords.Behaviors
 
                     if (tooCloseForConfort.Count > 1) //Too close from more than 1 formation
                     {
-                        foreach(Formation f in tooCloseForConfort)
+                        InformationManager.DisplayMessage(new InformationMessage("Horse Archers: Kiting " + tooCloseForConfort.Count.ToString() + " enemies"));
+
+                        foreach (Formation f in tooCloseForConfort)
                         {
                             escapeVector = Utils.AddVec2(escapeVector, ___formation.QuerySystem.AveragePosition - f.QuerySystem.AveragePosition);
                         }
@@ -66,6 +69,8 @@ namespace CunningLords.Behaviors
                     }
                     else if (tooCloseForConfort.Count == 1) //Too close too one formation
                     {
+                        InformationManager.DisplayMessage(new InformationMessage("Horse Archers: Kiting one enemy"));
+
                         escapeVector = ___formation.QuerySystem.AveragePosition - tooCloseForConfort.First().QuerySystem.AveragePosition;
 
                         escapeVector = Utils.MultVec2(5, escapeVector);
@@ -75,6 +80,8 @@ namespace CunningLords.Behaviors
                     }
                     else //No formations close, must approach
                     {
+                        InformationManager.DisplayMessage(new InformationMessage("Horse Archers: approach enemy"));
+
                         escapeVector = ___formation.QuerySystem.AveragePosition - mainThreat.QuerySystem.AveragePosition;
 
                         escapeVector = escapeVector.Normalized();

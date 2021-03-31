@@ -19,7 +19,7 @@ namespace CunningLords.BehaviorTreelogic
 
         public override BTReturnEnum run()
         {
-            InformationManager.DisplayMessage(new InformationMessage("Archers: Volley from Behind"));
+            //InformationManager.DisplayMessage(new InformationMessage("Archers: Volley from Behind"));
             if ((this.formation != null) && (this.formation.QuerySystem.AveragePosition.Distance(this.formation.QuerySystem.ClosestEnemyFormation.AveragePosition)
                 <= (this.formation.QuerySystem.MissileRange / 3)))
             {

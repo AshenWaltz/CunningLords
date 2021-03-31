@@ -379,6 +379,33 @@ namespace CunningLords.Patches
             return distances;
         }
 
+        public static float GetEnemyFromationRatios(Formation formation, FormationClass targetFormation)
+        {
+            BattleSideEnum enemySide = formation.Team.Side;
+
+            List<Team> playerTeams = (from t in Mission.Current.Teams where t.Side != enemySide select t).ToList<Team>();
+
+            List<Tuple<Formation, float>> distances = new List<Tuple<Formation, float>>();
+
+            float totalTroops = 0;
+
+            float troopsOfType = 0;
+
+            foreach (Team t in playerTeams)
+            {
+                totalTroops += t.QuerySystem.AllyUnitCount;
+                foreach (Formation f in t.Formations)
+                {
+                    if(f.FormationIndex == targetFormation)
+                    {
+                        troopsOfType += f.CountOfUnits;
+                    }
+                }
+            }
+
+            return troopsOfType / totalTroops;
+        }
+
         public static Vec2 AddVec2(Vec2 v1, Vec2 v2)
         {
             return new Vec2(v1.X + v2.X, v1.Y + v2.Y);

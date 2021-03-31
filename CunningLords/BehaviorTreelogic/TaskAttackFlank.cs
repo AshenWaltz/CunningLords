@@ -21,7 +21,7 @@ namespace CunningLords.BehaviorTreelogic
         {
             if ((this.formation != null) && this.formation.Team.QuerySystem.EnemyCavalryRatio <= 0.3f)
             {
-                InformationManager.DisplayMessage(new InformationMessage("Cavalry: Flanking"));
+                //InformationManager.DisplayMessage(new InformationMessage("Cavalry: Flanking"));
                 this.formation.AI.ResetBehaviorWeights();
                 this.formation.AI.SetBehaviorWeight<BehaviorFlank>(2f);
                 return BTReturnEnum.succeeded;
