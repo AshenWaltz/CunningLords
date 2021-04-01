@@ -14,12 +14,12 @@ namespace CunningLords.Behaviors
     class BehaviorOverride
     {
 
-        [HarmonyPatch(typeof(BehaviorMountedSkirmish))]
+        [HarmonyPatch(typeof(BehaviorHorseArcherSkirmish))]
         class OverrideBehaviorMountedSkirmish
         {
-            [HarmonyPatch(typeof(BehaviorMountedSkirmish))]
+            [HarmonyPatch(typeof(BehaviorHorseArcherSkirmish))]
             [HarmonyPatch("CalculateCurrentOrder")]
-            private static void Postfix(ref Formation ___formation, BehaviorMountedSkirmish __instance, ref bool ____engaging, ref MovementOrder ____currentOrder)
+            private static void Postfix(ref Formation ___formation, BehaviorHorseArcherSkirmish __instance, ref MovementOrder ____currentOrder)
             {
                 //1. Only do if it is enemy
                 //2. See biggest threat to army. Movement speed and numbers.

@@ -166,9 +166,11 @@ namespace CunningLords.Tactics
 				//Horse Archers
 				TaskRangedHarrassment HARangedHar = new TaskRangedHarrassment(this._rangedCavalry);
 				TaskRangedRearHarrassment HARangedRearHar = new TaskRangedRearHarrassment(this._rangedCavalry);
+				TaskHorseArcherCharge HACharge = new TaskHorseArcherCharge(this._rangedCavalry);
 				Selector horseArcherSelector = new Selector(null);
 				horseArcherSelector.addTask(HARangedHar);
 				horseArcherSelector.addTask(HARangedRearHar);
+				horseArcherSelector.addTask(HACharge);
 
 				//Right Cavalry
 				TaskAttackFlank RCAttackFlank = new TaskAttackFlank(this._rightCavalry);

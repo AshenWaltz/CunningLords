@@ -415,5 +415,37 @@ namespace CunningLords.Patches
         {
             return new Vec2(f * v.X, f * v.Y);
         }
+
+        public static float HasAmmoRatio(Formation formation)
+        {
+            float formatioAmmoRatio = 1f;
+
+            float numberAgents = 0;
+
+            float numberAgentsWithAmmo = 0;
+
+            foreach(Agent agent in formation.Team.ActiveAgents)
+            {
+                numberAgents++;
+
+                bool hasAnyAmmo = false;
+
+                for (EquipmentIndex equiIndex = EquipmentIndex.WeaponItemBeginSlot; equiIndex < EquipmentIndex.NumAllWeaponSlots; equiIndex++)
+                {
+                    if(agent.Equipment[equiIndex].Amount > 0)
+                    {
+                        hasAnyAmmo = true;
+                    }
+                }
+                if (hasAnyAmmo)
+                {
+                    numberAgentsWithAmmo++;
+                }
+            }
+
+            formatioAmmoRatio = numberAgentsWithAmmo / numberAgents;
+
+            return formatioAmmoRatio;
+        }
     }
 }

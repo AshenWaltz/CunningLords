@@ -7,23 +7,24 @@ using TaleWorlds.Engine;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
+using CunningLords.Patches;
 
 namespace CunningLords.BehaviorTreelogic
 {
-    class TaskRangedHarrassment : Task
+    class TaskHorseArcherCharge : Task
     {
-        public TaskRangedHarrassment(Formation f) : base(f)
+        public TaskHorseArcherCharge(Formation f) : base(f)
         {
             this.formation = f;
         }
 
         public override BTReturnEnum run()
         {
-            if ((this.formation != null) && this.formation.Team.QuerySystem.EnemyCavalryRatio > 0.2f)
+            if ((this.formation != null) && Utils.HasAmmoRatio(this.formation) < 0.4f)
             {
-                InformationManager.DisplayMessage(new InformationMessage("Horse Archers: Harrassing"));
+                InformationManager.DisplayMessage(new InformationMessage("Horse Archers: Ammo Depleted. Charging!"));
                 this.formation.AI.ResetBehaviorWeights();
-                this.formation.AI.SetBehaviorWeight<BehaviorHorseArcherSkirmish>(2f);
+                this.formation.AI.SetBehaviorWeight<BehaviorCharge>(2f);
                 return BTReturnEnum.succeeded;
             }
             else
