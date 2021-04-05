@@ -157,8 +157,8 @@ namespace CunningLords.Tactics
 				TaskHoldLine MIHold = new TaskHoldLine(this._mainInfantry);
 
 				//Archers Volley
-				TaskInitialVolley AInitialVolley = new TaskInitialVolley(this._archers);
-				TaskBehindVolley ABehindVolley = new TaskBehindVolley(this._archers);
+				TaskArcherVolley AInitialVolley = new TaskArcherVolley(this._archers);
+				TaskArcherSkirmish ABehindVolley = new TaskArcherSkirmish(this._archers);
 				Selector archerSelector = new Selector(null);
 				archerSelector.addTask(AInitialVolley);
 				archerSelector.addTask(ABehindVolley);

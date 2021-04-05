@@ -379,7 +379,22 @@ namespace CunningLords.Patches
             return distances;
         }
 
-        public static float GetEnemyFromationRatios(Formation formation, FormationClass targetFormation)
+        public static Formation GetAlliedFormationsofType(Formation formation, FormationClass formationClass)
+        {
+            Formation result = null;
+
+            foreach(Formation f in formation.Team.Formations)
+            {
+                if(f.FormationIndex == formationClass)
+                {
+                    result = f;
+                }
+            }
+
+            return result;
+        }
+
+        public static float GetPlayerFormationRatios(Formation formation, FormationClass targetFormation)
         {
             BattleSideEnum enemySide = formation.Team.Side;
 
@@ -397,6 +412,33 @@ namespace CunningLords.Patches
                 foreach (Formation f in t.Formations)
                 {
                     if(f.FormationIndex == targetFormation)
+                    {
+                        troopsOfType += f.CountOfUnits;
+                    }
+                }
+            }
+
+            return troopsOfType / totalTroops;
+        }
+
+        public static float GetSelfFormationRatios(Formation formation, FormationClass targetFormation)
+        {
+            BattleSideEnum side = formation.Team.Side;
+
+            List<Team> teams = (from t in Mission.Current.Teams where t.Side == side select t).ToList<Team>();
+
+            List<Tuple<Formation, float>> distances = new List<Tuple<Formation, float>>();
+
+            float totalTroops = 0;
+
+            float troopsOfType = 0;
+
+            foreach (Team t in teams)
+            {
+                totalTroops += t.QuerySystem.AllyUnitCount;
+                foreach (Formation f in t.Formations)
+                {
+                    if (f.FormationIndex == targetFormation)
                     {
                         troopsOfType += f.CountOfUnits;
                     }
