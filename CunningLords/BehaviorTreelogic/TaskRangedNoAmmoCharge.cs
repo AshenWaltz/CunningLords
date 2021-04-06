@@ -11,9 +11,9 @@ using CunningLords.Patches;
 
 namespace CunningLords.BehaviorTreelogic
 {
-    class TaskHorseArcherCharge : Task
+    class TaskRangedNoAmmoCharge : Task
     {
-        public TaskHorseArcherCharge(Formation f) : base(f)
+        public TaskRangedNoAmmoCharge(Formation f) : base(f)
         {
             this.formation = f;
         }
@@ -22,7 +22,14 @@ namespace CunningLords.BehaviorTreelogic
         {
             if ((this.formation != null) && Utils.HasAmmoRatio(this.formation) < 0.4f)
             {
-                InformationManager.DisplayMessage(new InformationMessage("Horse Archers: Ammo Depleted. Charging!"));
+                if (this.formation.FormationIndex == FormationClass.HorseArcher)
+                {
+                    InformationManager.DisplayMessage(new InformationMessage("Horse Archers: Ammo Depleted. Charging!"));
+                }
+                else if(this.formation.FormationIndex == FormationClass.Ranged)
+                {
+                    InformationManager.DisplayMessage(new InformationMessage("Archers: Ammo Depleted. Charging!"));
+                }
                 this.formation.AI.ResetBehaviorWeights();
                 this.formation.AI.SetBehaviorWeight<BehaviorCharge>(2f);
                 return BTReturnEnum.succeeded;

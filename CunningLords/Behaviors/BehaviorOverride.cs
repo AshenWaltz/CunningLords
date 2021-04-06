@@ -17,7 +17,7 @@ namespace CunningLords.Behaviors
         [HarmonyPatch(typeof(BehaviorHorseArcherSkirmish))]
         class OverrideBehaviorMountedSkirmish
         {
-            [HarmonyPatch(typeof(BehaviorHorseArcherSkirmish))]
+            [HarmonyPostfix]
             [HarmonyPatch("CalculateCurrentOrder")]
             private static void Postfix(ref Formation ___formation, BehaviorHorseArcherSkirmish __instance, ref MovementOrder ____currentOrder)
             {
@@ -53,7 +53,7 @@ namespace CunningLords.Behaviors
 
                     if (tooCloseForConfort.Count > 1) //Too close from more than 1 formation
                     {
-                        InformationManager.DisplayMessage(new InformationMessage("Horse Archers: Kiting " + tooCloseForConfort.Count.ToString() + " enemies"));
+                        //InformationManager.DisplayMessage(new InformationMessage("Horse Archers: Kiting " + tooCloseForConfort.Count.ToString() + " enemies"));
 
                         foreach (Formation f in tooCloseForConfort)
                         {
@@ -69,7 +69,7 @@ namespace CunningLords.Behaviors
                     }
                     else if (tooCloseForConfort.Count == 1) //Too close too one formation
                     {
-                        InformationManager.DisplayMessage(new InformationMessage("Horse Archers: Kiting one enemy"));
+                        //InformationManager.DisplayMessage(new InformationMessage("Horse Archers: Kiting one enemy"));
 
                         escapeVector = ___formation.QuerySystem.AveragePosition - tooCloseForConfort.First().QuerySystem.AveragePosition;
 
@@ -80,7 +80,7 @@ namespace CunningLords.Behaviors
                     }
                     else //No formations close, must approach
                     {
-                        InformationManager.DisplayMessage(new InformationMessage("Horse Archers: approach enemy"));
+                        //InformationManager.DisplayMessage(new InformationMessage("Horse Archers: approach enemy"));
 
                         escapeVector = ___formation.QuerySystem.AveragePosition - mainThreat.QuerySystem.AveragePosition;
 
@@ -99,19 +99,19 @@ namespace CunningLords.Behaviors
             }
         }
 
-
+        
         [HarmonyPatch(typeof(BehaviorScreenedSkirmish))]
         class OverrideBehaviorScreenedSkirmish
         {
-            [HarmonyPatch(typeof(BehaviorScreenedSkirmish))]
+            [HarmonyPostfix]
             [HarmonyPatch("CalculateCurrentOrder")]
-            private static void Postfix(ref Formation ___formation, BehaviorScreenedSkirmish __instance, ref MovementOrder ____currentOrder, ref FacingOrder ___CurrentFacingOrder)
+            private static void Postfix(Formation ___formation, ref MovementOrder ____currentOrder, ref FacingOrder ___CurrentFacingOrder)
             {
-                if (___formation == null || __instance == null || ____currentOrder == null || ___CurrentFacingOrder == null)
+                if (___formation == null || ____currentOrder == null || ___CurrentFacingOrder == null)
                 {
                     return;
                 }
-
+                
                 if (!___formation.Team.IsPlayerTeam) //Only works if there are only 2 teams, the player's and the AI's
                 {
                     List<Tuple<Formation, float>> distances = Utils.GetDistanceFromAllEnemies(___formation);
@@ -120,7 +120,7 @@ namespace CunningLords.Behaviors
 
                     Formation closestEnemy = null;
 
-                    float currentMinimumDistance = 0f;
+                    float currentMinimumDistance = 100000f;
 
                     foreach (Tuple<Formation, float> tup in distances)
                     {
@@ -159,18 +159,29 @@ namespace CunningLords.Behaviors
                     {
                         InformationManager.DisplayMessage(new InformationMessage("Archers: forward volley"));
 
-                        Vec2 infantryPosition = Utils.GetAlliedFormationsofType(___formation, FormationClass.Infantry).QuerySystem.AverageAllyPosition;
+                        Vec2 infantryPosition = Utils.GetAlliedFormationsofType(___formation, FormationClass.Infantry).QuerySystem.AveragePosition;
 
-                        targetPosition = Utils.AddVec2(targetPosition, closestEnemy.QuerySystem.AveragePosition - infantryPosition);
+                        if(closestEnemy == null)
+                        {
+                            targetPosition = Utils.AddVec2(targetPosition, ___formation.QuerySystem.AveragePosition);
+                        }
+                        else
+                        {
+                            targetPosition = Utils.AddVec2(targetPosition, closestEnemy.QuerySystem.AveragePosition - infantryPosition);
 
-                        targetPosition = targetPosition.Normalized();
+                            targetPosition = targetPosition.Normalized();
 
-                        targetPosition = Utils.MultVec2(10, targetPosition);
+                            targetPosition = Utils.MultVec2(10, targetPosition);
 
-                        targetPosition = Utils.AddVec2(targetPosition, infantryPosition);
+                            targetPosition = Utils.AddVec2(targetPosition, infantryPosition);
+                        }
                     }
 
-                    ___CurrentFacingOrder = FacingOrder.FacingOrderLookAtDirection(closestEnemy.QuerySystem.AveragePosition - ___formation.QuerySystem.AverageAllyPosition);
+                    if (closestEnemy != null)
+                    {
+                        ___CurrentFacingOrder = FacingOrder.FacingOrderLookAtDirection(closestEnemy.QuerySystem.AveragePosition - ___formation.QuerySystem.AveragePosition);
+                    }
+
 
                     WorldPosition position = ___formation.QuerySystem.MedianPosition;
                     position.SetVec2(targetPosition);
@@ -179,13 +190,13 @@ namespace CunningLords.Behaviors
             }
         }
 
-
-        [HarmonyPatch(typeof(BehaviorHorseArcherSkirmish))]
+        
+        [HarmonyPatch(typeof(BehaviorSkirmishLine))]
         class OverrideBehaviorSkirmishLine
         {
-            [HarmonyPatch(typeof(BehaviorSkirmishLine))]
+            [HarmonyPostfix]
             [HarmonyPatch("CalculateCurrentOrder")]
-            private static void Postfix(ref Formation ___formation, BehaviorHorseArcherSkirmish __instance, ref MovementOrder ____currentOrder)
+            private static void Postfix(ref Formation ___formation, BehaviorSkirmishLine __instance, ref MovementOrder ____currentOrder)
             {
 
                 if (___formation == null || __instance == null || ____currentOrder == null)
@@ -242,16 +253,12 @@ namespace CunningLords.Behaviors
                     }
                     else //No formations close, must approach
                     {
-                        InformationManager.DisplayMessage(new InformationMessage("Archer Skirmishing: approach enemy"));
+                        InformationManager.DisplayMessage(new InformationMessage("Archer Skirmishing: Stand in wait"));
 
-                        escapeVector = ___formation.QuerySystem.AveragePosition - mainThreat.QuerySystem.AveragePosition;
-
-                        escapeVector = escapeVector.Normalized();
-
-                        escapeVector = Utils.MultVec2((___formation.QuerySystem.MissileRange * 0.75f), escapeVector);
-
-                        escapeVector = Utils.AddVec2(mainThreat.QuerySystem.AveragePosition, escapeVector);
-
+                        WorldPosition medianPosition = ___formation.QuerySystem.MedianPosition;
+                        medianPosition.SetVec2(___formation.QuerySystem.AveragePosition);
+                        ____currentOrder = MovementOrder.MovementOrderMove(medianPosition);
+                        return;
                     }
 
                     WorldPosition position = ___formation.QuerySystem.MedianPosition;
@@ -261,5 +268,7 @@ namespace CunningLords.Behaviors
 
             }
         }
+
+
     }
 }

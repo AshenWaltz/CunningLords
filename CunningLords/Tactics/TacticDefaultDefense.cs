@@ -159,14 +159,16 @@ namespace CunningLords.Tactics
 				//Archers Volley
 				TaskArcherVolley AInitialVolley = new TaskArcherVolley(this._archers);
 				TaskArcherSkirmish ABehindVolley = new TaskArcherSkirmish(this._archers);
+				TaskRangedNoAmmoCharge ACharge = new TaskRangedNoAmmoCharge(this._archers);
 				Selector archerSelector = new Selector(null);
 				archerSelector.addTask(AInitialVolley);
 				archerSelector.addTask(ABehindVolley);
+				archerSelector.addTask(ACharge);
 
 				//Horse Archers
 				TaskRangedHarrassment HARangedHar = new TaskRangedHarrassment(this._rangedCavalry);
 				TaskRangedRearHarrassment HARangedRearHar = new TaskRangedRearHarrassment(this._rangedCavalry);
-				TaskHorseArcherCharge HACharge = new TaskHorseArcherCharge(this._rangedCavalry);
+				TaskRangedNoAmmoCharge HACharge = new TaskRangedNoAmmoCharge(this._rangedCavalry);
 				Selector horseArcherSelector = new Selector(null);
 				horseArcherSelector.addTask(HARangedHar);
 				horseArcherSelector.addTask(HARangedRearHar);
