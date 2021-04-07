@@ -99,7 +99,7 @@ namespace CunningLords.Behaviors
             }
         }
 
-        
+
         [HarmonyPatch(typeof(BehaviorScreenedSkirmish))]
         class OverrideBehaviorScreenedSkirmish
         {
@@ -107,11 +107,13 @@ namespace CunningLords.Behaviors
             [HarmonyPatch("CalculateCurrentOrder")]
             private static void Postfix(Formation ___formation, ref MovementOrder ____currentOrder, ref FacingOrder ___CurrentFacingOrder)
             {
+                //AI IS SUB OPTIMAL. DUMB AS HELL. NEEDS FINE TUNING
+
                 if (___formation == null || ____currentOrder == null || ___CurrentFacingOrder == null)
                 {
                     return;
                 }
-                
+
                 if (!___formation.Team.IsPlayerTeam) //Only works if there are only 2 teams, the player's and the AI's
                 {
                     List<Tuple<Formation, float>> distances = Utils.GetDistanceFromAllEnemies(___formation);
@@ -161,7 +163,7 @@ namespace CunningLords.Behaviors
 
                         Vec2 infantryPosition = Utils.GetAlliedFormationsofType(___formation, FormationClass.Infantry).QuerySystem.AveragePosition;
 
-                        if(closestEnemy == null)
+                        if (closestEnemy == null)
                         {
                             targetPosition = Utils.AddVec2(targetPosition, ___formation.QuerySystem.AveragePosition);
                         }
@@ -190,7 +192,7 @@ namespace CunningLords.Behaviors
             }
         }
 
-        
+
         [HarmonyPatch(typeof(BehaviorSkirmishLine))]
         class OverrideBehaviorSkirmishLine
         {
@@ -269,6 +271,171 @@ namespace CunningLords.Behaviors
             }
         }
 
+        [HarmonyPatch(typeof(BehaviorProtectFlank))]
+        class OverrideBehaviorProtectFlank
+        {
+            [HarmonyPostfix]
+            [HarmonyPatch("CalculateCurrentOrder")]
+            private static void Postfix(ref FormationAI.BehaviorSide ___FlankSide, ref FacingOrder ___CurrentFacingOrder, 
+                ref MovementOrder ____currentOrder, ref MovementOrder ____chargeToTargetOrder, ref MovementOrder ____movementOrder,
+                ref OverrideBehaviorProtectFlank.BehaviourState ____protectFlankState, ref Formation ___formation, ref Formation ____mainFormation,
+                ref FormationAI.BehaviorSide ___behaviorSide)
+            {
+                //get a anchor point position based on infantry and archers position
+                //if an enemy approaches charge at it
+                //if the enemy gets too far from anchor point return to anchor point
 
+                //Formation.Direction
+                //Formation.CurrentPosition
+                //Formation.Width
+
+                if (____mainFormation == null || ___formation == null)
+                {
+                    ____currentOrder = MovementOrder.MovementOrderStop;
+                    ___CurrentFacingOrder = FacingOrder.FacingOrderLookAtEnemy;
+
+                    return;
+                }
+
+                float engageDistance = 50f;
+
+                Formation archerFormation = Utils.GetAlliedFormationsofType(___formation, FormationClass.Ranged);
+
+                Vec2 anchorPoint = new Vec2();
+
+                if (archerFormation == null)
+                {
+
+                    Vec2 infantryDirection = ____mainFormation.Direction.Normalized();
+
+                    if (___FlankSide == FormationAI.BehaviorSide.Left)
+                    {
+                        anchorPoint = ____mainFormation.CurrentPosition + (____mainFormation.Width * Utils.PerpLeft(infantryDirection));
+                    }
+                    else if (___FlankSide == FormationAI.BehaviorSide.Right)
+                    {
+                        anchorPoint = ____mainFormation.CurrentPosition + (____mainFormation.Width * Utils.PerpRight(infantryDirection));
+                    }
+                }
+                else
+                {
+                    float archerInfantryDistance = ____mainFormation.CurrentPosition.Distance(archerFormation.CurrentPosition);
+
+                    //Vec2 midPoint = ____mainFormation.CurrentPosition + ((archerFormation.CurrentPosition - ____mainFormation.CurrentPosition).Normalized() * (archerInfantryDistance / 2));
+                
+                    Vec2 archerInfantryDirection = (archerFormation.CurrentPosition - ____mainFormation.CurrentPosition).Normalized();
+
+                    float dotProduct = archerInfantryDirection.DotProduct(____mainFormation.CurrentPosition);
+
+                    bool archersInFront = false;
+
+                    if (dotProduct > 0.6) 
+                    {
+                        archersInFront = true;
+                    }
+                    else
+                    {
+                        archersInFront = false;
+                    }
+
+                    if (archersInFront) 
+                    {
+                        Vec2 archersDirection = archerFormation.Direction.Normalized();
+
+                        if (___FlankSide == FormationAI.BehaviorSide.Left)
+                        {
+                            anchorPoint = archerFormation.CurrentPosition + (archerFormation.Width * Utils.PerpLeft(archersDirection));
+                        }
+                        else if (___FlankSide == FormationAI.BehaviorSide.Right)
+                        {
+                            anchorPoint = archerFormation.CurrentPosition + (archerFormation.Width * Utils.PerpRight(archersDirection));
+                        }
+                    }
+                    else
+                    {
+                        Vec2 infantryDirection = ____mainFormation.Direction.Normalized();
+
+                        if (___FlankSide == FormationAI.BehaviorSide.Left)
+                        {
+                            anchorPoint = ____mainFormation.CurrentPosition + (____mainFormation.Width * Utils.PerpLeft(infantryDirection));
+                        }
+                        else if (___FlankSide == FormationAI.BehaviorSide.Right)
+                        {
+                            anchorPoint = ____mainFormation.CurrentPosition + (____mainFormation.Width * Utils.PerpRight(infantryDirection));
+                        }
+                    }
+                }
+
+                List<Tuple<Formation, float>> distances = Utils.GetDistanceFromAllEnemiesToPoint(___formation, anchorPoint);
+
+                float minDistance = 100000f;
+
+                Formation closestEnemy = null;
+
+                foreach (Tuple<Formation, float> tup in distances)
+                {
+                    if (tup.Item2 < minDistance)
+                    {
+                        minDistance = tup.Item2;
+                        closestEnemy = tup.Item1;
+                    }
+                }
+
+                float distanceFromAnchorPoint = ___formation.CurrentPosition.Distance(anchorPoint);
+
+
+                if (minDistance > engageDistance && distanceFromAnchorPoint < 5)
+                {
+                    ____protectFlankState = BehaviourState.HoldingFlank;
+                }
+                else if (minDistance > engageDistance && distanceFromAnchorPoint > 10)
+                {
+                    ____protectFlankState = BehaviourState.Returning;
+                }
+                else if (minDistance < engageDistance)
+                {
+                    ____protectFlankState = BehaviourState.Charging;
+                }
+
+                Vec2 targetPosition = anchorPoint;
+                Vec2 targetDirection = ____mainFormation.Direction;
+
+                if (____protectFlankState == BehaviourState.Returning || ____protectFlankState == BehaviourState.HoldingFlank)
+                {
+                    targetPosition = anchorPoint;
+                    targetDirection = ____mainFormation.Direction;
+                }
+                else
+                {
+                    if(closestEnemy == null)
+                    {
+                        targetPosition = anchorPoint;
+                        targetDirection = ____mainFormation.Direction;
+                    }
+                    else
+                    {
+                        targetPosition = closestEnemy.CurrentPosition;
+                        targetDirection = (closestEnemy.CurrentPosition - ___formation.CurrentPosition).Normalized();
+                    }   
+                }
+
+                WorldPosition medianPosition = ____mainFormation.QuerySystem.MedianPosition;
+                medianPosition.SetVec2(targetPosition);
+                ____movementOrder = MovementOrder.MovementOrderMove(medianPosition);
+                ____currentOrder = ____movementOrder;
+                ___CurrentFacingOrder = FacingOrder.FacingOrderLookAtDirection(targetDirection);
+
+            }
+
+            private enum BehaviourState
+            {
+                // Token: 0x04000016 RID: 22
+                HoldingFlank,
+                // Token: 0x04000017 RID: 23
+                Charging,
+                // Token: 0x04000018 RID: 24
+                Returning
+            }
+        }
     }
 }

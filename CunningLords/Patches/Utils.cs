@@ -379,6 +379,27 @@ namespace CunningLords.Patches
             return distances;
         }
 
+        public static List<Tuple<Formation, float>> GetDistanceFromAllEnemiesToPoint(Formation formation, Vec2 v)
+        {
+            BattleSideEnum enemySide = formation.Team.Side;
+
+            List<Team> playerTeams = (from t in Mission.Current.Teams where t.Side != enemySide select t).ToList<Team>();
+
+            List<Tuple<Formation, float>> distances = new List<Tuple<Formation, float>>();
+
+            foreach (Team t in playerTeams)
+            {
+                foreach (Formation f in t.Formations)
+                {
+                    float dist = v.Distance(f.QuerySystem.AveragePosition);
+                    Tuple<Formation, float> aux = new Tuple<Formation, float>(f, dist);
+                    distances.Add(aux);
+                }
+            }
+
+            return distances;
+        }
+
         public static Formation GetAlliedFormationsofType(Formation formation, FormationClass formationClass)
         {
             Formation result = null;
@@ -456,6 +477,16 @@ namespace CunningLords.Patches
         public static Vec2 MultVec2(float f, Vec2 v)
         {
             return new Vec2(f * v.X, f * v.Y);
+        }
+
+        public static Vec2 PerpLeft(Vec2 v) 
+        {
+            return new Vec2(-1 * v.Y, v.X);
+        }
+
+        public static Vec2 PerpRight(Vec2 v)
+        {
+            return new Vec2(v.Y, -1 * v.X);
         }
 
         public static float HasAmmoRatio(Formation formation)
