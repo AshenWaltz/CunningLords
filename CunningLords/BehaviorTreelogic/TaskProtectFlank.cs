@@ -19,7 +19,7 @@ namespace CunningLords.BehaviorTreelogic
 
         public override BTReturnEnum run()
         {
-            if ((this.formation != null) && this.formation.Team.QuerySystem.EnemyCavalryRatio > 0.3f)
+            if ((this.formation != null) && this.formation.Team.QuerySystem.EnemyCavalryRatio > 0.1f)
             {
                 //InformationManager.DisplayMessage(new InformationMessage("Cavalry: Protecting Flank"));
                 this.formation.AI.ResetBehaviorWeights();

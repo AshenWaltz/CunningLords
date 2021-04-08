@@ -289,6 +289,9 @@ namespace CunningLords.Behaviors
                 //Formation.CurrentPosition
                 //Formation.Width
 
+                InformationManager.DisplayMessage(new InformationMessage("Cavalry Protecting Flank"));
+
+                
                 if (____mainFormation == null || ___formation == null)
                 {
                     ____currentOrder = MovementOrder.MovementOrderStop;
@@ -402,12 +405,16 @@ namespace CunningLords.Behaviors
 
                 if (____protectFlankState == BehaviourState.Returning || ____protectFlankState == BehaviourState.HoldingFlank)
                 {
+                    InformationManager.DisplayMessage(new InformationMessage("Cavalry Protecting Flank - Returning"));
+
                     targetPosition = anchorPoint;
                     targetDirection = ____mainFormation.Direction;
                 }
                 else
                 {
-                    if(closestEnemy == null)
+                    InformationManager.DisplayMessage(new InformationMessage("Cavalry Engaging"));
+
+                    if (closestEnemy == null)
                     {
                         targetPosition = anchorPoint;
                         targetDirection = ____mainFormation.Direction;
