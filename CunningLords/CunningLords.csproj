@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="Behaviors\BehaviorArcherVanguardSkirmish.cs" />
     <Compile Include="Behaviors\BehaviorOverride.cs" />
+    <Compile Include="Behaviors\BehaviorTemplate.cs" />
     <Compile Include="BehaviorTreelogic\BTReturnEnum.cs" />
     <Compile Include="BehaviorTreelogic\Selector.cs" />
     <Compile Include="BehaviorTreelogic\Sequence.cs" />

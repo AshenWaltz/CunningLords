@@ -7,6 +7,7 @@ using TaleWorlds.Engine;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
+using CunningLords.Behaviors;
 
 namespace CunningLords.BehaviorTreelogic
 {

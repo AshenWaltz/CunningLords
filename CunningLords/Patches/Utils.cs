@@ -360,23 +360,31 @@ namespace CunningLords.Patches
 
         public static List<Tuple<Formation, float>> GetDistanceFromAllEnemies(Formation formation)
         {
-            BattleSideEnum enemySide = formation.Team.Side;
-
-            List<Team> playerTeams = (from t in Mission.Current.Teams where t.Side != enemySide select t).ToList<Team>();
-
-            List<Tuple<Formation, float>> distances = new List<Tuple<Formation, float>>();
-
-            foreach (Team t in playerTeams)
+            if (formation != null)
             {
-                foreach (Formation f in t.Formations)
-                {
-                    float dist = formation.QuerySystem.AveragePosition.Distance(f.QuerySystem.AveragePosition);
-                    Tuple<Formation, float> aux = new Tuple<Formation, float>(f, dist);
-                    distances.Add(aux);
-                }
-            }
+                BattleSideEnum enemySide = formation.Team.Side;
 
-            return distances;
+                List<Team> playerTeams = (from t in Mission.Current.Teams where t.Side != enemySide select t).ToList<Team>();
+
+                List<Tuple<Formation, float>> distances = new List<Tuple<Formation, float>>();
+
+                foreach (Team t in playerTeams)
+                {
+                    foreach (Formation f in t.Formations)
+                    {
+                        float dist = formation.QuerySystem.AveragePosition.Distance(f.QuerySystem.AveragePosition);
+                        Tuple<Formation, float> aux = new Tuple<Formation, float>(f, dist);
+                        distances.Add(aux);
+                    }
+                }
+
+                return distances;
+            }
+            else
+            {
+                return null;
+            }
+            
         }
 
         public static List<Tuple<Formation, float>> GetDistanceFromAllEnemiesToPoint(Formation formation, Vec2 v)

@@ -11,12 +11,12 @@ using CunningLords.Patches;
 
 namespace CunningLords.Behaviors
 {
-    internal class BehaviorArcherVanguardSkirmish : BehaviorDefend
+    class BehaviorTemplate : BehaviorDefend
     {
         public Formation Formation;
 
         private Formation mainFormation;
-        public BehaviorArcherVanguardSkirmish(Formation formation) : base(formation)
+        public BehaviorTemplate(Formation formation) : base(formation)
         {
             this.mainFormation = formation.Team.Formations.FirstOrDefault((Formation f) => f.FormationIndex == FormationClass.Infantry);
         }
@@ -27,30 +27,14 @@ namespace CunningLords.Behaviors
 
         private void ExecuteActions()
         {
-            InformationManager.DisplayMessage(new InformationMessage("Custom Archer Behavior"));
-
-            Vec2 escapeVector;
-
-            Vec2 infantryPosition = this.mainFormation.QuerySystem.AveragePosition;
-
-            Vec2 infantryDirection = this.mainFormation.Direction.Normalized();
-
-            escapeVector = infantryPosition + (infantryDirection * 2 * (this.mainFormation.Depth + this.Formation.Depth));
-
-            WorldPosition position = this.Formation.QuerySystem.MedianPosition;
-            position.SetVec2(escapeVector);
-            this.Formation.MovementOrder = MovementOrder.MovementOrderMove(position);
-
-            this.Formation.FacingOrder = FacingOrder.FacingOrderLookAtDirection(infantryDirection);
-            MaintainPersistentOrders();
-        }
-
-        private void MaintainPersistentOrders()
-        {
+            /*InformationManager.DisplayMessage(new InformationMessage("Custom Behavior"));
+            this.Formation.MovementOrder = base.CurrentOrder;
+            this.Formation.FacingOrder = this.CurrentFacingOrder;
             this.Formation.ArrangementOrder = ArrangementOrder.ArrangementOrderLine;
             this.Formation.FiringOrder = FiringOrder.FiringOrderFireAtWill;
-            this.Formation.FormOrder = FormOrder.FormOrderWide;
+            this.Formation.FormOrder = FormOrder.FormOrderDeep;
             this.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
+            InformationManager.DisplayMessage(new InformationMessage("DID SET MOVEMENTORDER"));*/
         }
 
         protected override void TickOccasionally()
@@ -64,7 +48,7 @@ namespace CunningLords.Behaviors
 
         protected override float GetAiWeight()
         {
-            return 2f;
+            return 1f;
         }
     }
 }

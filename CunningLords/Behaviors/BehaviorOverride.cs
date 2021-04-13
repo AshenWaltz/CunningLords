@@ -267,7 +267,7 @@ namespace CunningLords.Behaviors
                     position.SetVec2(escapeVector);
                     ____currentOrder = MovementOrder.MovementOrderMove(position);
                 }
-
+                //check offsets for formations. 
             }
         }
 
