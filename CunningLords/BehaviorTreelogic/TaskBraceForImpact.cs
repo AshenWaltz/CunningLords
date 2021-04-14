@@ -12,24 +12,16 @@ using CunningLords.Behaviors;
 
 namespace CunningLords.BehaviorTreelogic
 {
-    class TaskHoldLine : Task
+    class TaskBraceForImpact : Task
     {
-        public TaskHoldLine(Formation f) : base(f)
+        public TaskBraceForImpact(Formation f) : base(f)
         {
-            /*if(f != null)
-            {
-                InformationManager.DisplayMessage(new InformationMessage("f: " + f.ToString()));
-            }
-            else
-            {
-                InformationManager.DisplayMessage(new InformationMessage("f: null" ));
-            }*/
             this.formation = f;
         }
 
         public override BTReturnEnum run()
         {
-            if((this.formation != null))
+            if (this.formation != null)
             {
                 float braceDistance = 20f;
 
@@ -44,9 +36,10 @@ namespace CunningLords.BehaviorTreelogic
                         brace = true;
                     }
                 }
-                if((this.formation != null) && (!brace))
+
+                if ((this.formation != null) && (brace))
                 {
-                    BehaviorLooselyWaitOrders behavior = this.formation.AI.SetBehaviorWeight<BehaviorLooselyWaitOrders>(1f);
+                    BehaviorBraceForImpact behavior = this.formation.AI.SetBehaviorWeight<BehaviorBraceForImpact>(1f);
                     behavior.Formation = this.formation;
 
                     return BTReturnEnum.succeeded;
@@ -54,13 +47,14 @@ namespace CunningLords.BehaviorTreelogic
                 else
                 {
                     return BTReturnEnum.failed;
-
                 }
             }
             else
             {
                 return BTReturnEnum.failed;
             }
+
+
         }
     }
 }

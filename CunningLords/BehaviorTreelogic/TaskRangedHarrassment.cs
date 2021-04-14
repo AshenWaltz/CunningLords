@@ -22,9 +22,9 @@ namespace CunningLords.BehaviorTreelogic
         {
             if ((this.formation != null) && this.formation.Team.QuerySystem.EnemyCavalryRatio > 0.2f)
             {
-                InformationManager.DisplayMessage(new InformationMessage("Horse Archers: Harrassing"));
                 this.formation.AI.ResetBehaviorWeights();
-                this.formation.AI.SetBehaviorWeight<BehaviorHorseArcherSkirmish>(2f);
+                BehaviorSkirmishMode behavior = this.formation.AI.SetBehaviorWeight<BehaviorSkirmishMode>(1f);
+                behavior.Formation = this.formation;
                 return BTReturnEnum.succeeded;
             }
             else

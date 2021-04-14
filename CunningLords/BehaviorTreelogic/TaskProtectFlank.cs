@@ -21,7 +21,6 @@ namespace CunningLords.BehaviorTreelogic
         {
             if ((this.formation != null) && this.formation.Team.QuerySystem.EnemyCavalryRatio > 0.1f)
             {
-                //InformationManager.DisplayMessage(new InformationMessage("Cavalry: Protecting Flank"));
                 this.formation.AI.ResetBehaviorWeights();
                 this.formation.AI.SetBehaviorWeight<BehaviorProtectFlank>(2f);
                 return BTReturnEnum.succeeded;

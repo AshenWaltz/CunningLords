@@ -11,12 +11,12 @@ using CunningLords.Patches;
 
 namespace CunningLords.Behaviors
 {
-    class BehaviorTemplate : BehaviorDefend
+    class BehaviorHideBehindInfantryLine : BehaviorDefend
     {
         public Formation Formation;
 
         private Formation mainFormation;
-        public BehaviorTemplate(Formation formation) : base(formation)
+        public BehaviorHideBehindInfantryLine(Formation formation) : base(formation)
         {
             this.mainFormation = formation.Team.Formations.FirstOrDefault((Formation f) => f.FormationIndex == FormationClass.Infantry);
         }
@@ -27,14 +27,22 @@ namespace CunningLords.Behaviors
 
         private void ExecuteActions()
         {
-            /*InformationManager.DisplayMessage(new InformationMessage("Custom Behavior"));
-            this.Formation.MovementOrder = base.CurrentOrder;
-            this.Formation.FacingOrder = this.CurrentFacingOrder;
-            this.Formation.ArrangementOrder = ArrangementOrder.ArrangementOrderLine;
-            this.Formation.FiringOrder = FiringOrder.FiringOrderFireAtWill;
-            this.Formation.FormOrder = FormOrder.FormOrderDeep;
-            this.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
-            InformationManager.DisplayMessage(new InformationMessage("DID SET MOVEMENTORDER"));*/
+            InformationManager.DisplayMessage(new InformationMessage(this.Formation.FormationIndex + ": Hiding Behind Infantry"));
+
+            Vec2 escapeVector;
+
+            Vec2 infantryPosition = this.mainFormation.QuerySystem.AveragePosition;
+
+            Vec2 infantryDirection = this.mainFormation.Direction.Normalized();
+
+            escapeVector = infantryPosition - (infantryDirection * 4 * (this.mainFormation.Depth + this.Formation.Depth));
+
+            WorldPosition position = this.Formation.QuerySystem.MedianPosition;
+            position.SetVec2(escapeVector);
+            this.Formation.MovementOrder = MovementOrder.MovementOrderMove(position);
+
+            this.Formation.FacingOrder = FacingOrder.FacingOrderLookAtDirection(infantryDirection);
+            MaintainPersistentOrders();
         }
 
         private void MaintainPersistentOrders()

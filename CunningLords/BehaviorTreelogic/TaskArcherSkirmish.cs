@@ -8,6 +8,7 @@ using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using CunningLords.Patches;
+using CunningLords.Behaviors;
 
 namespace CunningLords.BehaviorTreelogic
 {
@@ -20,8 +21,6 @@ namespace CunningLords.BehaviorTreelogic
 
         public override BTReturnEnum run()
         {
-            //InformationManager.DisplayMessage(new InformationMessage("Archers: Volley from Behind"));
-
             List<Tuple<Formation, float>> distances = Utils.GetDistanceFromAllEnemies(this.formation);
 
             bool infantryBreached = false;
@@ -41,7 +40,8 @@ namespace CunningLords.BehaviorTreelogic
             if ((this.formation != null) && ((infantryRatio < 0.15) || (infantryBreached)))
             {
                 this.formation.AI.ResetBehaviorWeights();
-                this.formation.AI.SetBehaviorWeight<BehaviorSkirmishLine>(2f);
+                BehaviorSkirmishMode behavior = this.formation.AI.SetBehaviorWeight<BehaviorSkirmishMode>(1f);
+                behavior.Formation = this.formation;
                 return BTReturnEnum.succeeded;
             }
             else

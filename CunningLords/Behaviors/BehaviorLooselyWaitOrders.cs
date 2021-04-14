@@ -11,12 +11,12 @@ using CunningLords.Patches;
 
 namespace CunningLords.Behaviors
 {
-    class BehaviorTemplate : BehaviorDefend
+    class BehaviorLooselyWaitOrders : BehaviorDefend
     {
         public Formation Formation;
 
         private Formation mainFormation;
-        public BehaviorTemplate(Formation formation) : base(formation)
+        public BehaviorLooselyWaitOrders(Formation formation) : base(formation)
         {
             this.mainFormation = formation.Team.Formations.FirstOrDefault((Formation f) => f.FormationIndex == FormationClass.Infantry);
         }
@@ -27,21 +27,25 @@ namespace CunningLords.Behaviors
 
         private void ExecuteActions()
         {
-            /*InformationManager.DisplayMessage(new InformationMessage("Custom Behavior"));
-            this.Formation.MovementOrder = base.CurrentOrder;
-            this.Formation.FacingOrder = this.CurrentFacingOrder;
-            this.Formation.ArrangementOrder = ArrangementOrder.ArrangementOrderLine;
-            this.Formation.FiringOrder = FiringOrder.FiringOrderFireAtWill;
-            this.Formation.FormOrder = FormOrder.FormOrderDeep;
-            this.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
-            InformationManager.DisplayMessage(new InformationMessage("DID SET MOVEMENTORDER"));*/
+            InformationManager.DisplayMessage(new InformationMessage(this.Formation.FormationIndex + ": Loosely Waiting Orders"));
+
+            Vec2 escapeVector = this.Formation.QuerySystem.AveragePosition;
+
+            Vec2 infantryDirection = this.Formation.Direction;
+
+            WorldPosition position = this.Formation.QuerySystem.MedianPosition;
+            position.SetVec2(escapeVector);
+            this.Formation.MovementOrder = MovementOrder.MovementOrderMove(position);
+
+            this.Formation.FacingOrder = FacingOrder.FacingOrderLookAtDirection(infantryDirection);
+            MaintainPersistentOrders();
         }
 
         private void MaintainPersistentOrders()
         {
-            this.Formation.ArrangementOrder = ArrangementOrder.ArrangementOrderLine;
+            this.Formation.ArrangementOrder = ArrangementOrder.ArrangementOrderLoose;
             this.Formation.FiringOrder = FiringOrder.FiringOrderFireAtWill;
-            this.Formation.FormOrder = FormOrder.FormOrderWide;
+            this.Formation.FormOrder = FormOrder.FormOrderWider;
             this.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
         }
 

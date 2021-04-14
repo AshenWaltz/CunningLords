@@ -155,42 +155,48 @@ namespace CunningLords.Tactics
             {
 				//Infantry Hold Line
 				TaskHoldLine MIHold = new TaskHoldLine(this._mainInfantry);
+				TaskBraceForImpact MIBraceImpact = new TaskBraceForImpact(this._mainInfantry);
+				Selector mainInfantrySelector = new Selector(null);
+				mainInfantrySelector.addTask(MIHold);
+				mainInfantrySelector.addTask(MIBraceImpact);
 
 				//Archers Volley
 				TaskArcherVolley AInitialVolley = new TaskArcherVolley(this._archers);
-				TaskArcherSkirmish ABehindVolley = new TaskArcherSkirmish(this._archers);
-				TaskRangedNoAmmoCharge ACharge = new TaskRangedNoAmmoCharge(this._archers);
+				TaskArcherSkirmish ASkirmish = new TaskArcherSkirmish(this._archers);
+				TaskArcherBehindVolley ABehindVolley = new TaskArcherBehindVolley(this._archers);
+				TaskRangedNoAmmoCharge ACharge = new TaskRangedNoAmmoCharge(this._archers); //Does nothing new yet
 				Selector archerSelector = new Selector(null);
 				archerSelector.addTask(AInitialVolley);
 				archerSelector.addTask(ABehindVolley);
+				archerSelector.addTask(ASkirmish);
 				archerSelector.addTask(ACharge);
 
 				//Horse Archers
 				TaskRangedHarrassment HARangedHar = new TaskRangedHarrassment(this._rangedCavalry);
-				TaskRangedRearHarrassment HARangedRearHar = new TaskRangedRearHarrassment(this._rangedCavalry);
-				TaskRangedNoAmmoCharge HACharge = new TaskRangedNoAmmoCharge(this._rangedCavalry);
+				TaskRangedRearHarrassment HARangedRearHar = new TaskRangedRearHarrassment(this._rangedCavalry); //Does nothing new yet
+				TaskRangedNoAmmoCharge HACharge = new TaskRangedNoAmmoCharge(this._rangedCavalry); //Does nothing new yet
 				Selector horseArcherSelector = new Selector(null);
 				horseArcherSelector.addTask(HARangedHar);
 				horseArcherSelector.addTask(HARangedRearHar);
 				horseArcherSelector.addTask(HACharge);
 
 				//Right Cavalry
-				TaskAttackFlank RCAttackFlank = new TaskAttackFlank(this._rightCavalry);
-				TaskProtectFlank RCProtectFlank = new TaskProtectFlank(this._rightCavalry);
+				TaskAttackFlank RCAttackFlank = new TaskAttackFlank(this._rightCavalry); //Does nothing new yet
+				TaskProtectFlank RCProtectFlank = new TaskProtectFlank(this._rightCavalry); //Does nothing new yet
 				Selector rightCavalrySelector = new Selector(null);
 				rightCavalrySelector.addTask(RCAttackFlank);
 				rightCavalrySelector.addTask(RCProtectFlank);
 
 				//Left Cavalry
-				TaskAttackFlank LCAttackFlank = new TaskAttackFlank(this._leftCavalry);
-				TaskProtectFlank LCProtectFlank = new TaskProtectFlank(this._leftCavalry);
+				TaskAttackFlank LCAttackFlank = new TaskAttackFlank(this._leftCavalry); //Does nothing new yet
+				TaskProtectFlank LCProtectFlank = new TaskProtectFlank(this._leftCavalry); //Does nothing new yet
 				Selector leftCavalrySelector = new Selector(null);
 				leftCavalrySelector.addTask(LCAttackFlank);
 				leftCavalrySelector.addTask(LCProtectFlank);
 
 				//Final Tree
 				this.tree = new Sequence(null);
-				this.tree.addTask(MIHold);
+				this.tree.addTask(mainInfantrySelector);
 				this.tree.addTask(archerSelector);
 				this.tree.addTask(horseArcherSelector);
 				this.tree.addTask(rightCavalrySelector);

@@ -71,14 +71,20 @@
   <!-- Files & Classes -->
   <ItemGroup>
     <Compile Include="Behaviors\BehaviorArcherVanguardSkirmish.cs" />
+    <Compile Include="Behaviors\BehaviorBraceForImpact.cs" />
+    <Compile Include="Behaviors\BehaviorHideBehindInfantryLine.cs" />
+    <Compile Include="Behaviors\BehaviorLooselyWaitOrders.cs" />
     <Compile Include="Behaviors\BehaviorOverride.cs" />
+    <Compile Include="Behaviors\BehaviorSkirmishMode.cs" />
     <Compile Include="Behaviors\BehaviorTemplate.cs" />
     <Compile Include="BehaviorTreelogic\BTReturnEnum.cs" />
     <Compile Include="BehaviorTreelogic\Selector.cs" />
     <Compile Include="BehaviorTreelogic\Sequence.cs" />
     <Compile Include="BehaviorTreelogic\Task.cs" />
+    <Compile Include="BehaviorTreelogic\TaskArcherBehindVolley.cs" />
     <Compile Include="BehaviorTreelogic\TaskAttackFlank.cs" />
     <Compile Include="BehaviorTreelogic\TaskArcherSkirmish.cs" />
+    <Compile Include="BehaviorTreelogic\TaskBraceForImpact.cs" />
     <Compile Include="BehaviorTreelogic\TaskHoldLine.cs" />
     <Compile Include="BehaviorTreelogic\TaskRangedNoAmmoCharge.cs" />
     <Compile Include="BehaviorTreelogic\TaskArcherVolley.cs" />

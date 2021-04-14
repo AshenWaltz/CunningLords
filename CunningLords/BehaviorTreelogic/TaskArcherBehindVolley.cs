@@ -12,16 +12,16 @@ using CunningLords.Behaviors;
 
 namespace CunningLords.BehaviorTreelogic
 {
-    class TaskArcherVolley : Task
+    class TaskArcherBehindVolley : Task
     {
-        public TaskArcherVolley(Formation f) : base(f)
+        public TaskArcherBehindVolley(Formation f) : base(f)
         {
             this.formation = f;
         }
 
         public override BTReturnEnum run()
         {
-            if(this.formation != null)
+            if (this.formation != null)
             {
                 List<Tuple<Formation, float>> distances = Utils.GetDistanceFromAllEnemies(this.formation);
 
@@ -46,12 +46,12 @@ namespace CunningLords.BehaviorTreelogic
 
                 float infantryRatio = Utils.GetSelfFormationRatios(this.formation, FormationClass.Infantry);
 
-                if ((this.formation != null) && (infantryRatio >= 0.15) && (!infantryBreached) && (tooCloseForConfort.Count == 0))
+                if ((this.formation != null) && (infantryRatio >= 0.15) && (!infantryBreached) && (tooCloseForConfort.Count > 0))
                 {
                     this.formation.AI.ResetBehaviorWeights();
                     //this.formation.AI.SetBehaviorWeight<BehaviorScreenedSkirmish>(2f);
 
-                    BehaviorArcherVanguardSkirmish behavior = this.formation.AI.SetBehaviorWeight<BehaviorArcherVanguardSkirmish>(1f);
+                    BehaviorHideBehindInfantryLine behavior = this.formation.AI.SetBehaviorWeight<BehaviorHideBehindInfantryLine>(1f);
                     behavior.Formation = this.formation;
 
                     return BTReturnEnum.succeeded;
@@ -66,7 +66,7 @@ namespace CunningLords.BehaviorTreelogic
                 return BTReturnEnum.failed;
             }
 
-            
+
         }
     }
 }
