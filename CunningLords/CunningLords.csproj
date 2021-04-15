@@ -75,6 +75,7 @@
     <Compile Include="Behaviors\BehaviorHideBehindInfantryLine.cs" />
     <Compile Include="Behaviors\BehaviorLooselyWaitOrders.cs" />
     <Compile Include="Behaviors\BehaviorOverride.cs" />
+    <Compile Include="Behaviors\BehaviorProtectAroundAnchor.cs" />
     <Compile Include="Behaviors\BehaviorSkirmishMode.cs" />
     <Compile Include="Behaviors\BehaviorTemplate.cs" />
     <Compile Include="BehaviorTreelogic\BTReturnEnum.cs" />

@@ -182,14 +182,14 @@ namespace CunningLords.Tactics
 
 				//Right Cavalry
 				TaskAttackFlank RCAttackFlank = new TaskAttackFlank(this._rightCavalry); //Does nothing new yet
-				TaskProtectFlank RCProtectFlank = new TaskProtectFlank(this._rightCavalry); //Does nothing new yet
+				TaskProtectFlank RCProtectFlank = new TaskProtectFlank(this._rightCavalry, FormationAI.BehaviorSide.Right); //Does nothing new yet
 				Selector rightCavalrySelector = new Selector(null);
 				rightCavalrySelector.addTask(RCAttackFlank);
 				rightCavalrySelector.addTask(RCProtectFlank);
 
 				//Left Cavalry
 				TaskAttackFlank LCAttackFlank = new TaskAttackFlank(this._leftCavalry); //Does nothing new yet
-				TaskProtectFlank LCProtectFlank = new TaskProtectFlank(this._leftCavalry); //Does nothing new yet
+				TaskProtectFlank LCProtectFlank = new TaskProtectFlank(this._leftCavalry, FormationAI.BehaviorSide.Left); //Does nothing new yet
 				Selector leftCavalrySelector = new Selector(null);
 				leftCavalrySelector.addTask(LCAttackFlank);
 				leftCavalrySelector.addTask(LCProtectFlank);

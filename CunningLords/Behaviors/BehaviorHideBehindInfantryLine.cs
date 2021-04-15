@@ -27,7 +27,7 @@ namespace CunningLords.Behaviors
 
         private void ExecuteActions()
         {
-            InformationManager.DisplayMessage(new InformationMessage(this.Formation.FormationIndex + ": Hiding Behind Infantry"));
+            //InformationManager.DisplayMessage(new InformationMessage(this.Formation.FormationIndex + ": Hiding Behind Infantry"));
 
             Vec2 escapeVector;
 

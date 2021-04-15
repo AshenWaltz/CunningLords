@@ -27,7 +27,7 @@ namespace CunningLords.Behaviors
 
         private void ExecuteActions()
         {
-            InformationManager.DisplayMessage(new InformationMessage(this.Formation.FormationIndex + ": Brace For Impact"));
+            //InformationManager.DisplayMessage(new InformationMessage(this.Formation.FormationIndex + ": Brace For Impact"));
 
             List<Tuple<Formation, float>> distances = Utils.GetDistanceFromAllEnemies(this.Formation);
 
