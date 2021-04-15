@@ -39,13 +39,13 @@ namespace CunningLords.Behaviors
                 return;
             }
 
-            float engageDistance = 50f;
+            float engageDistance = 25f;
 
             Formation archerFormation = Utils.GetAlliedFormationsofType(this.Formation, FormationClass.Ranged);
 
             Vec2 anchorPoint = new Vec2();
 
-            if (archerFormation == null)
+            /*if (archerFormation == null)
             {
 
                 Vec2 infantryDirection = this.mainFormation.Direction.Normalized();
@@ -106,7 +106,17 @@ namespace CunningLords.Behaviors
                         anchorPoint = this.mainFormation.CurrentPosition + (this.mainFormation.Width * Utils.PerpRight(infantryDirection));
                     }
                 }
+            }*/
+
+            if (this.FlankSide == FormationAI.BehaviorSide.Left)
+            {
+                anchorPoint = this.mainFormation.QuerySystem.AveragePosition + (15 * Utils.PerpLeft(this.mainFormation.Direction));
             }
+            else if(this.FlankSide == FormationAI.BehaviorSide.Right)
+            {
+                anchorPoint = this.mainFormation.QuerySystem.AveragePosition + (15 * Utils.PerpRight(this.mainFormation.Direction));
+            }
+            
 
             List<Tuple<Formation, float>> distances = Utils.GetDistanceFromAllEnemiesToPoint(this.Formation, anchorPoint);
 
@@ -165,12 +175,11 @@ namespace CunningLords.Behaviors
                 }
             }
 
-            WorldPosition position = this.Formation.QuerySystem.MedianPosition;
-            position.SetVec2(targetPosition);
-            this.Formation.MovementOrder = MovementOrder.MovementOrderMove(position);
-
+            WorldPosition medianPosition = this.mainFormation.QuerySystem.MedianPosition;
+            medianPosition.SetVec2(targetPosition);
+            MovementOrder ____movementOrder = MovementOrder.MovementOrderMove(medianPosition);
+            this.Formation.MovementOrder = ____movementOrder;
             this.Formation.FacingOrder = FacingOrder.FacingOrderLookAtDirection(targetDirection);
-            MaintainPersistentOrders();
         }
 
         private void MaintainPersistentOrders()
