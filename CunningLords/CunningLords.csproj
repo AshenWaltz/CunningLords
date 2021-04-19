@@ -92,9 +92,10 @@
     <Compile Include="BehaviorTreelogic\TaskProtectFlank.cs" />
     <Compile Include="BehaviorTreelogic\TaskRangedHarrassment.cs" />
     <Compile Include="BehaviorTreelogic\TaskRangedRearHarrassment.cs" />
+    <Compile Include="Interaction\InputCommands.cs" />
     <Compile Include="Patches\Commands.cs" />
     <Compile Include="Patches\MissionAI.cs" />
-    <Compile Include="Patches\MissionAIHelloWorld.cs" />
+    <Compile Include="Patches\MissionOverride.cs" />
     <Compile Include="Patches\Utils.cs" />
     <Compile Include="SubModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

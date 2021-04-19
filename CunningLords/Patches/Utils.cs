@@ -7,6 +7,7 @@ using TaleWorlds.Engine;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
+using CunningLords.Interaction;
 
 namespace CunningLords.Patches
 {
@@ -14,12 +15,12 @@ namespace CunningLords.Patches
     {
         public static List<Team> GetAllEnemyTeams(Mission __instance)
         {
-            return (from t in __instance.Teams where t.Side != MissionAIHelloWorld.PlayerBattleSide select t).ToList<Team>();
+            return (from t in __instance.Teams where t.Side != MissionOverride.PlayerBattleSide select t).ToList<Team>();
         }
 
         public static List<Team> GetAllAllyTeams(Mission __instance)
         {
-            return (from t in __instance.Teams where t.Side == MissionAIHelloWorld.PlayerBattleSide select t).ToList<Team>();
+            return (from t in __instance.Teams where t.Side == MissionOverride.PlayerBattleSide select t).ToList<Team>();
         }
 
         public static List<Formation> GetAllEnemyFormations(Mission __instance)
@@ -90,9 +91,17 @@ namespace CunningLords.Patches
             {
                 if (Input.IsKeyDown(InputKey.E))
                 {
-                    Utils.PrintRelevantData(mission);
+                    //Utils.PrintRelevantData(mission);
+                    InputCommands IC = new InputCommands();
+                    IC.ApplyActiontoFormation(mission);
                 }
             }
+        }
+
+        public static void OnStartPositioning(Mission mission)
+        {
+            InputCommands IC = new InputCommands();
+            IC.ApplyOnStartPositions(mission);
         }
 
         public static void PrintRelevantData(Mission mission)

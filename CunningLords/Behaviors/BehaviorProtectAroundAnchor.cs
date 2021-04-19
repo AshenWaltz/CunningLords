@@ -154,14 +154,14 @@ namespace CunningLords.Behaviors
 
             if (this.protectFlankSate == BehaviorState.Returning || this.protectFlankSate == BehaviorState.HoldingFlank)
             {
-                InformationManager.DisplayMessage(new InformationMessage("Cavalry Protecting Flank - Returning"));
+                //InformationManager.DisplayMessage(new InformationMessage("Cavalry Protecting Flank - Returning"));
 
                 targetPosition = anchorPoint;
                 targetDirection = this.mainFormation.Direction;
             }
             else
             {
-                InformationManager.DisplayMessage(new InformationMessage("Cavalry Engaging"));
+                //InformationManager.DisplayMessage(new InformationMessage("Cavalry Engaging"));
 
                 if (closestEnemy == null)
                 {
