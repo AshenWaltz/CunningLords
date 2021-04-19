@@ -8,6 +8,11 @@ using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using CunningLords.Patches;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.IO;
+using Path = System.IO.Path;
+using System.Reflection;
 
 namespace CunningLords.Interaction
 {
@@ -74,6 +79,26 @@ namespace CunningLords.Interaction
                     f.FacingOrder = FacingOrder.FacingOrderLookAtDirection(f.Direction.Normalized());
                 }
             }
+        }
+
+        public void ApplyPosition(Mission mission)
+        {
+            PositionData data = new PositionData();
+
+            List<PositionData> _data = new List<PositionData>
+            {
+                data
+            };
+
+            string json = JsonSerializer.Serialize(_data);
+
+            string path = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
+
+            string finalPath = Path.Combine(path, "ModuleData", "data.json");
+
+            //string finalPath = "C:/Program Files (x86)/Steam/steamapps/common/Mount & Blade II Bannerlord/Modules/CunningLords/ModuleData/data.json";
+
+            File.WriteAllText(finalPath, json);
         }
     }
 }

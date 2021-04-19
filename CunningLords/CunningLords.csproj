@@ -66,6 +66,7 @@
       <HintPath>%(Identity)</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Text.Json, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <!-- Files & Classes -->
@@ -93,6 +94,7 @@
     <Compile Include="BehaviorTreelogic\TaskRangedHarrassment.cs" />
     <Compile Include="BehaviorTreelogic\TaskRangedRearHarrassment.cs" />
     <Compile Include="Interaction\InputCommands.cs" />
+    <Compile Include="Interaction\PositionData.cs" />
     <Compile Include="Patches\Commands.cs" />
     <Compile Include="Patches\MissionAI.cs" />
     <Compile Include="Patches\MissionOverride.cs" />

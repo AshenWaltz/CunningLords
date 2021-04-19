@@ -93,7 +93,8 @@ namespace CunningLords.Patches
                 {
                     //Utils.PrintRelevantData(mission);
                     InputCommands IC = new InputCommands();
-                    IC.ApplyActiontoFormation(mission);
+                    //IC.ApplyActiontoFormation(mission);
+                    IC.ApplyPosition(mission);
                 }
             }
         }
@@ -102,6 +103,12 @@ namespace CunningLords.Patches
         {
             InputCommands IC = new InputCommands();
             IC.ApplyOnStartPositions(mission);
+        }
+
+        public static void ApplyPosition(Mission mission)
+        {
+            InputCommands IC = new InputCommands();
+            IC.ApplyPosition(mission);
         }
 
         public static void PrintRelevantData(Mission mission)
