@@ -8,10 +8,9 @@ using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using CunningLords.Patches;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.IO;
 using Path = System.IO.Path;
+using Newtonsoft.Json;
 using System.Reflection;
 
 namespace CunningLords.Interaction
@@ -90,7 +89,7 @@ namespace CunningLords.Interaction
                 data
             };
 
-            string json = JsonSerializer.Serialize(_data);
+            //string json = JsonSerializer.Serialize(data);
 
             string path = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
 
@@ -98,7 +97,29 @@ namespace CunningLords.Interaction
 
             //string finalPath = "C:/Program Files (x86)/Steam/steamapps/common/Mount & Blade II Bannerlord/Modules/CunningLords/ModuleData/data.json";
 
-            File.WriteAllText(finalPath, json);
+            //File.WriteAllText(finalPath, json);
+
+            var serializer = new JsonSerializer();
+            using (var sw = new StreamWriter(finalPath))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, data);
+            }
+
+            var deserialized = Deserialize(finalPath);
+
+            InformationManager.DisplayMessage(new InformationMessage(deserialized.ToString()));
+        }
+
+        public Object Deserialize(string path)
+        {
+            var serializer = new JsonSerializer();
+
+            using (var sw = new StreamReader(path))
+            using (var reader = new JsonTextReader(sw))
+            {
+                return serializer.Deserialize(reader);
+            }
         }
     }
 }
