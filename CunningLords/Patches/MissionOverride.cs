@@ -34,7 +34,7 @@ namespace CunningLords.Patches
 
                 if (MissionOverride.FrameCounter == 0)
                 {
-                    Utils.OnStartPositioning(__instance);
+                    //Utils.OnStartPositioning(__instance);
                     MissionOverride.FrameCounter++;
                 }
 
