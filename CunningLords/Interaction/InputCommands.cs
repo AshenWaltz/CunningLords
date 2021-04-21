@@ -235,5 +235,13 @@ namespace CunningLords.Interaction
             double num7 = num * Math.Cos(num5) + num2 * Math.Sin(num5);
             return new Vec2((float)num6, (float)num7);
         }
+
+        public void SetInitialFormationorders(Mission mission)
+        {
+            //ToDo: 
+            //Create a function which receives a formation and a Ordertype and applies that ordertype -> OrderController.SetOrder()
+            //Create a Json which can contain the order
+            //Apply it on first Tick
+        }
     }
 }
