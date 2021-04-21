@@ -236,12 +236,85 @@ namespace CunningLords.Interaction
             return new Vec2((float)num6, (float)num7);
         }
 
-        public void SetInitialFormationorders(Mission mission)
+        public void SetInitialFormationOrders(Mission mission)
         {
             //ToDo: 
             //Create a function which receives a formation and a Ordertype and applies that ordertype -> OrderController.SetOrder()
             //Create a Json which can contain the order
             //Apply it on first Tick
+
+            string path = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
+
+            string finalPath = Path.Combine(path, "ModuleData", "startdata.json");
+
+            StartingOrderData data;
+
+            using (StreamReader file = File.OpenText(finalPath))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                data = (StartingOrderData)serializer.Deserialize(file, typeof(StartingOrderData));
+            }
+
+            foreach (Formation f in mission.MainAgent.Team.Formations)
+            {
+                if (f.FormationIndex == FormationClass.Infantry)
+                {
+                    ApplyOrderToFormation(f, data.InfantryOrder);
+                }
+                else if (f.FormationIndex == FormationClass.Ranged)
+                {
+                    ApplyOrderToFormation(f, data.ArcherOrder);
+                }
+                else if (f.FormationIndex == FormationClass.Cavalry)
+                {
+                    ApplyOrderToFormation(f, data.CavalryOrder);
+                }
+                else if (f.FormationIndex == FormationClass.HorseArcher)
+                {
+                    ApplyOrderToFormation(f, data.HorseArcherOrder);
+                }
+            }
+        }
+
+        public void ApplyOrderToFormation(Formation formation, OrderType order)
+        {
+            switch (order)
+            {
+                case OrderType.Charge:
+                    formation.MovementOrder = MovementOrder.MovementOrderCharge;
+                    break;
+                case OrderType.ChargeWithTarget:
+                case OrderType.FollowMe:
+                case OrderType.FollowEntity:
+                case OrderType.GuardMe:
+                case OrderType.Attach:
+                case OrderType.LookAtDirection:
+                case OrderType.FormCustom:
+                case OrderType.CohesionHigh:
+                case OrderType.CohesionMedium:
+                case OrderType.CohesionLow:
+                case OrderType.RideFree:
+                case OrderType.None:
+                case OrderType.StandYourGround:
+                    break;
+                case OrderType.Retreat:
+                    formation.MovementOrder = MovementOrder.MovementOrderRetreat;
+                    break;
+                case OrderType.AdvanceTenPaces:
+                    formation.MovementOrder.Advance(formation, 7f);
+                    break;
+                case OrderType.FallBackTenPaces:
+                    formation.MovementOrder.FallBack(formation, 7f);
+                    break;
+                case OrderType.Advance:
+                    formation.MovementOrder = MovementOrder.MovementOrderAdvance;
+                    break;
+                case OrderType.FallBack:
+                    formation.MovementOrder = MovementOrder.MovementOrderFallBack;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

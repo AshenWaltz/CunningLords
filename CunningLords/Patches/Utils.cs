@@ -149,6 +149,12 @@ namespace CunningLords.Patches
             IC.ApplyOnStartPositions(mission);
         }
 
+        public static void OnStartOrders(Mission mission)
+        {
+            InputCommands IC = new InputCommands();
+            IC.SetInitialFormationOrders(mission);
+        }
+
         public static void PrintRelevantData(Mission mission)
         {
             /*BattleSideEnum playerSide = BattleSideEnum.None;

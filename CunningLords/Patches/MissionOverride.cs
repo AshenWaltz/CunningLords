@@ -8,6 +8,11 @@ using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using CunningLords.Patches;
+using CunningLords.Interaction;
+using System.IO;
+using Path = System.IO.Path;
+using Newtonsoft.Json;
+using System.Reflection;
 
 namespace CunningLords.Patches
 {
@@ -34,7 +39,26 @@ namespace CunningLords.Patches
 
                 if (MissionOverride.FrameCounter == 0)
                 {
-                    //Utils.OnStartPositioning(__instance);
+                    StartingOrderData orders = new StartingOrderData()
+                    {
+                        InfantryOrder = OrderType.None,
+                        ArcherOrder = OrderType.None,
+                        CavalryOrder = OrderType.Charge,
+                        HorseArcherOrder = OrderType.None
+                    };
+
+                    string path = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
+
+                    string finalPath = Path.Combine(path, "ModuleData", "startdata.json");
+
+                    var serializer = new JsonSerializer();
+                    using (var sw = new StreamWriter(finalPath))
+                    using (JsonWriter writer = new JsonTextWriter(sw))
+                    {
+                        serializer.Serialize(writer, orders);
+                    }
+
+                    Utils.OnStartOrders(__instance);
                     MissionOverride.FrameCounter++;
                 }
 
