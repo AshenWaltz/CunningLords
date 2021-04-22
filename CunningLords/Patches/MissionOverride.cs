@@ -41,7 +41,7 @@ namespace CunningLords.Patches
                 {
                     StartingOrderData orders = new StartingOrderData()
                     {
-                        InfantryOrder = OrderType.None,
+                        InfantryOrder = OrderType.Advance,
                         ArcherOrder = OrderType.None,
                         CavalryOrder = OrderType.Charge,
                         HorseArcherOrder = OrderType.None
