@@ -281,6 +281,7 @@ namespace CunningLords.Interaction
                 //Meter complexidade nisto, extender para 8 formações
                 //Tentar ver mais sobre ordens
                 //Começar a interface de campanha
+                //Olhar para sandbox battle
             }
         }
     }
