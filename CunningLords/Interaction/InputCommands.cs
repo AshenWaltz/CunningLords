@@ -151,43 +151,6 @@ namespace CunningLords.Interaction
                     f.MovementOrder = MovementOrder.MovementOrderMove(position);
                 }
             }
-
-            /*PositionData data = new PositionData();
-            PositionData data2 = new PositionData
-            {
-                ArchersXOffset = 0f,
-                ArchersYOffset = 0f,
-                CavalryXOffset = 0f,
-                CavalryYOffset = 0f,
-                HorseArchersXOffset = 0f,
-                HorseArchersYOffset = 0f
-            };
-            PositionData data3 = new PositionData
-            {
-                ArchersXOffset = 0f,
-                ArchersYOffset = 0f,
-                CavalryXOffset = 0f,
-                CavalryYOffset = 0f,
-                HorseArchersXOffset = 0f,
-                HorseArchersYOffset = 0f
-            };
-
-            List<PositionData> _data = new List<PositionData>
-            {
-                data,
-                data2,
-                data3
-            };
-
-            string path = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
-
-            string finalPath = Path.Combine(path, "ModuleData", "data.json");
-
-            Serialize(_data, finalPath);
-
-            var deserialized = Deserialize(finalPath);
-
-            InformationManager.DisplayMessage(new InformationMessage(deserialized.ToString()));*/
         }
 
         public void Serialize(List<PositionData> data, string finalPath)
@@ -314,6 +277,10 @@ namespace CunningLords.Interaction
                     break;
                 default:
                     break;
+
+                //Meter complexidade nisto, extender para 8 formações
+                //Tentar ver mais sobre ordens
+                //Começar a interface de campanha
             }
         }
     }
