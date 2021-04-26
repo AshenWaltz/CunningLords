@@ -19,5 +19,13 @@ namespace CunningLords.Interaction
         public OrderType CavalryOrder { get; set; }
 
         public OrderType HorseArcherOrder { get; set; }
+
+        public OrderType SkirmisherOrder { get; set; }
+
+        public OrderType HeavyInfantryOrder { get; set; }
+
+        public OrderType LightCavalryOrder { get; set; }
+
+        public OrderType HeavyCavalryOrder { get; set; }
     }
 }

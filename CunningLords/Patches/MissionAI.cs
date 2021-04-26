@@ -13,7 +13,7 @@ namespace CunningLords.Patches
 {
     class MissionAI
     {
-        
+        public static bool missionAiActive = false;
         public static BattleSideEnum PlayerBattleSide { get; set; } = BattleSideEnum.None;
 
         [HarmonyPatch(typeof(TeamAIComponent))]
@@ -42,25 +42,28 @@ namespace CunningLords.Patches
         {
             static void Postfix(MissionCombatantsLogic __instance)
             {
-                //MissionAI.PlayerBattleSide = __instance.Mission.MainAgent.Team.Side; //Crashes
-
-                List<Team> enemyTeams = Utils.GetAllEnemyTeams(__instance.Mission);
-
-                if (__instance.Mission.MissionTeamAIType == Mission.MissionTeamAITypeEnum.FieldBattle)
+                if (MissionAI.missionAiActive)
                 {
-                    foreach (Team team in enemyTeams)
+                    //MissionAI.PlayerBattleSide = __instance.Mission.MainAgent.Team.Side; //Crashes
+
+                    List<Team> enemyTeams = Utils.GetAllEnemyTeams(__instance.Mission);
+
+                    if (__instance.Mission.MissionTeamAIType == Mission.MissionTeamAITypeEnum.FieldBattle)
                     {
-                        if(team.Side == BattleSideEnum.Attacker)
+                        foreach (Team team in enemyTeams)
                         {
-                            team.ClearTacticOptions();
-                            //team.AddTacticOption(new TacticFullScaleAttack(team));
-                            team.AddTacticOption(new TacticDefaultDefense(team));
-                        }
-                        else if(team.Side == BattleSideEnum.Defender)
-                        {
-                            team.ClearTacticOptions();
-                            //team.AddTacticOption(new TacticDefensiveEngagement(team));
-                            team.AddTacticOption(new TacticDefaultDefense(team));
+                            if (team.Side == BattleSideEnum.Attacker)
+                            {
+                                team.ClearTacticOptions();
+                                //team.AddTacticOption(new TacticFullScaleAttack(team));
+                                team.AddTacticOption(new TacticDefaultDefense(team));
+                            }
+                            else if (team.Side == BattleSideEnum.Defender)
+                            {
+                                team.ClearTacticOptions();
+                                //team.AddTacticOption(new TacticDefensiveEngagement(team));
+                                team.AddTacticOption(new TacticDefaultDefense(team));
+                            }
                         }
                     }
                 }

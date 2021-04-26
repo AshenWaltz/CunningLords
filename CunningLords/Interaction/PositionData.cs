@@ -21,5 +21,21 @@ namespace CunningLords.Interaction
 
         public float HorseArchersYOffset { get; set; } = 0f;
 
+        public float SkirmisherXOffset { get; set; } = 0f;
+
+        public float SkirmisherYOffset { get; set; } = 0f;
+
+        public float HeavyInfantryXOffset { get; set; } = 0f;
+
+        public float HeavyInfantryYOffset { get; set; } = 0f;
+
+        public float LightCavalryXOffset { get; set; } = 0f;
+
+        public float LightCavalryYOffset { get; set; } = 0f;
+
+        public float HeavyCavalryXOffset { get; set; } = 0f;
+
+        public float HeavyCavalryYOffset { get; set; } = 0f;
+
     }
 }

@@ -99,9 +99,9 @@ namespace CunningLords.Interaction
         {
             PositionData result = new PositionData();
 
-            Formation mainFormation = mission.MainAgent.Team.Formations.FirstOrDefault((Formation f) => f.FormationIndex == FormationClass.Infantry);
+            Formation mainFormation = GetFormationPriority(mission);
 
-            foreach(Formation f in mission.MainAgent.Team.Formations)
+            foreach (Formation f in mission.MainAgent.Team.Formations)
             {
                 if(f.FormationIndex == FormationClass.Ranged)
                 {
@@ -118,6 +118,26 @@ namespace CunningLords.Interaction
                     result.HorseArchersXOffset = CalculateXYOffsetsBasedOnWorldPosition(mainFormation, f).X;
                     result.HorseArchersYOffset = CalculateXYOffsetsBasedOnWorldPosition(mainFormation, f).Y;
                 }
+                else if (f.FormationIndex == FormationClass.Skirmisher)
+                {
+                    result.SkirmisherXOffset = CalculateXYOffsetsBasedOnWorldPosition(mainFormation, f).X;
+                    result.SkirmisherYOffset = CalculateXYOffsetsBasedOnWorldPosition(mainFormation, f).Y;
+                }
+                else if (f.FormationIndex == FormationClass.HeavyInfantry)
+                {
+                    result.HeavyInfantryXOffset = CalculateXYOffsetsBasedOnWorldPosition(mainFormation, f).X;
+                    result.HeavyInfantryYOffset = CalculateXYOffsetsBasedOnWorldPosition(mainFormation, f).Y;
+                }
+                else if (f.FormationIndex == FormationClass.LightCavalry)
+                {
+                    result.LightCavalryXOffset = CalculateXYOffsetsBasedOnWorldPosition(mainFormation, f).X;
+                    result.LightCavalryYOffset = CalculateXYOffsetsBasedOnWorldPosition(mainFormation, f).Y;
+                }
+                else if (f.FormationIndex == FormationClass.HeavyCavalry)
+                {
+                    result.HeavyCavalryXOffset = CalculateXYOffsetsBasedOnWorldPosition(mainFormation, f).X;
+                    result.HeavyCavalryYOffset = CalculateXYOffsetsBasedOnWorldPosition(mainFormation, f).Y;
+                }
             }
 
             return result;
@@ -131,26 +151,79 @@ namespace CunningLords.Interaction
 
             List<PositionData> deserialized = Deserialize(finalPath);
 
-            Formation mainFormation = mission.MainAgent.Team.Formations.FirstOrDefault((Formation f) => f.FormationIndex == FormationClass.Infantry);
+            Formation mainFormation = GetFormationPriority(mission);
 
             foreach (Formation f in mission.MainAgent.Team.Formations)
             {
-                if (f.FormationIndex == FormationClass.Ranged)
+                if (f.FormationIndex == FormationClass.Ranged && f.FormationIndex != mainFormation.FormationIndex)
                 {
                     WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].ArchersXOffset, deserialized[index].ArchersYOffset);
                     f.MovementOrder = MovementOrder.MovementOrderMove(position);
                 }
-                else if (f.FormationIndex == FormationClass.Cavalry)
+                else if (f.FormationIndex == FormationClass.Cavalry && f.FormationIndex != mainFormation.FormationIndex)
                 {
                     WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].CavalryXOffset, deserialized[index].CavalryYOffset);
                     f.MovementOrder = MovementOrder.MovementOrderMove(position);
                 }
-                else if (f.FormationIndex == FormationClass.HorseArcher)
+                else if (f.FormationIndex == FormationClass.HorseArcher && f.FormationIndex != mainFormation.FormationIndex)
                 {
                     WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].HorseArchersXOffset, deserialized[index].HorseArchersYOffset);
                     f.MovementOrder = MovementOrder.MovementOrderMove(position);
                 }
+                else if (f.FormationIndex == FormationClass.Skirmisher && f.FormationIndex != mainFormation.FormationIndex)
+                {
+                    WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].SkirmisherXOffset, deserialized[index].SkirmisherYOffset);
+                    f.MovementOrder = MovementOrder.MovementOrderMove(position);
+                }
+                else if (f.FormationIndex == FormationClass.HeavyInfantry && f.FormationIndex != mainFormation.FormationIndex)
+                {
+                    WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].HeavyInfantryXOffset, deserialized[index].HeavyInfantryYOffset);
+                    f.MovementOrder = MovementOrder.MovementOrderMove(position);
+                }
+                else if (f.FormationIndex == FormationClass.LightCavalry && f.FormationIndex != mainFormation.FormationIndex)
+                {
+                    WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].LightCavalryXOffset, deserialized[index].LightCavalryYOffset);
+                    f.MovementOrder = MovementOrder.MovementOrderMove(position);
+                }
+                else if (f.FormationIndex == FormationClass.HeavyCavalry && f.FormationIndex != mainFormation.FormationIndex)
+                {
+                    WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].HeavyCavalryXOffset, deserialized[index].HeavyCavalryYOffset);
+                    f.MovementOrder = MovementOrder.MovementOrderMove(position);
+                }
             }
+        }
+
+        public Formation GetFormationPriority(Mission mission)
+        {
+            Formation infantry = mission.MainAgent.Team.Formations.FirstOrDefault((Formation f) => f.FormationIndex == FormationClass.Infantry);
+            Formation archers = mission.MainAgent.Team.Formations.FirstOrDefault((Formation f) => f.FormationIndex == FormationClass.Ranged);
+            Formation cavalry = mission.MainAgent.Team.Formations.FirstOrDefault((Formation f) => f.FormationIndex == FormationClass.Cavalry);
+            Formation horseArcher = mission.MainAgent.Team.Formations.FirstOrDefault((Formation f) => f.FormationIndex == FormationClass.HorseArcher);
+            Formation skirmisher = mission.MainAgent.Team.Formations.FirstOrDefault((Formation f) => f.FormationIndex == FormationClass.Skirmisher);
+            Formation heavyInfantry = mission.MainAgent.Team.Formations.FirstOrDefault((Formation f) => f.FormationIndex == FormationClass.HeavyInfantry);
+            Formation lightCavalry = mission.MainAgent.Team.Formations.FirstOrDefault((Formation f) => f.FormationIndex == FormationClass.LightCavalry);
+            Formation heavyCavalry = mission.MainAgent.Team.Formations.FirstOrDefault((Formation f) => f.FormationIndex == FormationClass.HeavyInfantry);
+
+            List<Formation> formations = new List<Formation>();
+
+            formations.Add(infantry);
+            formations.Add(archers);
+            formations.Add(cavalry);
+            formations.Add(horseArcher);
+            formations.Add(skirmisher);
+            formations.Add(heavyInfantry);
+            formations.Add(lightCavalry);
+            formations.Add(heavyCavalry);
+
+            foreach (Formation f in formations) 
+            {
+                if(f != null)
+                {
+                    return f;
+                }
+            }
+
+            return null;
         }
 
         public void Serialize(List<PositionData> data, string finalPath)
@@ -236,11 +309,31 @@ namespace CunningLords.Interaction
                 {
                     ApplyOrderToFormation(f, data.HorseArcherOrder);
                 }
+                else if (f.FormationIndex == FormationClass.Skirmisher)
+                {
+                    ApplyOrderToFormation(f, data.SkirmisherOrder);
+                }
+                else if (f.FormationIndex == FormationClass.HeavyInfantry)
+                {
+                    ApplyOrderToFormation(f, data.HeavyInfantryOrder);
+                }
+                else if (f.FormationIndex == FormationClass.LightCavalry)
+                {
+                    ApplyOrderToFormation(f, data.LightCavalryOrder);
+                }
+                else if (f.FormationIndex == FormationClass.HeavyCavalry)
+                {
+                    ApplyOrderToFormation(f, data.HeavyCavalryOrder);
+                }
             }
         }
 
         public void ApplyOrderToFormation(Formation formation, OrderType order)
         {
+            if(formation == null)
+            {
+                return;
+            }
             switch (order)
             {
                 case OrderType.Charge:

@@ -42,9 +42,13 @@ namespace CunningLords.Patches
                     StartingOrderData orders = new StartingOrderData()
                     {
                         InfantryOrder = OrderType.Advance,
-                        ArcherOrder = OrderType.None,
-                        CavalryOrder = OrderType.Charge,
-                        HorseArcherOrder = OrderType.None
+                        ArcherOrder = OrderType.Advance,
+                        CavalryOrder = OrderType.Advance,
+                        HorseArcherOrder = OrderType.Advance,
+                        SkirmisherOrder = OrderType.Advance,
+                        HeavyInfantryOrder = OrderType.Advance,
+                        LightCavalryOrder = OrderType.Advance,
+                        HeavyCavalryOrder = OrderType.Advance
                     };
 
                     string path = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
