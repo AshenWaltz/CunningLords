@@ -96,6 +96,7 @@
     <Compile Include="BehaviorTreelogic\TaskProtectFlank.cs" />
     <Compile Include="BehaviorTreelogic\TaskRangedHarrassment.cs" />
     <Compile Include="BehaviorTreelogic\TaskRangedRearHarrassment.cs" />
+    <Compile Include="Interaction\CampaignInteraction.cs" />
     <Compile Include="Interaction\InputCommands.cs" />
     <Compile Include="Interaction\PositionData.cs" />
     <Compile Include="Interaction\StartingOrderData.cs" />
