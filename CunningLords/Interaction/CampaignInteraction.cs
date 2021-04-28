@@ -4,6 +4,7 @@ using System.Linq;
 using HarmonyLib;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
+using TaleWorlds.Engine.Screens;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
@@ -14,6 +15,7 @@ namespace CunningLords.Interaction
 {
     class CampaignInteraction
     {
+        public static bool _inMenu = false;
 
         [HarmonyPatch(typeof(Campaign))]
         [HarmonyPatch("RealTick")]
@@ -21,12 +23,15 @@ namespace CunningLords.Interaction
         {
             static void Postfix(Campaign __instance)
             {
-                if (Input.IsKeyDown(InputKey.Numpad7))
+                if (Input.IsKeyDown(InputKey.LeftAlt) && Input.IsKeyDown(InputKey.A) && !CampaignInteraction._inMenu)
                 {
+                    CampaignInteraction._inMenu = true;
                     InformationManager.DisplayMessage(new InformationMessage("PRESSED!"));
+                    ScreenManager.PushScreen(new CunningLordsOptionScreen());
                 }
             }
         }
 
+        //Campaign.MapSate
     }
 }

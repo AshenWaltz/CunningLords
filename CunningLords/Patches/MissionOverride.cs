@@ -39,7 +39,7 @@ namespace CunningLords.Patches
 
                 if (MissionOverride.FrameCounter == 0)
                 {
-                    StartingOrderData orders = new StartingOrderData()
+                    /*StartingOrderData orders = new StartingOrderData()
                     {
                         InfantryOrder = OrderType.Advance,
                         ArcherOrder = OrderType.Advance,
@@ -60,7 +60,7 @@ namespace CunningLords.Patches
                     using (JsonWriter writer = new JsonTextWriter(sw))
                     {
                         serializer.Serialize(writer, orders);
-                    }
+                    }*/
 
                     Utils.OnStartOrders(__instance);
                     MissionOverride.FrameCounter++;
