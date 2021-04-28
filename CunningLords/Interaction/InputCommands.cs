@@ -352,6 +352,7 @@ namespace CunningLords.Interaction
                 case OrderType.RideFree:
                 case OrderType.None:
                 case OrderType.StandYourGround:
+                    formation.MovementOrder = MovementOrder.MovementOrderStop;
                     break;
                 case OrderType.Retreat:
                     formation.MovementOrder = MovementOrder.MovementOrderRetreat;
@@ -369,6 +370,7 @@ namespace CunningLords.Interaction
                     formation.MovementOrder = MovementOrder.MovementOrderFallBack;
                     break;
                 default:
+                    formation.MovementOrder = MovementOrder.MovementOrderStop;
                     break;
 
                 //Meter complexidade nisto, extender para 8 formações

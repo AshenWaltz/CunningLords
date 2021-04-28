@@ -20,7 +20,7 @@ namespace CunningLords.Patches
     {
         public static BattleSideEnum PlayerBattleSide {get; set; } = BattleSideEnum.None;
 
-        private static int FrameCounter = 0;
+        public static int FrameCounter = 0;
 
         [HarmonyPatch(typeof(Mission))]
         [HarmonyPatch("OnTick")]

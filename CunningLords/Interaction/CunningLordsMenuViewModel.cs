@@ -84,13 +84,13 @@ namespace CunningLords.Interaction
             StartingOrderData orders = new StartingOrderData()
             {
                 InfantryOrder = getOrderType(this._formationIOrder),
-                ArcherOrder = OrderType.Advance,
-                CavalryOrder = OrderType.Advance,
-                HorseArcherOrder = OrderType.Advance,
-                SkirmisherOrder = OrderType.Advance,
-                HeavyInfantryOrder = OrderType.Advance,
-                LightCavalryOrder = OrderType.Advance,
-                HeavyCavalryOrder = OrderType.Advance
+                ArcherOrder = getOrderType(this._formationIIOrder),
+                CavalryOrder = getOrderType(this._formationIIIOrder),
+                HorseArcherOrder = getOrderType(this._formationIVOrder),
+                SkirmisherOrder = getOrderType(this._formationVOrder),
+                HeavyInfantryOrder = getOrderType(this._formationVIOrder),
+                LightCavalryOrder = getOrderType(this._formationVIIOrder),
+                HeavyCavalryOrder = getOrderType(this._formationVIIIOrder)
             };
 
             string path = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
@@ -287,51 +287,16 @@ namespace CunningLords.Interaction
         {
             get
             {
-                /*string path = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
-
-                string finalPath = Path.Combine(path, "ModuleData", "startdata.json");
-
-                StartingOrderData data;
-
-                using (StreamReader file = File.OpenText(finalPath))
-                {
-                    JsonSerializer serializer = new JsonSerializer();
-                    data = (StartingOrderData)serializer.Deserialize(file, typeof(StartingOrderData));
-                }
-                return GetFloatValue(data.InfantryOrder);*/
                 return this._formationIOrder;
             }
             set
             {
-                /*string path = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
-
-                string finalPath = Path.Combine(path, "ModuleData", "startdata.json");
-
-                StartingOrderData data;
-
-                using (StreamReader file = File.OpenText(finalPath))
-                {
-                    JsonSerializer deserializer = new JsonSerializer();
-                    data = (StartingOrderData)deserializer.Deserialize(file, typeof(StartingOrderData));
-                }
-
-                //this.FormationIOrder = value;
-
-                data.InfantryOrder = getOrderType(this.FormationIOrder);
-
-                var serializer = new JsonSerializer();
-                using (var sw = new StreamWriter(finalPath))
-                using (JsonWriter writer = new JsonTextWriter(sw))
-                {
-                    serializer.Serialize(writer, data);
-                }*/
-
                 bool flag = value != this._formationIOrder;
                 if (flag)
                 {
                     this._formationIOrder = value;
                     this._formationIOrderString = getOrderType(this.FormationIOrder).ToString();
-                    base.OnPropertyChanged("BuyThresholdValue");
+                    base.OnPropertyChanged("FormationIOrder");
                 }
 
                 InformationManager.DisplayMessage(new InformationMessage("Current infantry order is " + this.FormationIOrderString + "!"));
@@ -351,12 +316,283 @@ namespace CunningLords.Interaction
                 if (flag)
                 {
                     this._formationIOrderString = value;
-                    base.OnPropertyChanged("BuyThresholdValueAsString");
+                    base.OnPropertyChanged("FormationIOrderString");
                 }
             }
         }
 
+        [DataSourceProperty]
+        public float FormationIIOrder
+        {
+            get
+            {
+                return this._formationIIOrder;
+            }
+            set
+            {
+                bool flag = value != this._formationIIOrder;
+                if (flag)
+                {
+                    this._formationIIOrder = value;
+                    this._formationIIOrderString = getOrderType(this.FormationIIOrder).ToString();
+                    base.OnPropertyChanged("FormationIIOrder");
+                }
 
+                InformationManager.DisplayMessage(new InformationMessage("Current archer order is " + this.FormationIIOrderString + "!"));
+            }
+        }
+
+        [DataSourceProperty]
+        public string FormationIIOrderString
+        {
+            get
+            {
+                return this._formationIIOrderString;
+            }
+            set
+            {
+                bool flag = value != this._formationIIOrderString;
+                if (flag)
+                {
+                    this._formationIIOrderString = value;
+                    base.OnPropertyChanged("FormationIIOrderString");
+                }
+            }
+        }
+
+        [DataSourceProperty]
+        public float FormationIIIOrder
+        {
+            get
+            {
+                return this._formationIIIOrder;
+            }
+            set
+            {
+                bool flag = value != this._formationIIIOrder;
+                if (flag)
+                {
+                    this._formationIIIOrder = value;
+                    this._formationIIIOrderString = getOrderType(this.FormationIIIOrder).ToString();
+                    base.OnPropertyChanged("FormationIIIOrder");
+                }
+
+                InformationManager.DisplayMessage(new InformationMessage("Current cavalry order is " + this.FormationIIIOrderString + "!"));
+            }
+        }
+
+        [DataSourceProperty]
+        public string FormationIIIOrderString
+        {
+            get
+            {
+                return this._formationIIIOrderString;
+            }
+            set
+            {
+                bool flag = value != this._formationIIIOrderString;
+                if (flag)
+                {
+                    this._formationIIIOrderString = value;
+                    base.OnPropertyChanged("FormationIIIOrderString");
+                }
+            }
+        }
+
+        [DataSourceProperty]
+        public float FormationIVOrder
+        {
+            get
+            {
+                return this._formationIVOrder;
+            }
+            set
+            {
+                bool flag = value != this._formationIVOrder;
+                if (flag)
+                {
+                    this._formationIVOrder = value;
+                    this._formationIVOrderString = getOrderType(this.FormationIVOrder).ToString();
+                    base.OnPropertyChanged("FormationIVOrder");
+                }
+
+                InformationManager.DisplayMessage(new InformationMessage("Current cavalry order is " + this.FormationIVOrderString + "!"));
+            }
+        }
+
+        [DataSourceProperty]
+        public string FormationIVOrderString
+        {
+            get
+            {
+                return this._formationIVOrderString;
+            }
+            set
+            {
+                bool flag = value != this._formationIVOrderString;
+                if (flag)
+                {
+                    this._formationIVOrderString = value;
+                    base.OnPropertyChanged("FormationIVOrderString");
+                }
+            }
+        }
+
+        [DataSourceProperty]
+        public float FormationVOrder
+        {
+            get
+            {
+                return this._formationVOrder;
+            }
+            set
+            {
+                bool flag = value != this._formationVOrder;
+                if (flag)
+                {
+                    this._formationVOrder = value;
+                    this._formationVOrderString = getOrderType(this.FormationVOrder).ToString();
+                    base.OnPropertyChanged("FormationVOrder");
+                }
+
+                InformationManager.DisplayMessage(new InformationMessage("Current cavalry order is " + this.FormationVOrderString + "!"));
+            }
+        }
+
+        [DataSourceProperty]
+        public string FormationVOrderString
+        {
+            get
+            {
+                return this._formationVOrderString;
+            }
+            set
+            {
+                bool flag = value != this._formationVOrderString;
+                if (flag)
+                {
+                    this._formationVOrderString = value;
+                    base.OnPropertyChanged("FormationVOrderString");
+                }
+            }
+        }
+
+        [DataSourceProperty]
+        public float FormationVIOrder
+        {
+            get
+            {
+                return this._formationVIOrder;
+            }
+            set
+            {
+                bool flag = value != this._formationVIOrder;
+                if (flag)
+                {
+                    this._formationVIOrder = value;
+                    this._formationVIOrderString = getOrderType(this.FormationVIOrder).ToString();
+                    base.OnPropertyChanged("FormationVIOrder");
+                }
+
+                InformationManager.DisplayMessage(new InformationMessage("Current cavalry order is " + this.FormationVIOrderString + "!"));
+            }
+        }
+
+        [DataSourceProperty]
+        public string FormationVIOrderString
+        {
+            get
+            {
+                return this._formationVIOrderString;
+            }
+            set
+            {
+                bool flag = value != this._formationVIOrderString;
+                if (flag)
+                {
+                    this._formationVIOrderString = value;
+                    base.OnPropertyChanged("FormationVIOrderString");
+                }
+            }
+        }
+
+        [DataSourceProperty]
+        public float FormationVIIOrder
+        {
+            get
+            {
+                return this._formationVIIOrder;
+            }
+            set
+            {
+                bool flag = value != this._formationVIIOrder;
+                if (flag)
+                {
+                    this._formationVIIOrder = value;
+                    this._formationVIIOrderString = getOrderType(this.FormationVIIOrder).ToString();
+                    base.OnPropertyChanged("FormationVIIOrder");
+                }
+
+                InformationManager.DisplayMessage(new InformationMessage("Current cavalry order is " + this.FormationVIIOrderString + "!"));
+            }
+        }
+
+        [DataSourceProperty]
+        public string FormationVIIOrderString
+        {
+            get
+            {
+                return this._formationVIIOrderString;
+            }
+            set
+            {
+                bool flag = value != this._formationVIIOrderString;
+                if (flag)
+                {
+                    this._formationVIIOrderString = value;
+                    base.OnPropertyChanged("FormationVIIOrderString");
+                }
+            }
+        }
+
+        [DataSourceProperty]
+        public float FormationVIIIOrder
+        {
+            get
+            {
+                return this._formationVIIIOrder;
+            }
+            set
+            {
+                bool flag = value != this._formationVIIIOrder;
+                if (flag)
+                {
+                    this._formationVIIIOrder = value;
+                    this._formationVIIIOrderString = getOrderType(this.FormationVIIIOrder).ToString();
+                    base.OnPropertyChanged("FormationVIIIOrder");
+                }
+
+                InformationManager.DisplayMessage(new InformationMessage("Current cavalry order is " + this.FormationVIIIOrderString + "!"));
+            }
+        }
+
+        [DataSourceProperty]
+        public string FormationVIIIOrderString
+        {
+            get
+            {
+                return this._formationVIIIOrderString;
+            }
+            set
+            {
+                bool flag = value != this._formationVIIIOrderString;
+                if (flag)
+                {
+                    this._formationVIIOrderString = value;
+                    base.OnPropertyChanged("FormationVIIIOrderString");
+                }
+            }
+        }
 
         private string _doneText;
         private string _cancelText;

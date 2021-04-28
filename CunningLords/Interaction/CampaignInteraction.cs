@@ -29,6 +29,8 @@ namespace CunningLords.Interaction
                     InformationManager.DisplayMessage(new InformationMessage("PRESSED!"));
                     ScreenManager.PushScreen(new CunningLordsOptionScreen());
                 }
+
+                MissionOverride.FrameCounter = 0;
             }
         }
 
