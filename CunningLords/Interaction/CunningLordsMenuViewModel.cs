@@ -13,6 +13,7 @@ using Path = System.IO.Path;
 using Newtonsoft.Json;
 using System.Reflection;
 using TaleWorlds.MountAndBlade;
+using CunningLords.Patches;
 
 namespace CunningLords.Interaction
 {
@@ -45,28 +46,28 @@ namespace CunningLords.Interaction
             }
 
             this._formationIOrder = GetFloatValue(data.InfantryOrder);
-            this._formationIOrderString = getOrderType(this._formationIOrder).ToString();
+            this._formationIOrderString = getString(this._formationIOrder);
 
             this._formationIIOrder = GetFloatValue(data.ArcherOrder);
-            this._formationIIOrderString = getOrderType(this._formationIIOrder).ToString();
+            this._formationIIOrderString = getString(this._formationIIOrder);
 
             this._formationIIIOrder = GetFloatValue(data.CavalryOrder);
-            this._formationIIIOrderString = getOrderType(this._formationIIIOrder).ToString();
+            this._formationIIIOrderString = getString(this._formationIIIOrder);
 
             this._formationIVOrder = GetFloatValue(data.HorseArcherOrder);
-            this._formationIVOrderString = getOrderType(this._formationIVOrder).ToString();
+            this._formationIVOrderString = getString(this._formationIVOrder);
 
             this._formationVOrder = GetFloatValue(data.SkirmisherOrder);
-            this._formationVOrderString = getOrderType(this._formationVOrder).ToString();
+            this._formationVOrderString = getString(this._formationVOrder);
 
             this._formationVIOrder = GetFloatValue(data.HeavyInfantryOrder);
-            this._formationVIOrderString = getOrderType(this._formationVIOrder).ToString();
+            this._formationVIOrderString = getString(this._formationVIOrder);
 
             this._formationVIIOrder = GetFloatValue(data.LightCavalryOrder);
-            this._formationVIIOrderString = getOrderType(this._formationVIIOrder).ToString();
+            this._formationVIIOrderString = getString(this._formationVIIOrder);
 
             this._formationVIIIOrder = GetFloatValue(data.HeavyCavalryOrder);
-            this._formationVIIIOrderString = getOrderType(this._formationVIIIOrder).ToString();
+            this._formationVIIIOrderString = getString(this._formationVIIIOrder);
 
         }
         public override void RefreshValues()
@@ -255,6 +256,9 @@ namespace CunningLords.Interaction
                     JsonSerializer deserializer = new JsonSerializer();
                     data = (CunningLordsConfigData)deserializer.Deserialize(file, typeof(CunningLordsConfigData));
                 }
+
+                MissionAI.missionAiActive = data.AIActive;
+
                 return data.AIActive;
             }
             set
@@ -271,6 +275,7 @@ namespace CunningLords.Interaction
                 }
 
                 data.AIActive = !data.AIActive;
+                MissionAI.missionAiActive = data.AIActive;
 
                 var serializer = new JsonSerializer();
                 using (var sw = new StreamWriter(finalPath))
@@ -295,11 +300,11 @@ namespace CunningLords.Interaction
                 if (flag)
                 {
                     this._formationIOrder = value;
-                    this._formationIOrderString = getOrderType(this.FormationIOrder).ToString();
+                    this.FormationIOrderString = getString(this.FormationIOrder);
                     base.OnPropertyChanged("FormationIOrder");
                 }
 
-                InformationManager.DisplayMessage(new InformationMessage("Current infantry order is " + this.FormationIOrderString + "!"));
+                //InformationManager.DisplayMessage(new InformationMessage("Current infantry order is " + this.FormationIOrderString + "!"));
             }
         }
 
@@ -334,11 +339,11 @@ namespace CunningLords.Interaction
                 if (flag)
                 {
                     this._formationIIOrder = value;
-                    this._formationIIOrderString = getOrderType(this.FormationIIOrder).ToString();
+                    this.FormationIIOrderString = getString(this.FormationIIOrder);
                     base.OnPropertyChanged("FormationIIOrder");
                 }
 
-                InformationManager.DisplayMessage(new InformationMessage("Current archer order is " + this.FormationIIOrderString + "!"));
+                //InformationManager.DisplayMessage(new InformationMessage("Current archer order is " + this.FormationIIOrderString + "!"));
             }
         }
 
@@ -373,11 +378,11 @@ namespace CunningLords.Interaction
                 if (flag)
                 {
                     this._formationIIIOrder = value;
-                    this._formationIIIOrderString = getOrderType(this.FormationIIIOrder).ToString();
+                    this.FormationIIIOrderString = getString(this.FormationIIIOrder);
                     base.OnPropertyChanged("FormationIIIOrder");
                 }
 
-                InformationManager.DisplayMessage(new InformationMessage("Current cavalry order is " + this.FormationIIIOrderString + "!"));
+                //InformationManager.DisplayMessage(new InformationMessage("Current cavalry order is " + this.FormationIIIOrderString + "!"));
             }
         }
 
@@ -412,11 +417,11 @@ namespace CunningLords.Interaction
                 if (flag)
                 {
                     this._formationIVOrder = value;
-                    this._formationIVOrderString = getOrderType(this.FormationIVOrder).ToString();
+                    this.FormationIVOrderString = getString(this.FormationIVOrder);
                     base.OnPropertyChanged("FormationIVOrder");
                 }
 
-                InformationManager.DisplayMessage(new InformationMessage("Current cavalry order is " + this.FormationIVOrderString + "!"));
+                //InformationManager.DisplayMessage(new InformationMessage("Current cavalry order is " + this.FormationIVOrderString + "!"));
             }
         }
 
@@ -451,11 +456,11 @@ namespace CunningLords.Interaction
                 if (flag)
                 {
                     this._formationVOrder = value;
-                    this._formationVOrderString = getOrderType(this.FormationVOrder).ToString();
+                    this.FormationVOrderString = getString(this.FormationVOrder);
                     base.OnPropertyChanged("FormationVOrder");
                 }
 
-                InformationManager.DisplayMessage(new InformationMessage("Current cavalry order is " + this.FormationVOrderString + "!"));
+                //InformationManager.DisplayMessage(new InformationMessage("Current cavalry order is " + this.FormationVOrderString + "!"));
             }
         }
 
@@ -490,11 +495,11 @@ namespace CunningLords.Interaction
                 if (flag)
                 {
                     this._formationVIOrder = value;
-                    this._formationVIOrderString = getOrderType(this.FormationVIOrder).ToString();
+                    this.FormationVIOrderString = getString(this.FormationVIOrder);
                     base.OnPropertyChanged("FormationVIOrder");
                 }
 
-                InformationManager.DisplayMessage(new InformationMessage("Current cavalry order is " + this.FormationVIOrderString + "!"));
+                //InformationManager.DisplayMessage(new InformationMessage("Current cavalry order is " + this.FormationVIOrderString + "!"));
             }
         }
 
@@ -529,11 +534,11 @@ namespace CunningLords.Interaction
                 if (flag)
                 {
                     this._formationVIIOrder = value;
-                    this._formationVIIOrderString = getOrderType(this.FormationVIIOrder).ToString();
+                    this.FormationVIIOrderString = getString(this.FormationVIIOrder);
                     base.OnPropertyChanged("FormationVIIOrder");
                 }
 
-                InformationManager.DisplayMessage(new InformationMessage("Current cavalry order is " + this.FormationVIIOrderString + "!"));
+                //InformationManager.DisplayMessage(new InformationMessage("Current cavalry order is " + this.FormationVIIOrderString + "!"));
             }
         }
 
@@ -568,11 +573,11 @@ namespace CunningLords.Interaction
                 if (flag)
                 {
                     this._formationVIIIOrder = value;
-                    this._formationVIIIOrderString = getOrderType(this.FormationVIIIOrder).ToString();
+                    this.FormationVIIIOrderString = getString(this.FormationVIIIOrder);
                     base.OnPropertyChanged("FormationVIIIOrder");
                 }
 
-                InformationManager.DisplayMessage(new InformationMessage("Current cavalry order is " + this.FormationVIIIOrderString + "!"));
+                //InformationManager.DisplayMessage(new InformationMessage("Current cavalry order is " + this.FormationVIIIOrderString + "!"));
             }
         }
 
@@ -588,7 +593,7 @@ namespace CunningLords.Interaction
                 bool flag = value != this._formationVIIIOrderString;
                 if (flag)
                 {
-                    this._formationVIIOrderString = value;
+                    this._formationVIIIOrderString = value;
                     base.OnPropertyChanged("FormationVIIIOrderString");
                 }
             }
@@ -675,6 +680,39 @@ namespace CunningLords.Interaction
                 return OrderType.FallBack;
             }
             return OrderType.None;
+        }
+
+        public string getString(float value)
+        {
+            if (value >= 0.0f && value < 30.0f)
+            {
+                return "Charge";
+            }
+            else if (value >= 30.0f && value < 60.0f)
+            {
+                return "Follow Me";
+            }
+            else if (value >= 60.0f && value < 90.0f)
+            {
+                return "Hold";
+            }
+            else if (value >= 90.0f && value < 120.0f)
+            {
+                return "Flank";
+            }
+            else if (value >= 120.0f && value < 150.0f)
+            {
+                return "Skirmish";
+            }
+            else if (value >= 150.0f && value < 180.0f)
+            {
+                return "Advance";
+            }
+            else if (value >= 180.0f && value <= 200.0f)
+            {
+                return "Fallback";
+            }
+            return "None";
         }
 
     }
