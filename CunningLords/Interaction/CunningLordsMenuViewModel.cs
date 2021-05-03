@@ -14,11 +14,16 @@ using Newtonsoft.Json;
 using System.Reflection;
 using TaleWorlds.MountAndBlade;
 using CunningLords.Patches;
+using TaleWorlds.Core.ViewModelCollection;
+using TaleWorlds.ObjectSystem;
 
 namespace CunningLords.Interaction
 {
     internal class CunningLordsMenuViewModel : ViewModel
     {
+
+        public bool isCampaign = false;
+
         public CunningLordsMenuViewModel()
         {
             this._doneText = new TextObject("{=ATDone}Done", null).ToString();
@@ -69,7 +74,40 @@ namespace CunningLords.Interaction
             this._formationVIIIOrder = GetFloatValue(data.HeavyCavalryOrder);
             this._formationVIIIOrderString = getString(this._formationVIIIOrder);
 
+
+            this.FillGroups();
         }
+
+        private void FillGroups()
+        {
+            List<String> orders = new List<String>()
+            {
+                "Charge",
+                "Follow Me",
+                "Hold",
+                "Skirmish",
+                "Flank",
+                "Advance",
+                "FallBack"
+            };
+
+            if (this.Groups != null) 
+            {
+                this.Groups.Clear();
+            }
+            else
+            {
+                this.Groups = new MBBindingList<OrderViewModel>();
+            }
+            foreach (String s in orders)
+            {
+                this.Groups.Add(new OrderViewModel
+                {
+                    Order = s
+                });
+            }
+        }
+
         public override void RefreshValues()
         {
             base.RefreshValues();
@@ -115,22 +153,74 @@ namespace CunningLords.Interaction
             ScreenManager.PopScreen();
         }
 
-        private void ExecutePressButton1()
+        private void ExecuteMissionStart()
         {
-
+            if (Game.Current != null)
+            {
+                InformationManager.DisplayMessage(new InformationMessage("Starting Test Mission!"));
+                StartMission();
+            }
+            else
+            {
+                InformationManager.DisplayMessage(new InformationMessage("Can only start a Test Mission within campaign!"));
+            }
         }
 
-        private void ExecuteTab1()
+        private void StartMission()
         {
+            string scene = "battle_terrain_001";
 
+            if (Game.Current == null)
+            {
+                return;
+            }
+
+            //BasicCharacterObject character = Game.Current.ObjectManager.GetObject<BasicCharacterObject>("commander_1");
+            BasicCharacterObject character = Game.Current.PlayerTroop;
+
+            //Creating playerTeam
+            BasicCultureObject culture = Game.Current.ObjectManager.GetObject<BasicCultureObject>("empire");
+            CustomBattleCombatant playerParty = new CustomBattleCombatant(culture.Name, culture, Banner.CreateRandomBanner());
+            playerParty.Side = BattleSideEnum.Attacker;
+            playerParty.AddCharacter(character, 1);
+            playerParty.AddCharacter(MBObjectManager.Instance.GetObject<BasicCharacterObject>("imperial_veteran_infantryman"), 5);
+            playerParty.AddCharacter(MBObjectManager.Instance.GetObject<BasicCharacterObject>("imperial_archer"), 5);
+            playerParty.AddCharacter(MBObjectManager.Instance.GetObject<BasicCharacterObject>("imperial_heavy_horseman"), 5);
+            playerParty.AddCharacter(MBObjectManager.Instance.GetObject<BasicCharacterObject>("bucellarii"), 5);
+
+            //Creating EnemyTeam
+            //BasicCharacterObject enemyCharacter = MBObjectManager.Instance.GetObject<BasicCharacterObject>("commander_6");
+            CustomBattleCombatant enemyParty = new CustomBattleCombatant(culture.Name, culture, Banner.CreateRandomBanner());
+            enemyParty.Side = BattleSideEnum.Defender;
+            //enemyParty.AddCharacter(enemyCharacter, 1);
+            enemyParty.AddCharacter(MBObjectManager.Instance.GetObject<BasicCharacterObject>("imperial_veteran_infantryman"), 1);
+
+            bool isPlayerGeneral = true;
+            BasicCharacterObject playerSideGeneralCharacter = null;
+            String sceneLevels = "";
+            string seasonString = "summer";
+            float timeOfDay = 6f;
+
+            BannerlordMissions.OpenCustomBattleMission(scene, character, playerParty, enemyParty, isPlayerGeneral, playerSideGeneralCharacter,
+                                                       sceneLevels, seasonString, timeOfDay);
         }
 
-        private void ExecuteTab2()
+        [DataSourceProperty]
+        public MBBindingList<OrderViewModel> Groups
         {
-        }
-
-        public void SetActiveState(bool isActive)
-        {
+            get
+            {
+                return this._groups;
+            }
+            set
+            {
+                bool flag = value == this._groups;
+                if (!flag)
+                {
+                    this._groups = value;
+                    base.OnPropertyChanged("Groups");
+                }
+            }
         }
 
         [DataSourceProperty]
@@ -625,6 +715,8 @@ namespace CunningLords.Interaction
         private string _formationVIIOrderString;
         private float _formationVIIIOrder;
         private string _formationVIIIOrderString;
+
+        private MBBindingList<OrderViewModel> _groups;
 
         public float GetFloatValue(OrderType order)
         {

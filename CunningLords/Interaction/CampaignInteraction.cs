@@ -17,6 +17,8 @@ namespace CunningLords.Interaction
     {
         public static bool _inMenu = false;
 
+        public static bool isCampaign = false;
+
         [HarmonyPatch(typeof(Campaign))]
         [HarmonyPatch("RealTick")]
         class CampaignHourlyTickOverride
@@ -31,6 +33,7 @@ namespace CunningLords.Interaction
                 }
 
                 MissionOverride.FrameCounter = 0;
+                CampaignInteraction.isCampaign = true;
             }
         }
 
