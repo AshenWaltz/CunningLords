@@ -104,6 +104,7 @@
     <Compile Include="Interaction\OrderViewModel.cs" />
     <Compile Include="Interaction\PositionData.cs" />
     <Compile Include="Interaction\StartingOrderData.cs" />
+    <Compile Include="Interaction\TextViewModel.cs" />
     <Compile Include="Patches\Commands.cs" />
     <Compile Include="Patches\MissionAI.cs" />
     <Compile Include="Patches\MissionOverride.cs" />
