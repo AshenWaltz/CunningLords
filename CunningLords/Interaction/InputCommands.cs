@@ -358,10 +358,10 @@ namespace CunningLords.Interaction
                     formation.MovementOrder = MovementOrder.MovementOrderRetreat;
                     break;
                 case OrderType.AdvanceTenPaces:
-                    formation.MovementOrder.Advance(formation, 7f); //Crashes
+                    //formation.MovementOrder.Advance(formation, 7f); //Crashes
                     break;
                 case OrderType.FallBackTenPaces:
-                    formation.MovementOrder.FallBack(formation, 7f); //Crashes
+                    //formation.MovementOrder.FallBack(formation, 7f); //Crashes
                     break;
                 case OrderType.Advance:
                     formation.MovementOrder = MovementOrder.MovementOrderAdvance;
