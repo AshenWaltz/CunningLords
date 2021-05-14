@@ -97,6 +97,7 @@
     <Compile Include="BehaviorTreelogic\TaskRangedHarrassment.cs" />
     <Compile Include="BehaviorTreelogic\TaskRangedRearHarrassment.cs" />
     <Compile Include="Interaction\CampaignInteraction.cs" />
+    <Compile Include="Interaction\CunningLordsAgentOrigin.cs" />
     <Compile Include="Interaction\CunningLordsConfigData.cs" />
     <Compile Include="Interaction\CunningLordsMenuViewModel.cs" />
     <Compile Include="Interaction\CunningLordsOptionScreen.cs" />

@@ -350,6 +350,7 @@ namespace CunningLords.Interaction
 
 
             PartyBase playerParty = PartyBase.MainParty;
+            //playerParty.Side = BattleSideEnum.Attacker;
             BattleSideEnum playerSide = playerParty.Side; //might give trouble
             bool isPlayerAttacker = playerSide == BattleSideEnum.Attacker;
             BasicCharacterObject playerSideGeneralCharacter = null;
@@ -361,10 +362,10 @@ namespace CunningLords.Interaction
             enemyParty.AddMember(MBObjectManager.Instance.GetObject<CharacterObject>("imperial_veteran_infantryman"), 10,0);
 
             IMissionTroopSupplier[] troopSuppliers = new IMissionTroopSupplier[2];
-            CustomBattleTroopSupplier customBattleTroopSupplier = new CustomBattleTroopSupplier(playerParty, true);
-            troopSuppliers[(int)playerParty.Side] = customBattleTroopSupplier;
-            CustomBattleTroopSupplier customBattleTroopSupplier2 = new CustomBattleTroopSupplier(enemyParty, false);
-            troopSuppliers[(int)enemyParty.Side] = customBattleTroopSupplier2;
+            CunningLordsTroopSupplier cunningLordsTroopSupplier = new CunningLordsTroopSupplier(playerParty, true);
+            troopSuppliers[(int)BattleSideEnum.Attacker] = cunningLordsTroopSupplier;
+            CunningLordsTroopSupplier cunningLordsTroopSupplier2 = new CunningLordsTroopSupplier(enemyParty, false);
+            troopSuppliers[(int)BattleSideEnum.Defender] = cunningLordsTroopSupplier2;
 
 
             List<PartyBase> involvedParties = new List<PartyBase>()
