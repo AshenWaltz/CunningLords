@@ -90,6 +90,7 @@
     <Compile Include="BehaviorTreelogic\TaskAttackFlank.cs" />
     <Compile Include="BehaviorTreelogic\TaskArcherSkirmish.cs" />
     <Compile Include="BehaviorTreelogic\TaskBraceForImpact.cs" />
+    <Compile Include="BehaviorTreelogic\TaskCharge.cs" />
     <Compile Include="BehaviorTreelogic\TaskHoldLine.cs" />
     <Compile Include="BehaviorTreelogic\TaskRangedNoAmmoCharge.cs" />
     <Compile Include="BehaviorTreelogic\TaskArcherVolley.cs" />
@@ -108,11 +109,13 @@
     <Compile Include="Interaction\StartingOrderData.cs" />
     <Compile Include="Interaction\TextViewModel.cs" />
     <Compile Include="Patches\Commands.cs" />
+    <Compile Include="Patches\GameDataForAI.cs" />
     <Compile Include="Patches\MissionAI.cs" />
     <Compile Include="Patches\MissionOverride.cs" />
     <Compile Include="Patches\Utils.cs" />
     <Compile Include="SubModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tactics\TacticRecklessCharge.cs" />
     <Compile Include="Tactics\TacticDefaultDefense.cs" />
     <Content Include="Readme.txt" />
     <Content Include="SubModule.xml" />

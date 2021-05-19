@@ -8,6 +8,12 @@ using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using CunningLords.Tactics;
+using System.IO;
+using Path = System.IO.Path;
+using Newtonsoft.Json;
+using System.Reflection;
+using CunningLords.Interaction;
+using TaleWorlds.CampaignSystem;
 
 namespace CunningLords.Patches
 {
@@ -42,7 +48,18 @@ namespace CunningLords.Patches
         {
             static void Postfix(MissionCombatantsLogic __instance)
             {
-                if (MissionAI.missionAiActive)
+                string path = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
+
+                string finalPath = Path.Combine(path, "ModuleData", "configData.json");
+
+                CunningLordsConfigData data;
+                using (StreamReader file = File.OpenText(finalPath))
+                {
+                    JsonSerializer deserializer = new JsonSerializer();
+                    data = (CunningLordsConfigData)deserializer.Deserialize(file, typeof(CunningLordsConfigData));
+                }
+
+                if (data.AIActive)
                 {
                     //MissionAI.PlayerBattleSide = __instance.Mission.MainAgent.Team.Side; //Crashes
 
@@ -52,7 +69,71 @@ namespace CunningLords.Patches
                     {
                         foreach (Team team in enemyTeams)
                         {
-                            if (team.Side == BattleSideEnum.Attacker)
+                            bool hasGeneral = (team.GeneralAgent != null);
+                            //bool hasGeneral = MobileParty.MainParty.
+                            int tacticsSkill = -1;
+                            if (hasGeneral)
+                            {
+                                tacticsSkill = team.GeneralAgent.Character.GetSkillValue(DefaultSkills.Tactics);
+                                InformationManager.DisplayMessage(new InformationMessage("General tactic skill: " + tacticsSkill.ToString()));
+                            }
+                            else
+                            {
+                                InformationManager.DisplayMessage(new InformationMessage("General is null"));
+                            }
+                           
+                            if (hasGeneral || (tacticsSkill <= 25)) //nearly no tactic level. Just charge and hope
+                            {
+                                InformationManager.DisplayMessage(new InformationMessage("nearly no tactic level"));
+
+                                team.ClearTacticOptions();
+                                team.AddTacticOption(new TacticRecklessCharge(team));
+                            }
+                            else if ((tacticsSkill > 25) && (tacticsSkill < 75)) //Minimal tactic level. there is somewhat of a plan
+                            {
+                                InformationManager.DisplayMessage(new InformationMessage("Minimal tactic level"));
+                                if (team.Side == BattleSideEnum.Attacker)
+                                {
+                                    team.ClearTacticOptions();
+                                    team.AddTacticOption(new TacticDefaultDefense(team));
+                                }
+                                else if (team.Side == BattleSideEnum.Defender)
+                                {
+                                    team.ClearTacticOptions();
+                                    team.AddTacticOption(new TacticDefaultDefense(team));
+                                }
+                            }
+                            else if ((tacticsSkill > 75) && (tacticsSkill <= 200)) //Good tactic level. I know my culture and my army. I know how to use them
+                            {
+                                InformationManager.DisplayMessage(new InformationMessage("Good tactic level"));
+                                if (team.Side == BattleSideEnum.Attacker)
+                                {
+                                    team.ClearTacticOptions();
+                                    team.AddTacticOption(new TacticDefaultDefense(team));
+                                }
+                                else if (team.Side == BattleSideEnum.Defender)
+                                {
+                                    team.ClearTacticOptions();
+                                    team.AddTacticOption(new TacticDefaultDefense(team));
+                                }
+                            }
+                            else //Excelent tactic level. Not only do I know my culture and my army, but I also recognize the strengths and weaknesses of my enemies
+                            {
+                                InformationManager.DisplayMessage(new InformationMessage("Excelent tactic level"));
+                                if (team.Side == BattleSideEnum.Attacker)
+                                {
+                                    team.ClearTacticOptions();
+                                    team.AddTacticOption(new TacticDefaultDefense(team));
+                                }
+                                else if (team.Side == BattleSideEnum.Defender)
+                                {
+                                    team.ClearTacticOptions();
+                                    team.AddTacticOption(new TacticDefaultDefense(team));
+                                }
+                            }
+
+
+                            /*if (team.Side == BattleSideEnum.Attacker)
                             {
                                 team.ClearTacticOptions();
                                 //team.AddTacticOption(new TacticFullScaleAttack(team));
@@ -63,7 +144,7 @@ namespace CunningLords.Patches
                                 team.ClearTacticOptions();
                                 //team.AddTacticOption(new TacticDefensiveEngagement(team));
                                 team.AddTacticOption(new TacticDefaultDefense(team));
-                            }
+                            }*/
                         }
                     }
                 }
