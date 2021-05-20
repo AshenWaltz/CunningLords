@@ -9,5 +9,7 @@ namespace CunningLords.Interaction
     class CunningLordsConfigData
     {
         public bool AIActive;
+
+        public int TacticSill;
     }
 }

@@ -69,7 +69,8 @@ namespace CunningLords.Patches
                     {
                         foreach (Team team in enemyTeams)
                         {
-                            bool hasGeneral = (team.GeneralAgent != null);
+                            int tacticSkill = data.TacticSill;
+                            /*bool hasGeneral = (team.GeneralAgent != null);
                             //bool hasGeneral = MobileParty.MainParty.
                             int tacticsSkill = -1;
                             if (hasGeneral)
@@ -80,16 +81,16 @@ namespace CunningLords.Patches
                             else
                             {
                                 InformationManager.DisplayMessage(new InformationMessage("General is null"));
-                            }
+                            }*/
                            
-                            if (hasGeneral || (tacticsSkill <= 25)) //nearly no tactic level. Just charge and hope
+                            if (/*hasGeneral ||*/ (tacticSkill <= 25)) //nearly no tactic level. Just charge and hope
                             {
                                 InformationManager.DisplayMessage(new InformationMessage("nearly no tactic level"));
 
                                 team.ClearTacticOptions();
                                 team.AddTacticOption(new TacticRecklessCharge(team));
                             }
-                            else if ((tacticsSkill > 25) && (tacticsSkill < 75)) //Minimal tactic level. there is somewhat of a plan
+                            else if ((tacticSkill > 25) && (tacticSkill < 75)) //Minimal tactic level. there is somewhat of a plan
                             {
                                 InformationManager.DisplayMessage(new InformationMessage("Minimal tactic level"));
                                 if (team.Side == BattleSideEnum.Attacker)
@@ -103,7 +104,7 @@ namespace CunningLords.Patches
                                     team.AddTacticOption(new TacticDefaultDefense(team));
                                 }
                             }
-                            else if ((tacticsSkill > 75) && (tacticsSkill <= 200)) //Good tactic level. I know my culture and my army. I know how to use them
+                            else if ((tacticSkill > 75) && (tacticSkill <= 200)) //Good tactic level. I know my culture and my army. I know how to use them
                             {
                                 InformationManager.DisplayMessage(new InformationMessage("Good tactic level"));
                                 if (team.Side == BattleSideEnum.Attacker)
