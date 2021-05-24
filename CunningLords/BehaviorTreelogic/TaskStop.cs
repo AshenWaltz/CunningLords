@@ -12,10 +12,9 @@ using CunningLords.Behaviors;
 
 namespace CunningLords.BehaviorTreelogic
 {
-    class TaskCharge : Task
+    class TaskStop : Task
     {
-
-        public TaskCharge(Formation f) : base(f)
+        public TaskStop(Formation f) : base(f)
         {
             this.formation = f;
         }
@@ -25,7 +24,7 @@ namespace CunningLords.BehaviorTreelogic
             if ((this.formation != null))
             {
                 this.formation.AI.ResetBehaviorWeights();
-                this.formation.AI.SetBehaviorWeight<BehaviorCharge>(2f);
+                this.formation.AI.SetBehaviorWeight<BehaviorStop>(2f);
 
                 return BTReturnEnum.succeeded;
             }

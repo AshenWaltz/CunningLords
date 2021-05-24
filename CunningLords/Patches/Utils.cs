@@ -468,6 +468,40 @@ namespace CunningLords.Patches
             return distances;
         }
 
+        public static Formation GetClosestPlayerFormation(Formation formation)
+        {
+            if (formation != null)
+            {
+                BattleSideEnum enemySide = formation.Team.Side;
+
+                List<Team> playerTeams = (from t in Mission.Current.Teams where t.Side != enemySide select t).ToList<Team>();
+
+                List<Tuple<Formation, float>> distances = new List<Tuple<Formation, float>>();
+
+                float min = 10000;
+
+                Formation closestFormation = null;
+
+                foreach (Team t in playerTeams)
+                {
+                    foreach (Formation f in t.Formations)
+                    {
+                        float dist = formation.QuerySystem.AveragePosition.Distance(f.QuerySystem.AveragePosition);
+                        if (dist < min)
+                        {
+                            min = dist;
+                            closestFormation = f;
+                        }
+                    }
+                }
+                return closestFormation;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public static Formation GetAlliedFormationsofType(Formation formation, FormationClass formationClass)
         {
             Formation result = null;
@@ -481,6 +515,28 @@ namespace CunningLords.Patches
             }
 
             return result;
+        }
+
+        public static List<Formation> GetPlayerFormationsofType(Formation formation, FormationClass formationClass)
+        {
+            BattleSideEnum enemySide = formation.Team.Side;
+
+            List<Team> playerTeams = (from t in Mission.Current.Teams where t.Side != enemySide select t).ToList<Team>();
+
+            List<Formation> formations = new List<Formation>();
+
+            foreach (Team t in playerTeams)
+            {
+                foreach (Formation f in t.Formations)
+                {
+                    if(f.FormationIndex == formationClass)
+                    {
+                        formations.Add(f);
+                    }
+                }
+            }
+
+            return formations;
         }
 
         public static float GetPlayerFormationRatios(Formation formation, FormationClass targetFormation)

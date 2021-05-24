@@ -11,9 +11,8 @@ using CunningLords.BehaviorTreelogic;
 
 namespace CunningLords.Tactics
 {
-	public class TacticRecklessCharge : TacticComponent
-	{
-
+    class TacticLevelTwoEmpire : TacticComponent
+    {
 		private bool _hasBattleBeenJoined;
 
 		private int _AIControlledFormationCount;
@@ -22,7 +21,7 @@ namespace CunningLords.Tactics
 
 		private int tickCounter = 0;
 
-		public TacticRecklessCharge(Team team) : base(team)
+		public TacticLevelTwoEmpire(Team team) : base(team)
 		{
 			_hasBattleBeenJoined = false;
 			_AIControlledFormationCount = base.Formations.Count((Formation f) => f.IsAIControlled);
@@ -47,28 +46,37 @@ namespace CunningLords.Tactics
 			}
 			else if (base.AreFormationsCreated && this.tickCounter == 0)
 			{
-				//Infantry Charge
-				TaskCharge MICharge = new TaskCharge(this._mainInfantry);
+				//Infantry Slow Advance
+				BehaviorConfig MISlowAdvanceConfig = new BehaviorConfig(ArrangementOrder.ArrangementOrderSquare,
+																		FiringOrder.FiringOrderFireAtWill,
+																		FormOrder.FormOrderDeep,
+																		WeaponUsageOrder.WeaponUsageOrderUseAny,
+																		RidingOrder.RidingOrderFree,
+																		FacingOrder.FacingOrderLookAtEnemy);
+				float infantryEngageDistance = 30f;
+				TaskSlowAdvance MISlowAdvance = new TaskSlowAdvance(this._mainInfantry, MISlowAdvanceConfig, infantryEngageDistance, FormationClass.Infantry);
+				TaskProximityCharge MITargetedCharge = new TaskProximityCharge(this._mainInfantry, MISlowAdvanceConfig, infantryEngageDistance);
 				Selector mainInfantrySelector = new Selector(null);
-				mainInfantrySelector.addTask(MICharge);
+				mainInfantrySelector.addTask(MISlowAdvance);
+				mainInfantrySelector.addTask(MITargetedCharge);
 
 				//Archers Charge
-				TaskCharge ACharge = new TaskCharge(this._archers);
+				TaskStop ACharge = new TaskStop(this._archers);
 				Selector archerSelector = new Selector(null);
 				archerSelector.addTask(ACharge);
 
 				//Horse Archers Charge
-				TaskCharge HACharge = new TaskCharge(this._rangedCavalry);
+				TaskStop HACharge = new TaskStop(this._rangedCavalry);
 				Selector horseArcherSelector = new Selector(null);
 				horseArcherSelector.addTask(HACharge);
 
 				//Right Cavalry Charge
-				TaskCharge RCCharge = new TaskCharge(this._rightCavalry);
+				TaskStop RCCharge = new TaskStop(this._rightCavalry);
 				Selector rightCavalrySelector = new Selector(null);
 				rightCavalrySelector.addTask(RCCharge);
 
 				//Left Cavalry Charge
-				TaskCharge LCCharge = new TaskCharge(this._leftCavalry);
+				TaskStop LCCharge = new TaskStop(this._leftCavalry);
 				Selector leftCavalrySelector = new Selector(null);
 				leftCavalrySelector.addTask(LCCharge);
 
@@ -103,6 +111,5 @@ namespace CunningLords.Tactics
 			formation.AI.SetBehaviorWeight<BehaviorStop>(1f);
 			formation.AI.SetBehaviorWeight<BehaviorReserve>(1f);
 		}
-
 	}
 }

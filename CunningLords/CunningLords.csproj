@@ -81,7 +81,10 @@
     <Compile Include="Behaviors\BehaviorOverride.cs" />
     <Compile Include="Behaviors\BehaviorProtectAroundAnchor.cs" />
     <Compile Include="Behaviors\BehaviorSkirmishMode.cs" />
+    <Compile Include="Behaviors\BehaviorSlowAdvance.cs" />
+    <Compile Include="Behaviors\BehaviorProximityCharge.cs" />
     <Compile Include="Behaviors\BehaviorTemplate.cs" />
+    <Compile Include="BehaviorTreelogic\BehaviorConfig.cs" />
     <Compile Include="BehaviorTreelogic\BTReturnEnum.cs" />
     <Compile Include="BehaviorTreelogic\Selector.cs" />
     <Compile Include="BehaviorTreelogic\Sequence.cs" />
@@ -97,6 +100,9 @@
     <Compile Include="BehaviorTreelogic\TaskProtectFlank.cs" />
     <Compile Include="BehaviorTreelogic\TaskRangedHarrassment.cs" />
     <Compile Include="BehaviorTreelogic\TaskRangedRearHarrassment.cs" />
+    <Compile Include="BehaviorTreelogic\TaskSlowAdvance.cs" />
+    <Compile Include="BehaviorTreelogic\TaskStop.cs" />
+    <Compile Include="BehaviorTreelogic\TaskProximityCharge.cs" />
     <Compile Include="Interaction\CampaignInteraction.cs" />
     <Compile Include="Interaction\CunningLordsAgentOrigin.cs" />
     <Compile Include="Interaction\CunningLordsConfigData.cs" />
@@ -115,6 +121,7 @@
     <Compile Include="Patches\Utils.cs" />
     <Compile Include="SubModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tactics\TacticLevelTwoEmpire.cs" />
     <Compile Include="Tactics\TacticRecklessCharge.cs" />
     <Compile Include="Tactics\TacticDefaultDefense.cs" />
     <Content Include="Readme.txt" />
