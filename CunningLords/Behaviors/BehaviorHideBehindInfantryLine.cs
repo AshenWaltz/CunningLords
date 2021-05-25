@@ -31,17 +31,25 @@ namespace CunningLords.Behaviors
 
             Vec2 escapeVector;
 
-            Vec2 infantryPosition = this.mainFormation.QuerySystem.AveragePosition;
+            if(this.mainFormation != null)
+            {
+                Vec2 infantryPosition = this.mainFormation.QuerySystem.AveragePosition;
 
-            Vec2 infantryDirection = this.mainFormation.Direction.Normalized();
+                Vec2 infantryDirection = this.mainFormation.Direction.Normalized();
 
-            escapeVector = infantryPosition - (infantryDirection * 4 * (this.mainFormation.Depth + this.Formation.Depth));
+                escapeVector = infantryPosition - (infantryDirection * 4 * (this.mainFormation.Depth + this.Formation.Depth));
 
-            WorldPosition position = this.Formation.QuerySystem.MedianPosition;
-            position.SetVec2(escapeVector);
-            this.Formation.MovementOrder = MovementOrder.MovementOrderMove(position);
+                WorldPosition position = this.Formation.QuerySystem.MedianPosition;
+                position.SetVec2(escapeVector);
+                this.Formation.MovementOrder = MovementOrder.MovementOrderMove(position);
 
-            this.Formation.FacingOrder = FacingOrder.FacingOrderLookAtDirection(infantryDirection);
+                this.Formation.FacingOrder = FacingOrder.FacingOrderLookAtDirection(infantryDirection);
+            }
+            else
+            {
+                this.Formation.MovementOrder = MovementOrder.MovementOrderStop;
+                this.Formation.FacingOrder = FacingOrder.FacingOrderLookAtEnemy;
+            }
             MaintainPersistentOrders();
         }
 

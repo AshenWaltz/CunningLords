@@ -8,17 +8,18 @@ using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using CunningLords.Patches;
+using CunningLords.BehaviorTreelogic;
 
 namespace CunningLords.Behaviors
 {
-    internal class BehaviorArcherVanguardSkirmish : BehaviorDefend
+    class BehaviorHideBehind : BehaviorDefend
     {
         public Formation Formation;
+        public BehaviorConfig config;
+        public FormationClass focus;
 
-        private Formation mainFormation;
-        public BehaviorArcherVanguardSkirmish(Formation formation) : base(formation)
+        public BehaviorHideBehind(Formation formation) : base(formation)
         {
-            this.mainFormation = formation.Team.Formations.FirstOrDefault((Formation f) => f.FormationIndex == FormationClass.Infantry);
         }
 
         protected override void CalculateCurrentOrder()
@@ -27,38 +28,41 @@ namespace CunningLords.Behaviors
 
         private void ExecuteActions()
         {
-            //InformationManager.DisplayMessage(new InformationMessage(this.Formation.FormationIndex + ": Forward Volley"));
+            Formation focusedFormation = this.Formation.Team.Formations.FirstOrDefault((Formation f) => f.FormationIndex == this.focus);
 
-            if (this.mainFormation != null)
+            if (focusedFormation != null)
             {
                 Vec2 escapeVector;
 
-                Vec2 infantryPosition = this.mainFormation.QuerySystem.AveragePosition;
+                Vec2 focusedPosition = focusedFormation.QuerySystem.AveragePosition;
 
-                Vec2 infantryDirection = this.mainFormation.Direction.Normalized();
+                Vec2 focusedDirection = focusedFormation.Direction.Normalized();
 
-                escapeVector = infantryPosition + (infantryDirection * 2 * (this.mainFormation.Depth + this.Formation.Depth));
+                escapeVector = focusedPosition - (focusedDirection * 4 * (focusedFormation.Depth + focusedFormation.Depth));
 
                 WorldPosition position = this.Formation.QuerySystem.MedianPosition;
                 position.SetVec2(escapeVector);
                 this.Formation.MovementOrder = MovementOrder.MovementOrderMove(position);
 
-                this.Formation.FacingOrder = FacingOrder.FacingOrderLookAtDirection(infantryDirection);
+                this.Formation.FacingOrder = FacingOrder.FacingOrderLookAtDirection(focusedDirection);
             }
             else
             {
                 this.Formation.MovementOrder = MovementOrder.MovementOrderStop;
+
                 this.Formation.FacingOrder = FacingOrder.FacingOrderLookAtEnemy;
             }
+
             MaintainPersistentOrders();
         }
 
         private void MaintainPersistentOrders()
         {
-            this.Formation.ArrangementOrder = ArrangementOrder.ArrangementOrderLine;
-            this.Formation.FiringOrder = FiringOrder.FiringOrderFireAtWill;
-            this.Formation.FormOrder = FormOrder.FormOrderWide;
-            this.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
+            this.Formation.ArrangementOrder = this.config.arrangementOrder;
+            this.Formation.FiringOrder = this.config.firingOrder;
+            this.Formation.FormOrder = this.config.formOrder;
+            this.Formation.WeaponUsageOrder = this.config.weaponusageOrder;
+            this.Formation.RidingOrder = this.config.ridingOrder;
         }
 
         protected override void TickOccasionally()
@@ -72,7 +76,7 @@ namespace CunningLords.Behaviors
 
         protected override float GetAiWeight()
         {
-            return 2f;
+            return 1f;
         }
     }
 }

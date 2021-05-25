@@ -25,41 +25,55 @@ namespace CunningLords.BehaviorTreelogic
             {
                 List<Tuple<Formation, float>> distances = Utils.GetDistanceFromAllEnemies(this.formation);
 
-                bool infantryBreached = false;
-
-                float distanceFromInfantry = this.formation.QuerySystem.AveragePosition.Distance(Utils.GetAlliedFormationsofType(this.formation, FormationClass.Infantry).QuerySystem.AveragePosition);
-
-                List<Formation> tooCloseForConfort = new List<Formation>();
-
-                foreach (Tuple<Formation, float> tup in distances)
+                if(distances == null)
                 {
-                    if (tup.Item2 < distanceFromInfantry)
-                    {
-                        infantryBreached = true;
-                    }
-
-                    if (tup.Item2 < (0.5 * this.formation.QuerySystem.MissileRange))
-                    {
-                        tooCloseForConfort.Add(tup.Item1);
-                    }
+                    return BTReturnEnum.failed;
                 }
 
-                float infantryRatio = Utils.GetSelfFormationRatios(this.formation, FormationClass.Infantry);
+                bool infantryBreached = false;
 
-                if ((this.formation != null) && (infantryRatio >= 0.15) && (!infantryBreached) && (tooCloseForConfort.Count > 0))
+                if(Utils.GetAlliedFormationsofType(this.formation, FormationClass.Infantry) != null)
                 {
-                    this.formation.AI.ResetBehaviorWeights();
-                    //this.formation.AI.SetBehaviorWeight<BehaviorScreenedSkirmish>(2f);
+                    float distanceFromInfantry = this.formation.QuerySystem.AveragePosition.Distance(Utils.GetAlliedFormationsofType(this.formation, FormationClass.Infantry).QuerySystem.AveragePosition);
 
-                    BehaviorHideBehindInfantryLine behavior = this.formation.AI.SetBehaviorWeight<BehaviorHideBehindInfantryLine>(1f);
-                    behavior.Formation = this.formation;
+                    List<Formation> tooCloseForConfort = new List<Formation>();
 
-                    return BTReturnEnum.succeeded;
+                    foreach (Tuple<Formation, float> tup in distances)
+                    {
+                        if (tup.Item2 < distanceFromInfantry)
+                        {
+                            infantryBreached = true;
+                        }
+
+                        if (tup.Item2 < (0.5 * this.formation.QuerySystem.MissileRange))
+                        {
+                            tooCloseForConfort.Add(tup.Item1);
+                        }
+                    }
+
+                    float infantryRatio = Utils.GetSelfFormationRatios(this.formation, FormationClass.Infantry);
+
+                    if ((this.formation != null) && (infantryRatio >= 0.15) && (!infantryBreached) && (tooCloseForConfort.Count > 0))
+                    {
+                        this.formation.AI.ResetBehaviorWeights();
+                        //this.formation.AI.SetBehaviorWeight<BehaviorScreenedSkirmish>(2f);
+
+                        BehaviorHideBehindInfantryLine behavior = this.formation.AI.SetBehaviorWeight<BehaviorHideBehindInfantryLine>(1f);
+                        behavior.Formation = this.formation;
+
+                        return BTReturnEnum.succeeded;
+                    }
+                    else
+                    {
+                        return BTReturnEnum.failed;
+                    }
                 }
                 else
                 {
                     return BTReturnEnum.failed;
                 }
+
+                
             }
             else
             {

@@ -25,40 +25,49 @@ namespace CunningLords.BehaviorTreelogic
             {
                 List<Tuple<Formation, float>> distances = Utils.GetDistanceFromAllEnemies(this.formation);
 
-                bool infantryBreached = false;
-
-                float distanceFromInfantry = this.formation.QuerySystem.AveragePosition.Distance(Utils.GetAlliedFormationsofType(this.formation, FormationClass.Infantry).QuerySystem.AveragePosition);
-
-                List<Formation> tooCloseForConfort = new List<Formation>();
-
-                foreach (Tuple<Formation, float> tup in distances)
-                {
-                    if (tup.Item2 < distanceFromInfantry)
-                    {
-                        infantryBreached = true;
-                    }
-
-                    if (tup.Item2 < (0.5 * this.formation.QuerySystem.MissileRange))
-                    {
-                        tooCloseForConfort.Add(tup.Item1);
-                    }
-                }
-
-                float infantryRatio = Utils.GetSelfFormationRatios(this.formation, FormationClass.Infantry);
-
-                if ((this.formation != null) && (infantryRatio >= 0.15) && (!infantryBreached) && (tooCloseForConfort.Count == 0))
-                {
-                    this.formation.AI.ResetBehaviorWeights();
-                    //this.formation.AI.SetBehaviorWeight<BehaviorScreenedSkirmish>(2f);
-
-                    BehaviorArcherVanguardSkirmish behavior = this.formation.AI.SetBehaviorWeight<BehaviorArcherVanguardSkirmish>(1f);
-                    behavior.Formation = this.formation;
-
-                    return BTReturnEnum.succeeded;
-                }
-                else
+                if (distances == null)
                 {
                     return BTReturnEnum.failed;
+                }
+
+                bool infantryBreached = false;
+
+                if (Utils.GetAlliedFormationsofType(this.formation, FormationClass.Infantry) != null)
+                {
+
+                    float distanceFromInfantry = this.formation.QuerySystem.AveragePosition.Distance(Utils.GetAlliedFormationsofType(this.formation, FormationClass.Infantry).QuerySystem.AveragePosition);
+
+                    List<Formation> tooCloseForConfort = new List<Formation>();
+
+                    foreach (Tuple<Formation, float> tup in distances)
+                    {
+                        if (tup.Item2 < distanceFromInfantry)
+                        {
+                            infantryBreached = true;
+                        }
+
+                        if (tup.Item2 < (0.5 * this.formation.QuerySystem.MissileRange))
+                        {
+                            tooCloseForConfort.Add(tup.Item1);
+                        }
+                    }
+
+                    float infantryRatio = Utils.GetSelfFormationRatios(this.formation, FormationClass.Infantry);
+
+                    if ((this.formation != null) && (infantryRatio >= 0.15) && (!infantryBreached) && (tooCloseForConfort.Count == 0))
+                    {
+                        this.formation.AI.ResetBehaviorWeights();
+                        //this.formation.AI.SetBehaviorWeight<BehaviorScreenedSkirmish>(2f);
+
+                        BehaviorArcherVanguardSkirmish behavior = this.formation.AI.SetBehaviorWeight<BehaviorArcherVanguardSkirmish>(1f);
+                        behavior.Formation = this.formation;
+
+                        return BTReturnEnum.succeeded;
+                    }
+                    else
+                    {
+                        return BTReturnEnum.failed;
+                    }
                 }
             }
             else

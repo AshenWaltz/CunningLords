@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Behaviors\BehaviorArcherVanguardSkirmish.cs" />
     <Compile Include="Behaviors\BehaviorBraceForImpact.cs" />
+    <Compile Include="Behaviors\BehaviorHideBehind.cs" />
     <Compile Include="Behaviors\BehaviorHideBehindInfantryLine.cs" />
     <Compile Include="Behaviors\BehaviorLooselyWaitOrders.cs" />
     <Compile Include="Behaviors\BehaviorOverride.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="BehaviorTreelogic\TaskArcherSkirmish.cs" />
     <Compile Include="BehaviorTreelogic\TaskBraceForImpact.cs" />
     <Compile Include="BehaviorTreelogic\TaskCharge.cs" />
+    <Compile Include="BehaviorTreelogic\TaskHideBehind.cs" />
     <Compile Include="BehaviorTreelogic\TaskHoldLine.cs" />
     <Compile Include="BehaviorTreelogic\TaskRangedNoAmmoCharge.cs" />
     <Compile Include="BehaviorTreelogic\TaskArcherVolley.cs" />

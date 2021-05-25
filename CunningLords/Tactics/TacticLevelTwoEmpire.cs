@@ -60,15 +60,23 @@ namespace CunningLords.Tactics
 				mainInfantrySelector.addTask(MISlowAdvance);
 				mainInfantrySelector.addTask(MITargetedCharge);
 
-				//Archers Charge
-				TaskStop ACharge = new TaskStop(this._archers);
+				//Archers Hide Behind Infantry
+				BehaviorConfig AHideBehindConfig = new BehaviorConfig(ArrangementOrder.ArrangementOrderLoose,
+																		FiringOrder.FiringOrderFireAtWill,
+																		FormOrder.FormOrderWide,
+																		WeaponUsageOrder.WeaponUsageOrderUseAny,
+																		RidingOrder.RidingOrderFree,
+																		FacingOrder.FacingOrderLookAtEnemy);
+				TaskHideBehind ABehindVolley = new TaskHideBehind(this._archers, AHideBehindConfig, FormationClass.Infantry);
 				Selector archerSelector = new Selector(null);
-				archerSelector.addTask(ACharge);
+				archerSelector.addTask(ABehindVolley);
 
-				//Horse Archers Charge
-				TaskStop HACharge = new TaskStop(this._rangedCavalry);
+				//Horse Archers Vanguard and Behind Volley
+				TaskArcherBehindVolley HABehindVolley = new TaskArcherBehindVolley(this._rangedCavalry);
+				TaskArcherVolley HAVolley = new TaskArcherVolley(this._rangedCavalry);
 				Selector horseArcherSelector = new Selector(null);
-				horseArcherSelector.addTask(HACharge);
+				horseArcherSelector.addTask(HABehindVolley);
+				horseArcherSelector.addTask(HAVolley);
 
 				//Right Cavalry Charge
 				TaskStop RCCharge = new TaskStop(this._rightCavalry);
