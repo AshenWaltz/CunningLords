@@ -48,11 +48,12 @@ namespace CunningLords.BehaviorTreelogic
                 behavior.config = this.behaviorConfig;
                 behavior.focus = this.formationFocus;
 
+                InformationManager.DisplayMessage(new InformationMessage("Slow Advance!"));
                 return BTReturnEnum.succeeded;
             }
             else
             {
-                return BTReturnEnum.failed;
+                return BTReturnEnum.succeeded;
             }
         }
     }

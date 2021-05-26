@@ -51,7 +51,7 @@ namespace CunningLords.BehaviorTreelogic
             }
             else
             {
-                return BTReturnEnum.failed;
+                return BTReturnEnum.succeeded;
             }
         }
     }

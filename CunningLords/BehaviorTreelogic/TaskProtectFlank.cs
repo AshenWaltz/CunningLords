@@ -8,6 +8,7 @@ using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using CunningLords.Behaviors;
+using CunningLords.Patches;
 
 namespace CunningLords.BehaviorTreelogic
 {
@@ -23,20 +24,32 @@ namespace CunningLords.BehaviorTreelogic
 
         public override BTReturnEnum run()
         {
-            if ((this.formation != null) && true/*&& this.formation.Team.QuerySystem.EnemyCavalryRatio > 0.1f*/)
+            if ((this.formation != null))
             {
+                InformationManager.DisplayMessage(new InformationMessage(Utils.GetPlayerFormationRatios(this.formation, FormationClass.Cavalry).ToString()));
 
-                this.formation.AI.ResetBehaviorWeights();
+                if (Utils.GetPlayerFormationRatios(this.formation, FormationClass.Cavalry) > 0.1f)
+                {
+                    this.formation.AI.ResetBehaviorWeights();
 
-                BehaviorProtectAroundAnchor behavior = this.formation.AI.SetBehaviorWeight<BehaviorProtectAroundAnchor>(1f);
+                    this.formation.AI.SetBehaviorWeight<BehaviorProtectFlank>(2f).FlankSide = this.flankSide;
+
+                    return BTReturnEnum.succeeded;
+                }
+                else
+                {
+                    return BTReturnEnum.failed;
+                }
+
+                /*BehaviorProtectAroundAnchor behavior = this.formation.AI.SetBehaviorWeight<BehaviorProtectAroundAnchor>(1f);
                 behavior.Formation = this.formation;
                 behavior.FlankSide = this.flankSide;
 
-                return BTReturnEnum.succeeded;
+                return BTReturnEnum.succeeded;*/
             }
             else
             {
-                return BTReturnEnum.failed;
+                return BTReturnEnum.succeeded;
             }
         }
     }

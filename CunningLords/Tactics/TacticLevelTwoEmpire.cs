@@ -78,15 +78,19 @@ namespace CunningLords.Tactics
 				horseArcherSelector.addTask(HABehindVolley);
 				horseArcherSelector.addTask(HAVolley);
 
-				//Right Cavalry Charge
-				TaskStop RCCharge = new TaskStop(this._rightCavalry);
+				//Right Cavalry Protect and Attack Flank
+				TaskProtectFlank RCProtectFlank = new TaskProtectFlank(this._rightCavalry, FormationAI.BehaviorSide.Right);
+				TaskAttackFlank RCAttackFlank = new TaskAttackFlank(this._rightCavalry);
 				Selector rightCavalrySelector = new Selector(null);
-				rightCavalrySelector.addTask(RCCharge);
+				rightCavalrySelector.addTask(RCProtectFlank);
+				rightCavalrySelector.addTask(RCAttackFlank);
 
-				//Left Cavalry Charge
-				TaskStop LCCharge = new TaskStop(this._leftCavalry);
+				//Left Cavalry Protect and Attack Flank
+				TaskProtectFlank LCProtectFlank = new TaskProtectFlank(this._leftCavalry, FormationAI.BehaviorSide.Left);
+				TaskAttackFlank LCAttackFlank = new TaskAttackFlank(this._leftCavalry);
 				Selector leftCavalrySelector = new Selector(null);
-				leftCavalrySelector.addTask(LCCharge);
+				leftCavalrySelector.addTask(LCProtectFlank);
+				leftCavalrySelector.addTask(LCAttackFlank);
 
 				//Final Tree
 				this.tree = new Sequence(null);

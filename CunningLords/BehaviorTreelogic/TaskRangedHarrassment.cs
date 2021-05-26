@@ -18,7 +18,7 @@ namespace CunningLords.BehaviorTreelogic
             this.formation = f;
         }
 
-        public override BTReturnEnum run()
+        public override BTReturnEnum run() //REVIEW!!!!!
         {
             if ((this.formation != null) && this.formation.Team.QuerySystem.EnemyCavalryRatio > 0.2f)
             {
@@ -29,7 +29,7 @@ namespace CunningLords.BehaviorTreelogic
             }
             else
             {
-                return BTReturnEnum.failed;
+                return BTReturnEnum.succeeded;
             }
         }
     }

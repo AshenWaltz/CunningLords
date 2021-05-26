@@ -62,6 +62,7 @@ namespace CunningLords.BehaviorTreelogic
                         BehaviorArcherVanguardSkirmish behavior = this.formation.AI.SetBehaviorWeight<BehaviorArcherVanguardSkirmish>(1f);
                         behavior.Formation = this.formation;
 
+                        InformationManager.DisplayMessage(new InformationMessage("Forward Volley"));
                         return BTReturnEnum.succeeded;
                     }
                     else
@@ -69,10 +70,14 @@ namespace CunningLords.BehaviorTreelogic
                         return BTReturnEnum.failed;
                     }
                 }
+                else
+                {
+                    return BTReturnEnum.failed;
+                }
             }
             else
             {
-                return BTReturnEnum.failed;
+                return BTReturnEnum.succeeded;
             }
 
             
