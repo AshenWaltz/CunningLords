@@ -90,11 +90,14 @@
     <Compile Include="BehaviorTreelogic\Selector.cs" />
     <Compile Include="BehaviorTreelogic\Sequence.cs" />
     <Compile Include="BehaviorTreelogic\Task.cs" />
+    <Compile Include="BehaviorTreelogic\TaskAgressiveStance.cs" />
     <Compile Include="BehaviorTreelogic\TaskArcherBehindVolley.cs" />
     <Compile Include="BehaviorTreelogic\TaskAttackFlank.cs" />
     <Compile Include="BehaviorTreelogic\TaskArcherSkirmish.cs" />
     <Compile Include="BehaviorTreelogic\TaskBraceForImpact.cs" />
     <Compile Include="BehaviorTreelogic\TaskCharge.cs" />
+    <Compile Include="BehaviorTreelogic\TaskDefensiveStance.cs" />
+    <Compile Include="BehaviorTreelogic\TaskFlankCharge.cs" />
     <Compile Include="BehaviorTreelogic\TaskHideBehind.cs" />
     <Compile Include="BehaviorTreelogic\TaskHoldLine.cs" />
     <Compile Include="BehaviorTreelogic\TaskRangedNoAmmoCharge.cs" />

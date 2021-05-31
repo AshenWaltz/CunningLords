@@ -12,28 +12,35 @@ using CunningLords.Behaviors;
 
 namespace CunningLords.BehaviorTreelogic
 {
-    class TaskProximityCharge : Task
+    class TaskFlankCharge : Task
     {
-        private BehaviorConfig behaviorConfig;
 
         private float engageDistance;
 
         private FormationClass formationFocus;
 
-        public TaskProximityCharge(Formation f, BehaviorConfig config, float distance) : base(f)
+        public TaskFlankCharge(Formation f, float distance) : base(f)
         {
             this.formation = f;
-            this.behaviorConfig = config;
             this.engageDistance = distance;
         }
 
-        public override BTReturnEnum run() //If the target or any other formation is closer than "engageDistance"
-        {                                  //Otherwise, continue to advance towards focus.
+        public override BTReturnEnum run() //If allied units are engaged in melee, charge
+        {                                  //
             if ((this.formation != null))
             {
-                Formation closestFormation = Utils.GetClosestPlayerFormation(this.formation);
+                float distance = 1000f;
 
-                if (closestFormation != null && (this.formation.QuerySystem.AveragePosition.Distance(closestFormation.QuerySystem.AveragePosition) < engageDistance))
+                foreach (Formation form in this.formation.Team.Formations)
+                {
+                    Formation closestFormation = Utils.GetClosestPlayerFormation(form);
+                    if (form.QuerySystem.AveragePosition.Distance(closestFormation.QuerySystem.AveragePosition) < distance)
+                    {
+                        distance = form.QuerySystem.AveragePosition.Distance(closestFormation.QuerySystem.AveragePosition);
+                    }
+                }
+
+                if (distance < this.engageDistance)
                 {
                     this.formation.AI.ResetBehaviorWeights();
                     /*BehaviorProximityCharge behavior = this.formation.AI.SetBehaviorWeight<BehaviorProximityCharge>(2f);

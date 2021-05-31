@@ -32,10 +32,12 @@ namespace CunningLords.BehaviorTreelogic
                 if (isFocusNotNull)
                 {
                     this.formation.AI.ResetBehaviorWeights();
-                    BehaviorHideBehind behavior = this.formation.AI.SetBehaviorWeight<BehaviorHideBehind>(2f);
+                    /*BehaviorHideBehind behavior = this.formation.AI.SetBehaviorWeight<BehaviorHideBehind>(2f);
                     behavior.Formation = this.formation;
                     behavior.config = this.behaviorConfig;
-                    behavior.focus = this.formationFocus;
+                    behavior.focus = this.formationFocus;*/
+
+                    this.formation.AI.SetBehaviorWeight<BehaviorScreenedSkirmish>(1f);
 
                     return BTReturnEnum.succeeded;
                 }

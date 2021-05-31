@@ -46,7 +46,9 @@ namespace CunningLords.Tactics
 			}
 			else if (base.AreFormationsCreated && this.tickCounter == 0)
 			{
-				//Infantry Slow Advance
+				//Agressive Stance
+				TaskAgressiveStance taskAgressiveStance = new TaskAgressiveStance(this._mainInfantry);
+				//Infantry Agressive
 				BehaviorConfig MISlowAdvanceConfig = new BehaviorConfig(ArrangementOrder.ArrangementOrderSquare,
 																		FiringOrder.FiringOrderFireAtWill,
 																		FormOrder.FormOrderDeep,
@@ -56,11 +58,10 @@ namespace CunningLords.Tactics
 				float infantryEngageDistance = 30f;
 				TaskSlowAdvance MISlowAdvance = new TaskSlowAdvance(this._mainInfantry, MISlowAdvanceConfig, infantryEngageDistance, FormationClass.Infantry);
 				TaskProximityCharge MITargetedCharge = new TaskProximityCharge(this._mainInfantry, MISlowAdvanceConfig, infantryEngageDistance);
-				Selector mainInfantrySelector = new Selector(null);
-				mainInfantrySelector.addTask(MISlowAdvance);
-				mainInfantrySelector.addTask(MITargetedCharge);
-
-				//Archers Hide Behind Infantry
+				Selector mainInfantryAgressiveSelector = new Selector(null);
+				mainInfantryAgressiveSelector.addTask(MISlowAdvance);
+				mainInfantryAgressiveSelector.addTask(MITargetedCharge);
+				//Archers Agressive
 				BehaviorConfig AHideBehindConfig = new BehaviorConfig(ArrangementOrder.ArrangementOrderLoose,
 																		FiringOrder.FiringOrderFireAtWill,
 																		FormOrder.FormOrderWide,
@@ -68,37 +69,65 @@ namespace CunningLords.Tactics
 																		RidingOrder.RidingOrderFree,
 																		FacingOrder.FacingOrderLookAtEnemy);
 				TaskHideBehind ABehindVolley = new TaskHideBehind(this._archers, AHideBehindConfig, FormationClass.Infantry);
-				Selector archerSelector = new Selector(null);
-				archerSelector.addTask(ABehindVolley);
-
-				//Horse Archers Vanguard and Behind Volley
+				Selector archerAgressiveSelector = new Selector(null);
+				archerAgressiveSelector.addTask(ABehindVolley);
+				//Horse Archers Agressive
 				TaskArcherBehindVolley HABehindVolley = new TaskArcherBehindVolley(this._rangedCavalry);
 				TaskArcherVolley HAVolley = new TaskArcherVolley(this._rangedCavalry);
-				Selector horseArcherSelector = new Selector(null);
-				horseArcherSelector.addTask(HABehindVolley);
-				horseArcherSelector.addTask(HAVolley);
+				Selector horseArcherAgressiveSelector = new Selector(null);
+				horseArcherAgressiveSelector.addTask(HABehindVolley);
+				horseArcherAgressiveSelector.addTask(HAVolley);
+				//Right Cavalry Agressive
+				TaskAttackFlank RCAttackFlank = new TaskAttackFlank(this._rightCavalry);
+				TaskFlankCharge RCFlankCharge = new TaskFlankCharge(this._rightCavalry, 10f);
+				Selector rightCavalryAgressiveSelector = new Selector(null);
+				rightCavalryAgressiveSelector.addTask(RCFlankCharge);
+				rightCavalryAgressiveSelector.addTask(RCAttackFlank);
+				//Left Cavalry Agressive
+				TaskAttackFlank LCAttackFlank = new TaskAttackFlank(this._leftCavalry);
+				TaskFlankCharge LCFlankCharge = new TaskFlankCharge(this._leftCavalry, 10f);
+				Selector leftCavalryAgressiveSelector = new Selector(null);
+				leftCavalryAgressiveSelector.addTask(LCFlankCharge);
+				leftCavalryAgressiveSelector.addTask(LCAttackFlank);
+				//Agressive Node Assembly
+				taskAgressiveStance.addTask(mainInfantryAgressiveSelector);
+				taskAgressiveStance.addTask(archerAgressiveSelector);
+				taskAgressiveStance.addTask(horseArcherAgressiveSelector);
+				taskAgressiveStance.addTask(rightCavalryAgressiveSelector);
+				taskAgressiveStance.addTask(leftCavalryAgressiveSelector);
 
+				//Defensive Stance
+				TaskDefensiveStance taskDefensiveStance = new TaskDefensiveStance(this._mainInfantry);
+				//Infantry Defensive
+				TaskBraceForImpact MIBraceForImpact = new TaskBraceForImpact(this._mainInfantry);
+				Selector mainInfantryDefensiveSelector = new Selector(null);
+				mainInfantryDefensiveSelector.addTask(MIBraceForImpact);
+				//Archers Defensive
+				Selector archerDefensiveSelector = new Selector(null);
+				archerDefensiveSelector.addTask(ABehindVolley);
+				//Horse Archers Defensive
+				Selector horseArcherDefensiveSelector = new Selector(null);
+				horseArcherDefensiveSelector.addTask(HABehindVolley);
+				horseArcherDefensiveSelector.addTask(HAVolley);
 				//Right Cavalry Protect and Attack Flank
 				TaskProtectFlank RCProtectFlank = new TaskProtectFlank(this._rightCavalry, FormationAI.BehaviorSide.Right);
-				TaskAttackFlank RCAttackFlank = new TaskAttackFlank(this._rightCavalry);
-				Selector rightCavalrySelector = new Selector(null);
-				rightCavalrySelector.addTask(RCProtectFlank);
-				rightCavalrySelector.addTask(RCAttackFlank);
-
+				Selector rightCavalryDefensiveSelector = new Selector(null);
+				rightCavalryDefensiveSelector.addTask(RCProtectFlank);
 				//Left Cavalry Protect and Attack Flank
 				TaskProtectFlank LCProtectFlank = new TaskProtectFlank(this._leftCavalry, FormationAI.BehaviorSide.Left);
-				TaskAttackFlank LCAttackFlank = new TaskAttackFlank(this._leftCavalry);
-				Selector leftCavalrySelector = new Selector(null);
-				leftCavalrySelector.addTask(LCProtectFlank);
-				leftCavalrySelector.addTask(LCAttackFlank);
+				Selector leftCavalryDefensiveSelector = new Selector(null);
+				leftCavalryDefensiveSelector.addTask(LCProtectFlank);
+				//Agressive Node Assembly
+				taskDefensiveStance.addTask(mainInfantryDefensiveSelector);
+				taskDefensiveStance.addTask(archerDefensiveSelector);
+				taskDefensiveStance.addTask(horseArcherDefensiveSelector);
+				taskDefensiveStance.addTask(rightCavalryDefensiveSelector);
+				taskDefensiveStance.addTask(leftCavalryDefensiveSelector);
 
 				//Final Tree
 				this.tree = new Sequence(null);
-				this.tree.addTask(mainInfantrySelector);
-				this.tree.addTask(archerSelector);
-				this.tree.addTask(horseArcherSelector);
-				this.tree.addTask(rightCavalrySelector);
-				this.tree.addTask(leftCavalrySelector);
+				this.tree.addTask(taskAgressiveStance);
+				this.tree.addTask(taskDefensiveStance);
 
 				this.tree.run();
 				this.tickCounter++;

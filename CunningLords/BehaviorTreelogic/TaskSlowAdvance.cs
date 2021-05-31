@@ -43,12 +43,15 @@ namespace CunningLords.BehaviorTreelogic
                 }
 
                 this.formation.AI.ResetBehaviorWeights();
-                BehaviorSlowAdvance behavior = this.formation.AI.SetBehaviorWeight<BehaviorSlowAdvance>(2f);
+                /*BehaviorSlowAdvance behavior = this.formation.AI.SetBehaviorWeight<BehaviorSlowAdvance>(2f);
                 behavior.Formation = this.formation;
                 behavior.config = this.behaviorConfig;
                 behavior.focus = this.formationFocus;
 
-                InformationManager.DisplayMessage(new InformationMessage("Slow Advance!"));
+                InformationManager.DisplayMessage(new InformationMessage("Slow Advance!"));*/
+                this.formation.AI.SetBehaviorWeight<BehaviorCautiousAdvance>(1f);
+
+
                 return BTReturnEnum.succeeded;
             }
             else
