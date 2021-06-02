@@ -14,16 +14,16 @@ namespace CunningLords.BehaviorTreelogic
 {
     class TaskProximityCharge : Task
     {
-        private BehaviorConfig behaviorConfig;
+        //private BehaviorConfig behaviorConfig;
 
         private float engageDistance;
 
         private FormationClass formationFocus;
 
-        public TaskProximityCharge(Formation f, BehaviorConfig config, float distance) : base(f)
+        public TaskProximityCharge(Formation f, /*BehaviorConfig config,*/ float distance) : base(f)
         {
             this.formation = f;
-            this.behaviorConfig = config;
+            //this.behaviorConfig = config;
             this.engageDistance = distance;
         }
 

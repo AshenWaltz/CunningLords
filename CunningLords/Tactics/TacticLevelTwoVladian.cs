@@ -11,7 +11,7 @@ using CunningLords.BehaviorTreelogic;
 
 namespace CunningLords.Tactics
 {
-    class TacticLevelTwoEmpire : TacticComponent
+    class TacticLevelTwoVladian : TacticComponent
     {
 		private bool _hasBattleBeenJoined;
 
@@ -21,7 +21,7 @@ namespace CunningLords.Tactics
 
 		private int tickCounter = 0;
 
-		public TacticLevelTwoEmpire(Team team) : base(team)
+		public TacticLevelTwoVladian(Team team) : base(team)
 		{
 			_hasBattleBeenJoined = false;
 			_AIControlledFormationCount = base.Formations.Count((Formation f) => f.IsAIControlled);
@@ -38,6 +38,7 @@ namespace CunningLords.Tactics
 		{
 			base.AssignTacticFormations1121();
 		}
+
 		protected override void TickOccasionally()
 		{
 			if (!base.AreFormationsCreated)
@@ -49,18 +50,19 @@ namespace CunningLords.Tactics
 				//Agressive Stance
 				TaskAgressiveStance taskAgressiveStance = new TaskAgressiveStance(this._mainInfantry);
 				//Infantry Agressive
-				BehaviorConfig MISlowAdvanceConfig = new BehaviorConfig(ArrangementOrder.ArrangementOrderSquare,
+				float infantryEngageDistance = 50f;
+				int duration = 50;
+				BehaviorConfig MISlowAdvanceConfig = new BehaviorConfig(ArrangementOrder.ArrangementOrderLoose,
 																		FiringOrder.FiringOrderFireAtWill,
-																		FormOrder.FormOrderDeep,
+																		FormOrder.FormOrderWide,
 																		WeaponUsageOrder.WeaponUsageOrderUseAny,
 																		RidingOrder.RidingOrderFree,
 																		FacingOrder.FacingOrderLookAtEnemy);
-				float infantryEngageDistance = 30f;
 				TaskSlowAdvance MISlowAdvance = new TaskSlowAdvance(this._mainInfantry, MISlowAdvanceConfig, infantryEngageDistance, FormationClass.Infantry);
-				TaskProximityCharge MITargetedCharge = new TaskProximityCharge(this._mainInfantry/*, MISlowAdvanceConfig*/, infantryEngageDistance);
+				TaskProximityCharge MIProximityCharge = new TaskProximityCharge(this._mainInfantry, 30);
 				Selector mainInfantryAgressiveSelector = new Selector(null);
 				mainInfantryAgressiveSelector.addTask(MISlowAdvance);
-				mainInfantryAgressiveSelector.addTask(MITargetedCharge);
+				mainInfantryAgressiveSelector.addTask(MIProximityCharge);
 				//Archers Agressive
 				BehaviorConfig AHideBehindConfig = new BehaviorConfig(ArrangementOrder.ArrangementOrderLoose,
 																		FiringOrder.FiringOrderFireAtWill,
@@ -68,27 +70,22 @@ namespace CunningLords.Tactics
 																		WeaponUsageOrder.WeaponUsageOrderUseAny,
 																		RidingOrder.RidingOrderFree,
 																		FacingOrder.FacingOrderLookAtEnemy);
-				TaskHideBehind ABehindVolley = new TaskHideBehind(this._archers, AHideBehindConfig, FormationClass.Infantry);
+				TaskRangedEngagement ARangedEngagement = new TaskRangedEngagement(this._archers);
 				Selector archerAgressiveSelector = new Selector(null);
-				archerAgressiveSelector.addTask(ABehindVolley);
+				archerAgressiveSelector.addTask(ARangedEngagement);
 				//Horse Archers Agressive
-				TaskArcherBehindVolley HABehindVolley = new TaskArcherBehindVolley(this._rangedCavalry);
-				TaskArcherVolley HAVolley = new TaskArcherVolley(this._rangedCavalry);
+				TaskRangedEngagement HARangedEngagement = new TaskRangedEngagement(this._rangedCavalry);
 				Selector horseArcherAgressiveSelector = new Selector(null);
-				horseArcherAgressiveSelector.addTask(HABehindVolley);
-				horseArcherAgressiveSelector.addTask(HAVolley);
+				horseArcherAgressiveSelector.addTask(HARangedEngagement);
 				//Right Cavalry Agressive
-				TaskAttackFlank RCAttackFlank = new TaskAttackFlank(this._rightCavalry);
-				TaskFlankCharge RCFlankCharge = new TaskFlankCharge(this._rightCavalry, 10f);
+				float cavalryEngageDistance = 50f;
+				TaskCharge RCCharge = new TaskCharge(this._rightCavalry);
 				Selector rightCavalryAgressiveSelector = new Selector(null);
-				rightCavalryAgressiveSelector.addTask(RCFlankCharge);
-				rightCavalryAgressiveSelector.addTask(RCAttackFlank);
+				rightCavalryAgressiveSelector.addTask(RCCharge);
 				//Left Cavalry Agressive
-				TaskAttackFlank LCAttackFlank = new TaskAttackFlank(this._leftCavalry);
-				TaskFlankCharge LCFlankCharge = new TaskFlankCharge(this._leftCavalry, 10f);
+				TaskCharge LCCharge = new TaskCharge(this._leftCavalry);
 				Selector leftCavalryAgressiveSelector = new Selector(null);
-				leftCavalryAgressiveSelector.addTask(LCFlankCharge);
-				leftCavalryAgressiveSelector.addTask(LCAttackFlank);
+				leftCavalryAgressiveSelector.addTask(LCCharge);
 				//Agressive Node Assembly
 				taskAgressiveStance.addTask(mainInfantryAgressiveSelector);
 				taskAgressiveStance.addTask(archerAgressiveSelector);
@@ -99,24 +96,31 @@ namespace CunningLords.Tactics
 				//Defensive Stance
 				TaskDefensiveStance taskDefensiveStance = new TaskDefensiveStance(this._mainInfantry);
 				//Infantry Defensive
-				TaskBraceForImpact MIBraceForImpact = new TaskBraceForImpact(this._mainInfantry);
+				float engageDistance = 30f;
+				TaskHoldLine MIHoldLine = new TaskHoldLine(this._mainInfantry);
+				TaskProximityCharge MIproximityCharge = new TaskProximityCharge(this._mainInfantry, engageDistance);
 				Selector mainInfantryDefensiveSelector = new Selector(null);
-				mainInfantryDefensiveSelector.addTask(MIBraceForImpact);
+				mainInfantryDefensiveSelector.addTask(MIHoldLine);
+				mainInfantryDefensiveSelector.addTask(MIproximityCharge);
 				//Archers Defensive
+				TaskHoldLine ArcherHoldLine = new TaskHoldLine(this._archers);
 				Selector archerDefensiveSelector = new Selector(null);
-				archerDefensiveSelector.addTask(ABehindVolley);
+				archerDefensiveSelector.addTask(ArcherHoldLine);
 				//Horse Archers Defensive
 				Selector horseArcherDefensiveSelector = new Selector(null);
-				horseArcherDefensiveSelector.addTask(HABehindVolley);
-				horseArcherDefensiveSelector.addTask(HAVolley);
+				horseArcherDefensiveSelector.addTask(HARangedEngagement);
 				//Right Cavalry Protect and Attack Flank
 				TaskProtectFlank RCProtectFlank = new TaskProtectFlank(this._rightCavalry, FormationAI.BehaviorSide.Right);
+				TaskCycleCharge RCCycleCharge = new TaskCycleCharge(this._rightCavalry, 50, 50);
 				Selector rightCavalryDefensiveSelector = new Selector(null);
 				rightCavalryDefensiveSelector.addTask(RCProtectFlank);
+				rightCavalryDefensiveSelector.addTask(RCCycleCharge);
 				//Left Cavalry Protect and Attack Flank
 				TaskProtectFlank LCProtectFlank = new TaskProtectFlank(this._leftCavalry, FormationAI.BehaviorSide.Left);
+				TaskCycleCharge LCCycleCharge = new TaskCycleCharge(this._leftCavalry, 50, 50);
 				Selector leftCavalryDefensiveSelector = new Selector(null);
 				leftCavalryDefensiveSelector.addTask(LCProtectFlank);
+				leftCavalryDefensiveSelector.addTask(LCCycleCharge);
 				//Agressive Node Assembly
 				taskDefensiveStance.addTask(mainInfantryDefensiveSelector);
 				taskDefensiveStance.addTask(archerDefensiveSelector);

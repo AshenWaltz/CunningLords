@@ -96,10 +96,12 @@
     <Compile Include="BehaviorTreelogic\TaskArcherSkirmish.cs" />
     <Compile Include="BehaviorTreelogic\TaskBraceForImpact.cs" />
     <Compile Include="BehaviorTreelogic\TaskCharge.cs" />
+    <Compile Include="BehaviorTreelogic\TaskCycleCharge.cs" />
     <Compile Include="BehaviorTreelogic\TaskDefensiveStance.cs" />
     <Compile Include="BehaviorTreelogic\TaskFlankCharge.cs" />
     <Compile Include="BehaviorTreelogic\TaskHideBehind.cs" />
     <Compile Include="BehaviorTreelogic\TaskHoldLine.cs" />
+    <Compile Include="BehaviorTreelogic\TaskRangedEngagement.cs" />
     <Compile Include="BehaviorTreelogic\TaskRangedNoAmmoCharge.cs" />
     <Compile Include="BehaviorTreelogic\TaskArcherVolley.cs" />
     <Compile Include="BehaviorTreelogic\TaskProtectFlank.cs" />
@@ -126,7 +128,10 @@
     <Compile Include="Patches\Utils.cs" />
     <Compile Include="SubModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tactics\TacticLevelTwoBattania.cs" />
     <Compile Include="Tactics\TacticLevelTwoEmpire.cs" />
+    <Compile Include="Tactics\TacticLevelTwoSturgia.cs" />
+    <Compile Include="Tactics\TacticLevelTwoVladian.cs" />
     <Compile Include="Tactics\TacticRecklessCharge.cs" />
     <Compile Include="Tactics\TacticDefaultDefense.cs" />
     <Content Include="Readme.txt" />
