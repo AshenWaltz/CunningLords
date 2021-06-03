@@ -110,6 +110,8 @@
     <Compile Include="BehaviorTreelogic\TaskSlowAdvance.cs" />
     <Compile Include="BehaviorTreelogic\TaskStop.cs" />
     <Compile Include="BehaviorTreelogic\TaskProximityCharge.cs" />
+    <Compile Include="DecisionTreeLogic\Decision.cs" />
+    <Compile Include="DecisionTreeLogic\DecisionTreeNode.cs" />
     <Compile Include="Interaction\CampaignInteraction.cs" />
     <Compile Include="Interaction\CunningLordsAgentOrigin.cs" />
     <Compile Include="Interaction\CunningLordsConfigData.cs" />
