@@ -112,8 +112,10 @@
     <Compile Include="BehaviorTreelogic\TaskProximityCharge.cs" />
     <Compile Include="DecisionTreeLogic\ActionCharge.cs" />
     <Compile Include="DecisionTreeLogic\ActionDontExist.cs" />
+    <Compile Include="DecisionTreeLogic\ActionFlank.cs" />
     <Compile Include="DecisionTreeLogic\ActionHoldLine.cs" />
     <Compile Include="DecisionTreeLogic\ActionScreenedSkirmish.cs" />
+    <Compile Include="DecisionTreeLogic\ActionProtectFlank.cs" />
     <Compile Include="DecisionTreeLogic\Decision.cs" />
     <Compile Include="DecisionTreeLogic\DecisionClosestEnemyCloserThan.cs" />
     <Compile Include="DecisionTreeLogic\DecisionIsAttacker.cs" />

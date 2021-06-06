@@ -72,13 +72,45 @@ namespace CunningLords.Tactics
 				DecisionIsFormationNotNull decisionArchersNotNull = new DecisionIsFormationNotNull(this._archers, decisionArcherIsAttacker, archersDontExist);
 
 				//Left Cavalry
+				ActionFlank leftCavalryFlank = new ActionFlank(this._leftCavalry);
+				ActionCharge leftCavalryCharge = new ActionCharge(this._leftCavalry);
+				ActionProtectFlank leftCavalryProtectFlank = new ActionProtectFlank(this._leftCavalry, FormationAI.BehaviorSide.Left);
+				ActionDontExist leftCavalryDontExist = new ActionDontExist(this._leftCavalry);
+
+				DecisionClosestEnemyCloserThan IsInfantryEngaged = new DecisionClosestEnemyCloserThan(this._mainInfantry, leftCavalryCharge, leftCavalryFlank, 30f);
+
+				DecisionIsFormationNotNull IsInfantryNotNull = new DecisionIsFormationNotNull(this._mainInfantry, IsInfantryEngaged, leftCavalryCharge);
+
+				DecisionIsAttacker IsLeftCavalryAttacker = new DecisionIsAttacker(this._leftCavalry, IsInfantryNotNull, leftCavalryProtectFlank);
+
+				DecisionIsFormationNotNull IsLeftCavalryNotNull = new DecisionIsFormationNotNull(this._leftCavalry, IsLeftCavalryAttacker, leftCavalryDontExist);
+
+				//Right Cavalry
+				ActionFlank rightCavalryFlank = new ActionFlank(this._rightCavalry);
+				ActionCharge rightCavalryCharge = new ActionCharge(this._rightCavalry);
+				ActionProtectFlank rightCavalryCavalryProtectFlank = new ActionProtectFlank(this._rightCavalry, FormationAI.BehaviorSide.Right);
+				ActionDontExist rightCavalryCavalryDontExist = new ActionDontExist(this._rightCavalry);
+
+				DecisionClosestEnemyCloserThan IsInfantryEngagedII = new DecisionClosestEnemyCloserThan(this._mainInfantry, rightCavalryCharge, rightCavalryFlank, 30f);
+
+				DecisionIsFormationNotNull IsInfantryNotNullII = new DecisionIsFormationNotNull(this._mainInfantry, IsInfantryEngagedII, rightCavalryCharge);
+
+				DecisionIsAttacker IsrightCavalryCavalryAttacker = new DecisionIsAttacker(this._rightCavalry, IsInfantryNotNullII, rightCavalryCavalryProtectFlank);
+
+				DecisionIsFormationNotNull IsrightCavalryCavalryNotNull = new DecisionIsFormationNotNull(this._rightCavalry, IsrightCavalryCavalryAttacker, rightCavalryCavalryDontExist);
+
+				//Horse Archers
 
 				//Final Trees
 				this.infantryTree = decisionInfantryNotNull;
 				this.archersTree = decisionArchersNotNull;
+				this.leftCavalryTree = IsLeftCavalryNotNull;
+				this.rightCavalryTree = IsrightCavalryCavalryNotNull;
 
 				this.infantryTree.makeDecision();
 				this.archersTree.makeDecision();
+				this.leftCavalryTree.makeDecision();
+				this.rightCavalryTree.makeDecision();
 
 				this.tickCounter++;
 			}
@@ -86,6 +118,8 @@ namespace CunningLords.Tactics
 			{
 				this.infantryTree.makeDecision();
 				this.archersTree.makeDecision();
+				this.leftCavalryTree.makeDecision();
+				this.rightCavalryTree.makeDecision();
 			}
 
 			base.TickOccasionally();
