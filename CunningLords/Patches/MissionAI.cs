@@ -107,16 +107,8 @@ namespace CunningLords.Patches
                             else if ((tacticSkill > 75) && (tacticSkill <= 200)) //Good tactic level. I know my culture and my army. I know how to use them
                             {
                                 InformationManager.DisplayMessage(new InformationMessage("Good tactic level"));
-                                if (team.Side == BattleSideEnum.Attacker)
-                                {
-                                    team.ClearTacticOptions();
-                                    team.AddTacticOption(new TacticLevelTwoEmpire(team));
-                                }
-                                else if (team.Side == BattleSideEnum.Defender)
-                                {
-                                    team.ClearTacticOptions();
-                                    team.AddTacticOption(new TacticLevelTwoEmpire(team));
-                                }
+                                team.ClearTacticOptions();
+                                team.AddTacticOption(new DTTacticLevelTwoEmpire(team));
                             }
                             else //Excelent tactic level. Not only do I know my culture and my army, but I also recognize the strengths and weaknesses of my enemies
                             {
