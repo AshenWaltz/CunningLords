@@ -100,17 +100,31 @@ namespace CunningLords.Tactics
 				DecisionIsFormationNotNull IsrightCavalryCavalryNotNull = new DecisionIsFormationNotNull(this._rightCavalry, IsrightCavalryCavalryAttacker, rightCavalryCavalryDontExist);
 
 				//Horse Archers
+				ActionCharge horseArcherCharge = new ActionCharge(this._rangedCavalry);
+				ActionHorseArcherSkirmish horseArcherSkirmish = new ActionHorseArcherSkirmish(this._rangedCavalry);
+				ActionScreenedSkirmish horseArcherScreenedSkirmish = new ActionScreenedSkirmish(this._rangedCavalry);
+				ActionDontExist horseArcherDontExist = new ActionDontExist(this._rangedCavalry);
+
+				DecisionClosestEnemyCloserThan IsInfantryEngagedIII = new DecisionClosestEnemyCloserThan(this._mainInfantry, horseArcherScreenedSkirmish, horseArcherSkirmish, 30f);
+
+				DecisionIsFormationNotNull IsInfantryNotNullIII = new DecisionIsFormationNotNull(this._mainInfantry, IsInfantryEngagedIII, horseArcherCharge);
+
+				DecisionIsAttacker IsHorseArchersAttacker = new DecisionIsAttacker(this._rangedCavalry, IsInfantryNotNullIII, horseArcherSkirmish);
+
+				DecisionIsFormationNotNull IsHorseArchersNotNull = new DecisionIsFormationNotNull(this._rangedCavalry, IsHorseArchersAttacker, horseArcherDontExist);
 
 				//Final Trees
 				this.infantryTree = decisionInfantryNotNull;
 				this.archersTree = decisionArchersNotNull;
 				this.leftCavalryTree = IsLeftCavalryNotNull;
 				this.rightCavalryTree = IsrightCavalryCavalryNotNull;
+				this.HorseArchersTree = IsHorseArchersNotNull;
 
 				this.infantryTree.makeDecision();
 				this.archersTree.makeDecision();
 				this.leftCavalryTree.makeDecision();
 				this.rightCavalryTree.makeDecision();
+				this.HorseArchersTree.makeDecision();
 
 				this.tickCounter++;
 			}
@@ -120,6 +134,7 @@ namespace CunningLords.Tactics
 				this.archersTree.makeDecision();
 				this.leftCavalryTree.makeDecision();
 				this.rightCavalryTree.makeDecision();
+				this.HorseArchersTree.makeDecision();
 			}
 
 			base.TickOccasionally();

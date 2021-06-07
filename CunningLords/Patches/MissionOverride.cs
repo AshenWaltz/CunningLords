@@ -63,9 +63,9 @@ namespace CunningLords.Patches
                     }*/
 
                     Utils.OnStartOrders(__instance);
-                    MissionOverride.FrameCounter++;
+                    //MissionOverride.FrameCounter++;
                 }
-
+                MissionOverride.FrameCounter++;
                 Utils.ManageInputKeys(__instance);
             }
         }

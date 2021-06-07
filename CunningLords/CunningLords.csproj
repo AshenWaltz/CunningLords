@@ -112,12 +112,15 @@
     <Compile Include="BehaviorTreelogic\TaskProximityCharge.cs" />
     <Compile Include="DecisionTreeLogic\ActionCharge.cs" />
     <Compile Include="DecisionTreeLogic\ActionDontExist.cs" />
+    <Compile Include="DecisionTreeLogic\ActionPullBack.cs" />
     <Compile Include="DecisionTreeLogic\ActionFlank.cs" />
     <Compile Include="DecisionTreeLogic\ActionHoldLine.cs" />
+    <Compile Include="DecisionTreeLogic\ActionHorseArcherSkirmish.cs" />
     <Compile Include="DecisionTreeLogic\ActionScreenedSkirmish.cs" />
     <Compile Include="DecisionTreeLogic\ActionProtectFlank.cs" />
     <Compile Include="DecisionTreeLogic\Decision.cs" />
     <Compile Include="DecisionTreeLogic\DecisionClosestEnemyCloserThan.cs" />
+    <Compile Include="DecisionTreeLogic\DecisionCycleCharge.cs" />
     <Compile Include="DecisionTreeLogic\DecisionIsAttacker.cs" />
     <Compile Include="DecisionTreeLogic\DecisionIsFormationNotNull.cs" />
     <Compile Include="DecisionTreeLogic\DecisionTreeNode.cs" />
@@ -140,6 +143,7 @@
     <Compile Include="Patches\Utils.cs" />
     <Compile Include="SubModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tactics\DTTacticLevelTwoBattania.cs" />
     <Compile Include="Tactics\DTTacticLevelTwoEmpire.cs" />
     <Compile Include="Tactics\TacticLevelTwoBattania.cs" />
     <Compile Include="Tactics\TacticLevelTwoEmpire.cs" />
