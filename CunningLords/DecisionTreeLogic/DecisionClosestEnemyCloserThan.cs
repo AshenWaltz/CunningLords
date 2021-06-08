@@ -28,7 +28,13 @@ namespace CunningLords.DecisionTreeLogic
         private DecisionTreeNode getBranch()
         {
             Formation closestFormation = Utils.GetClosestPlayerFormation(this.formation);
+            if(closestFormation == null || this.formation == null)
+            {
+                return this.falseNode;
+            }
+
             float closestDistance = this.formation.QuerySystem.AveragePosition.Distance(closestFormation.QuerySystem.AveragePosition);
+            
             if (closestDistance < this.engageDistance)
             {
                 return this.trueNode;

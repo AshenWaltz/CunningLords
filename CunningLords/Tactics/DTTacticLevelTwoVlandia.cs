@@ -10,10 +10,11 @@ using TaleWorlds.MountAndBlade;
 using CunningLords.DecisionTreeLogic;
 using CunningLords.Patches;
 
-namespace CunningLords.Tactics 
+
+namespace CunningLords.Tactics
 {
-    class DTTacticLevelTwoBattania : TacticComponent
-	{
+    class DTTacticLevelTwoVlandia : TacticComponent
+    {
 		private bool _hasBattleBeenJoined;
 
 		private int _AIControlledFormationCount;
@@ -29,7 +30,7 @@ namespace CunningLords.Tactics
 
 		public Utils util;
 
-		public DTTacticLevelTwoBattania(Team team) : base(team)
+		public DTTacticLevelTwoVlandia(Team team) : base(team)
 		{
 			_hasBattleBeenJoined = false;
 			_AIControlledFormationCount = base.Formations.Count((Formation f) => f.IsAIControlled);
@@ -58,14 +59,11 @@ namespace CunningLords.Tactics
 			{
 				//Infantry
 				ActionCharge infantryCharge = new ActionCharge(this._mainInfantry);
-				ActionPullBack infantryPullback = new ActionPullBack(this._mainInfantry);
 				ActionDontExist infantryDontExist = new ActionDontExist(this._mainInfantry);
 				ActionAdvance infantryAdvance = new ActionAdvance(this._mainInfantry);
 				ActionHoldLine infantryHoldline = new ActionHoldLine(this._mainInfantry);
 
-				DecisionCycleCharge decisionInfantryCycleCharge = new DecisionCycleCharge(this._mainInfantry, infantryCharge, infantryPullback, 10, 0, ref this.util);
-
-				DecisionClosestEnemyCloserThan decisionCloserThan = new DecisionClosestEnemyCloserThan(this._mainInfantry, decisionInfantryCycleCharge, infantryAdvance, 30f);
+				DecisionClosestEnemyCloserThan decisionCloserThan = new DecisionClosestEnemyCloserThan(this._mainInfantry, infantryCharge, infantryAdvance, 30f);
 
 				DecisionClosestEnemyCloserThan decisionCloserThanDefense = new DecisionClosestEnemyCloserThan(this._mainInfantry, infantryCharge, infantryHoldline, 30f);
 
@@ -74,43 +72,41 @@ namespace CunningLords.Tactics
 				DecisionIsFormationNotNull decisionInfantryNotNull = new DecisionIsFormationNotNull(this._mainInfantry, decisionIsIfantryAttacker, infantryDontExist);
 
 				//Archers
-				ActionScreenedSkirmish archersSparseSkirmish = new ActionScreenedSkirmish(this._archers);
+				ActionSkirmish archersSkirmish = new ActionSkirmish(this._archers);
 				ActionHoldLine archersHoldLine = new ActionHoldLine(this._archers);
 				ActionDontExist archersDontExist = new ActionDontExist(this._archers);
 
-				DecisionIsAttacker decisionIsArchersAttacker = new DecisionIsAttacker(this._archers, archersSparseSkirmish, archersHoldLine);
+				DecisionIsAttacker decisionIsArchersAttacker = new DecisionIsAttacker(this._archers, archersSkirmish, archersHoldLine);
 
 				DecisionIsFormationNotNull decisionArchersNotNull = new DecisionIsFormationNotNull(this._archers, decisionIsArchersAttacker, archersDontExist);
 
 				//Left Cavalry
 				ActionCharge leftCavalryCharge = new ActionCharge(this._leftCavalry);
-				ActionPullBack leftCavalryPullback = new ActionPullBack(this._leftCavalry);
-				ActionAdvance leftCavalryAdvance = new ActionAdvance(this._leftCavalry);
 				ActionProtectFlank leftCavalryProtectFlank = new ActionProtectFlank(this._leftCavalry, FormationAI.BehaviorSide.Left);
+				ActionCavalryScreen leftCavalryScreen = new ActionCavalryScreen(this._leftCavalry);
 				ActionDontExist leftCavalryDontExist = new ActionDontExist(this._leftCavalry);
 
-				DecisionCycleCharge decisionLeftCavalryCycleCharge = new DecisionCycleCharge(this._leftCavalry, leftCavalryCharge, leftCavalryPullback, 10, 0, ref this.util);
+				DecisionClosestEnemyCloserThan decisionInfantryEnemyCloser = new DecisionClosestEnemyCloserThan(this._mainInfantry, leftCavalryCharge, leftCavalryProtectFlank, 30f);
 
-				DecisionClosestEnemyCloserThan decisionLeftCavalryEnemyCloser = new DecisionClosestEnemyCloserThan(this._leftCavalry, decisionLeftCavalryCycleCharge, leftCavalryAdvance, 30f);
+				DecisionIsFormationNotNull decisionIsInfantryNotNull = new DecisionIsFormationNotNull(this._mainInfantry, decisionInfantryEnemyCloser, leftCavalryScreen);
 
-				DecisionIsAttacker decisionLeftCavalryIsAttacker = new DecisionIsAttacker(this._leftCavalry, decisionLeftCavalryEnemyCloser, leftCavalryProtectFlank);
+				DecisionIsAttacker decisionLeftCavalryIsAttacker = new DecisionIsAttacker(this._leftCavalry, leftCavalryCharge, decisionIsInfantryNotNull);
 
 				DecisionIsFormationNotNull IsLeftCavalryNotNull = new DecisionIsFormationNotNull(this._leftCavalry, decisionLeftCavalryIsAttacker, leftCavalryDontExist);
 
 				//Right Cavalry
 				ActionCharge rightCavalryCharge = new ActionCharge(this._rightCavalry);
-				ActionPullBack rightCavalryPullback = new ActionPullBack(this._rightCavalry);
-				ActionAdvance rightCavalryAdvance = new ActionAdvance(this._rightCavalry);
+				ActionCavalryScreen rightCavalryCavalryScreen = new ActionCavalryScreen(this._rightCavalry);
 				ActionProtectFlank rightCavalryProtectFlank = new ActionProtectFlank(this._rightCavalry, FormationAI.BehaviorSide.Right);
-				ActionDontExist rightCavalryCavalryDontExist = new ActionDontExist(this._rightCavalry);
+				ActionDontExist rightCavalryDontExist = new ActionDontExist(this._rightCavalry);
 
-				DecisionCycleCharge decisionRightCavalryCycleCharge = new DecisionCycleCharge(this._rightCavalry, rightCavalryCharge, rightCavalryPullback, 10, 0, ref this.util);
+				DecisionClosestEnemyCloserThan decisionInfantryEnemyCloserII = new DecisionClosestEnemyCloserThan(this._mainInfantry, rightCavalryCharge, rightCavalryProtectFlank, 30f);
 
-				DecisionClosestEnemyCloserThan decisionRightCavalryEnemyCloser = new DecisionClosestEnemyCloserThan(this._rightCavalry, decisionRightCavalryCycleCharge, rightCavalryAdvance, 30f);
+				DecisionIsFormationNotNull decisionIsInfantryNotNullII = new DecisionIsFormationNotNull(this._mainInfantry, decisionInfantryEnemyCloserII, rightCavalryCavalryScreen);
 
-				DecisionIsAttacker decisionRightCavalryIsAttacker = new DecisionIsAttacker(this._rightCavalry, decisionRightCavalryEnemyCloser, rightCavalryProtectFlank);
+				DecisionIsAttacker decisionRightCavalryIsAttacker = new DecisionIsAttacker(this._rightCavalry, rightCavalryCharge, decisionIsInfantryNotNullII);
 
-				DecisionIsFormationNotNull IsrightCavalryCavalryNotNull = new DecisionIsFormationNotNull(this._rightCavalry, decisionRightCavalryIsAttacker, rightCavalryCavalryDontExist);
+				DecisionIsFormationNotNull IsrightCavalryCavalryNotNull = new DecisionIsFormationNotNull(this._rightCavalry, decisionRightCavalryIsAttacker, rightCavalryDontExist);
 
 				//Horse Archers
 				ActionHorseArcherSkirmish horseAcherSkirmish = new ActionHorseArcherSkirmish(this._rangedCavalry);

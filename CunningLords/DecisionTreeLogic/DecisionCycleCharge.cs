@@ -21,7 +21,9 @@ namespace CunningLords.DecisionTreeLogic
 
         protected int startFrame;
 
-        public DecisionCycleCharge(Formation f, DecisionTreeNode tn, DecisionTreeNode fn, int duration, int frame) : base(f)
+        protected Utils util;
+
+        public DecisionCycleCharge(Formation f, DecisionTreeNode tn, DecisionTreeNode fn, int duration, int frame, ref Utils ut) : base(f)
         {
             this.formation = f;
             this.trueNode = tn;
@@ -29,24 +31,28 @@ namespace CunningLords.DecisionTreeLogic
             this.engageDuration = duration;
             this.startFrame = frame;
             this.lastFrame = frame;
+            this.util = ut;
         }
 
         private DecisionTreeNode getBranch()
         {
-            int currentFrame = MissionOverride.FrameCounter;
+            int currentFrame = util.GetMissionTickCounter();
 
             if (currentFrame == (this.lastFrame + 1) && currentFrame < (this.startFrame + this.engageDuration))
             {
+                InformationManager.DisplayMessage(new InformationMessage("charging"));
                 this.lastFrame = currentFrame;
                 return this.trueNode;
             }
             else if (currentFrame == (this.lastFrame + 1) && currentFrame >= (this.startFrame + this.engageDuration) && currentFrame < (this.startFrame + this.engageDuration + this.engageDuration))
             {
+                InformationManager.DisplayMessage(new InformationMessage("pulling back"));
                 this.lastFrame = currentFrame;
                 return this.falseNode;
             }
             else
             {
+                InformationManager.DisplayMessage(new InformationMessage("else" + currentFrame.ToString()));
                 this.startFrame = currentFrame;
                 this.lastFrame = currentFrame;
                 return this.trueNode;

@@ -110,6 +110,7 @@
     <Compile Include="BehaviorTreelogic\TaskSlowAdvance.cs" />
     <Compile Include="BehaviorTreelogic\TaskStop.cs" />
     <Compile Include="BehaviorTreelogic\TaskProximityCharge.cs" />
+    <Compile Include="DecisionTreeLogic\ActionCavalryScreen.cs" />
     <Compile Include="DecisionTreeLogic\ActionCharge.cs" />
     <Compile Include="DecisionTreeLogic\ActionDontExist.cs" />
     <Compile Include="DecisionTreeLogic\ActionPullBack.cs" />
@@ -118,6 +119,8 @@
     <Compile Include="DecisionTreeLogic\ActionHorseArcherSkirmish.cs" />
     <Compile Include="DecisionTreeLogic\ActionScreenedSkirmish.cs" />
     <Compile Include="DecisionTreeLogic\ActionProtectFlank.cs" />
+    <Compile Include="DecisionTreeLogic\ActionSkirmish.cs" />
+    <Compile Include="DecisionTreeLogic\ActionSparseSkirmish.cs" />
     <Compile Include="DecisionTreeLogic\Decision.cs" />
     <Compile Include="DecisionTreeLogic\DecisionClosestEnemyCloserThan.cs" />
     <Compile Include="DecisionTreeLogic\DecisionCycleCharge.cs" />
@@ -145,6 +148,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tactics\DTTacticLevelTwoBattania.cs" />
     <Compile Include="Tactics\DTTacticLevelTwoEmpire.cs" />
+    <Compile Include="Tactics\DTTacticLevelTwoSturgia.cs" />
+    <Compile Include="Tactics\DTTacticLevelTwoVlandia.cs" />
     <Compile Include="Tactics\TacticLevelTwoBattania.cs" />
     <Compile Include="Tactics\TacticLevelTwoEmpire.cs" />
     <Compile Include="Tactics\TacticLevelTwoSturgia.cs" />

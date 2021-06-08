@@ -10,10 +10,10 @@ using TaleWorlds.MountAndBlade;
 using CunningLords.DecisionTreeLogic;
 using CunningLords.Patches;
 
-namespace CunningLords.Tactics 
+namespace CunningLords.Tactics
 {
-    class DTTacticLevelTwoBattania : TacticComponent
-	{
+    class DTTacticLevelTwoSturgia : TacticComponent
+    {
 		private bool _hasBattleBeenJoined;
 
 		private int _AIControlledFormationCount;
@@ -29,7 +29,7 @@ namespace CunningLords.Tactics
 
 		public Utils util;
 
-		public DTTacticLevelTwoBattania(Team team) : base(team)
+		public DTTacticLevelTwoSturgia(Team team) : base(team)
 		{
 			_hasBattleBeenJoined = false;
 			_AIControlledFormationCount = base.Formations.Count((Formation f) => f.IsAIControlled);
@@ -58,27 +58,19 @@ namespace CunningLords.Tactics
 			{
 				//Infantry
 				ActionCharge infantryCharge = new ActionCharge(this._mainInfantry);
-				ActionPullBack infantryPullback = new ActionPullBack(this._mainInfantry);
 				ActionDontExist infantryDontExist = new ActionDontExist(this._mainInfantry);
-				ActionAdvance infantryAdvance = new ActionAdvance(this._mainInfantry);
 				ActionHoldLine infantryHoldline = new ActionHoldLine(this._mainInfantry);
 
-				DecisionCycleCharge decisionInfantryCycleCharge = new DecisionCycleCharge(this._mainInfantry, infantryCharge, infantryPullback, 10, 0, ref this.util);
-
-				DecisionClosestEnemyCloserThan decisionCloserThan = new DecisionClosestEnemyCloserThan(this._mainInfantry, decisionInfantryCycleCharge, infantryAdvance, 30f);
-
-				DecisionClosestEnemyCloserThan decisionCloserThanDefense = new DecisionClosestEnemyCloserThan(this._mainInfantry, infantryCharge, infantryHoldline, 30f);
-
-				DecisionIsAttacker decisionIsIfantryAttacker = new DecisionIsAttacker(this._mainInfantry, decisionCloserThan, decisionCloserThanDefense);
+				DecisionIsAttacker decisionIsIfantryAttacker = new DecisionIsAttacker(this._mainInfantry, infantryCharge, infantryHoldline);
 
 				DecisionIsFormationNotNull decisionInfantryNotNull = new DecisionIsFormationNotNull(this._mainInfantry, decisionIsIfantryAttacker, infantryDontExist);
 
 				//Archers
-				ActionScreenedSkirmish archersSparseSkirmish = new ActionScreenedSkirmish(this._archers);
+				ActionScreenedSkirmish archersSkirmish = new ActionScreenedSkirmish(this._archers);
 				ActionHoldLine archersHoldLine = new ActionHoldLine(this._archers);
 				ActionDontExist archersDontExist = new ActionDontExist(this._archers);
 
-				DecisionIsAttacker decisionIsArchersAttacker = new DecisionIsAttacker(this._archers, archersSparseSkirmish, archersHoldLine);
+				DecisionIsAttacker decisionIsArchersAttacker = new DecisionIsAttacker(this._archers, archersSkirmish, archersHoldLine);
 
 				DecisionIsFormationNotNull decisionArchersNotNull = new DecisionIsFormationNotNull(this._archers, decisionIsArchersAttacker, archersDontExist);
 

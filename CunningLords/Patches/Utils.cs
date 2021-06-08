@@ -645,9 +645,15 @@ namespace CunningLords.Patches
             return formatioAmmoRatio;
         }
 
-        public int GetMissionFrameCounter()
+        public int tickCounter = 0;
+        public int GetMissionTickCounter()
         {
-            return MissionOverride.FrameCounter;
+            return this.tickCounter;
+        }
+
+        public void IncreaseTickCounter()
+        {
+            this.tickCounter++;
         }
     }
 }
