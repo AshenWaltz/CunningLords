@@ -109,7 +109,9 @@ namespace CunningLords.Patches
                                 InformationManager.DisplayMessage(new InformationMessage("Good tactic level"));
                                 team.ClearTacticOptions();
                                 //team.AddTacticOption(new DTTacticLevelTwoEmpire(team));
-                                team.AddTacticOption(new DTTacticLevelTwoBattania(team));
+                                //team.AddTacticOption(new DTTacticLevelTwoBattania(team));
+                                //team.AddTacticOption(new DTTacticLevelTwoVlandia(team));
+                                team.AddTacticOption(new DTTacticLevelTwoSturgia(team));
                             }
                             else //Excelent tactic level. Not only do I know my culture and my army, but I also recognize the strengths and weaknesses of my enemies
                             {
