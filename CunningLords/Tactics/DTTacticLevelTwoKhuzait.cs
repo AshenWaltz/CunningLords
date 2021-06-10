@@ -116,8 +116,11 @@ namespace CunningLords.Tactics
 				//Horse Archers
 				ActionHorseArcherSkirmish horseAcherSkirmish = new ActionHorseArcherSkirmish(this._rangedCavalry);
 				ActionDontExist horseArcherDontExist = new ActionDontExist(this._rangedCavalry);
+				ActionFlank horseArcherFlank = new ActionFlank(this._rangedCavalry);
 
-				DecisionIsFormationNotNull IsHorseArchersNotNull = new DecisionIsFormationNotNull(this._rangedCavalry, horseAcherSkirmish, horseArcherDontExist);
+				DecisionClosestEnemyCloserThan decisionEnemiesCloserThan = new DecisionClosestEnemyCloserThan(this._rangedCavalry, horseAcherSkirmish, horseArcherFlank, 30f);
+
+				DecisionIsFormationNotNull IsHorseArchersNotNull = new DecisionIsFormationNotNull(this._rangedCavalry, decisionEnemiesCloserThan, horseArcherDontExist);
 
 				//Final Trees
 				this.infantryTree = decisionInfantryNotNull;

@@ -12,7 +12,7 @@ using CunningLords.Patches;
 
 namespace CunningLords.Tactics
 {
-    class DTTacticsLevelTwoAserai : TacticComponent
+    class DTTacticLevelTwoAserai : TacticComponent
     {
 		private bool _hasBattleBeenJoined;
 
@@ -29,7 +29,7 @@ namespace CunningLords.Tactics
 
 		public Utils util;
 
-		public DTTacticsLevelTwoAserai(Team team) : base(team)
+		public DTTacticLevelTwoAserai(Team team) : base(team)
 		{
 			_hasBattleBeenJoined = false;
 			_AIControlledFormationCount = base.Formations.Count((Formation f) => f.IsAIControlled);
