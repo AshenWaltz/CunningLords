@@ -655,5 +655,63 @@ namespace CunningLords.Patches
         {
             this.tickCounter++;
         }
+
+        public static List<Formation> PlayerFormationsOfType(FormationClass formationClass, Formation formation)
+        {
+            List<Formation> list = new List<Formation>();
+            if (formation == null)
+            {
+                return null;
+            }
+            List<Team> allEnemyTeams = (from t in Mission.Current.Teams where t.Side != formation.Team.Side select t).ToList<Team>(); ;
+            bool notNullorZeroVerifier = allEnemyTeams != null && allEnemyTeams.Count > 0;
+            if (notNullorZeroVerifier)
+            {
+                foreach (Team t in allEnemyTeams)
+                {
+                    foreach (Formation f in t.FormationsIncludingSpecial)
+                    {
+                        if(f.FormationIndex == formationClass)
+                        {
+                            list.Add(f);
+                        }
+                    }
+                }
+                return list;
+            }
+            else
+            {
+                return null;
+            } 
+        }
+
+        public static bool PowerComparison(FormationClass formationClass, Formation formation, int multiplicationFactor)
+        {
+            List<Formation> forms = PlayerFormationsOfType(formationClass, formation);
+            if (forms == null || forms.Count <= 0)
+            {
+                return true;
+            }
+            else if(formation == null)
+            {
+                return false;
+            }
+            else
+            {
+                int count = 0;
+                foreach (Formation f in forms)
+                {
+                    count += f.CountOfUnits;
+                }
+
+                if (count >= (multiplicationFactor * formation.CountOfUnits))
+                {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+        }
     }
 }

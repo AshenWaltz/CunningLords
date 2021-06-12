@@ -124,6 +124,7 @@
     <Compile Include="DecisionTreeLogic\Decision.cs" />
     <Compile Include="DecisionTreeLogic\DecisionClosestEnemyCloserThan.cs" />
     <Compile Include="DecisionTreeLogic\DecisionCycleCharge.cs" />
+    <Compile Include="DecisionTreeLogic\DecisionEnemyFormationWeaker.cs" />
     <Compile Include="DecisionTreeLogic\DecisionIsAttacker.cs" />
     <Compile Include="DecisionTreeLogic\DecisionIsFormationNotNull.cs" />
     <Compile Include="DecisionTreeLogic\DecisionTreeNode.cs" />

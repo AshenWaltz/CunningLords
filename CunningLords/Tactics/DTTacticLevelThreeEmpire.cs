@@ -8,6 +8,7 @@ using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using CunningLords.DecisionTreeLogic;
+using CunningLords.Patches;
 
 namespace CunningLords.Tactics
 {
@@ -76,12 +77,24 @@ namespace CunningLords.Tactics
 				ActionCharge leftCavalryCharge = new ActionCharge(this._leftCavalry);
 				ActionProtectFlank leftCavalryProtectFlank = new ActionProtectFlank(this._leftCavalry, FormationAI.BehaviorSide.Left);
 				ActionDontExist leftCavalryDontExist = new ActionDontExist(this._leftCavalry);
+				List<Formation> enemyCavalry = Utils.PlayerFormationsOfType(FormationClass.Cavalry, this._leftCavalry);
+				Formation target = null;
+				if (enemyCavalry != null && enemyCavalry.Count >= 0)
+                {
+					target = enemyCavalry.First();
+                }
 
 				DecisionClosestEnemyCloserThan IsInfantryEngaged = new DecisionClosestEnemyCloserThan(this._mainInfantry, leftCavalryCharge, leftCavalryFlank, 30f);
 
 				DecisionIsFormationNotNull IsInfantryNotNull = new DecisionIsFormationNotNull(this._mainInfantry, IsInfantryEngaged, leftCavalryCharge);
 
-				DecisionIsAttacker IsLeftCavalryAttacker = new DecisionIsAttacker(this._leftCavalry, IsInfantryNotNull, leftCavalryProtectFlank);
+				DecisionClosestEnemyCloserThan IsLeftCavalryDevensiveAttacking = new DecisionClosestEnemyCloserThan(this._leftCavalry, leftCavalryCharge, leftCavalryFlank, 50f);
+
+				DecisionEnemyFormationWeaker isLeftCavalryStronger = new DecisionEnemyFormationWeaker(this._leftCavalry, IsLeftCavalryDevensiveAttacking, leftCavalryProtectFlank, FormationClass.Cavalry, 2);
+
+				DecisionIsFormationNotNull IsEnemyCavalryNotNull = new DecisionIsFormationNotNull(target, isLeftCavalryStronger, IsLeftCavalryDevensiveAttacking);
+				
+				DecisionIsAttacker IsLeftCavalryAttacker = new DecisionIsAttacker(this._leftCavalry, IsInfantryNotNull, IsEnemyCavalryNotNull);
 
 				DecisionIsFormationNotNull IsLeftCavalryNotNull = new DecisionIsFormationNotNull(this._leftCavalry, IsLeftCavalryAttacker, leftCavalryDontExist);
 
@@ -95,7 +108,13 @@ namespace CunningLords.Tactics
 
 				DecisionIsFormationNotNull IsInfantryNotNullII = new DecisionIsFormationNotNull(this._mainInfantry, IsInfantryEngagedII, rightCavalryCharge);
 
-				DecisionIsAttacker IsrightCavalryCavalryAttacker = new DecisionIsAttacker(this._rightCavalry, IsInfantryNotNullII, rightCavalryCavalryProtectFlank);
+				DecisionClosestEnemyCloserThan IsRightCavalryDevensiveAttacking = new DecisionClosestEnemyCloserThan(this._rightCavalry, leftCavalryCharge, leftCavalryFlank, 50f);
+
+				DecisionEnemyFormationWeaker isRightCavalryStronger = new DecisionEnemyFormationWeaker(this._rightCavalry, IsRightCavalryDevensiveAttacking, rightCavalryCavalryProtectFlank, FormationClass.Cavalry, 2);
+
+				DecisionIsFormationNotNull IsEnemyCavalryNotNullII = new DecisionIsFormationNotNull(target, isRightCavalryStronger, IsRightCavalryDevensiveAttacking);
+
+				DecisionIsAttacker IsrightCavalryCavalryAttacker = new DecisionIsAttacker(this._rightCavalry, IsInfantryNotNullII, IsEnemyCavalryNotNullII);
 
 				DecisionIsFormationNotNull IsrightCavalryCavalryNotNull = new DecisionIsFormationNotNull(this._rightCavalry, IsrightCavalryCavalryAttacker, rightCavalryCavalryDontExist);
 
