@@ -57,9 +57,21 @@ namespace CunningLords.Tactics
 				ActionAdvance infantryAdvance = new ActionAdvance(this._mainInfantry);
 				ActionHoldLine infantryHoldLine = new ActionHoldLine(this._mainInfantry);
 				ActionDontExist infantryDontExist = new ActionDontExist(this._mainInfantry);
+				ActionCautiousAdvance infantryCautiousAdvance = new ActionCautiousAdvance(this._mainInfantry);
+				List<Formation> enemyinfantry = Utils.PlayerFormationsOfType(FormationClass.Infantry, this._mainInfantry);
+				Formation infantryTarget = null;
+				if (enemyinfantry != null && enemyinfantry.Count >= 0)
+				{
+					infantryTarget = enemyinfantry.First();
+				}
 
 				DecisionClosestEnemyCloserThan decisionCloserThan = new DecisionClosestEnemyCloserThan(this._mainInfantry, infantryCharge, infantryAdvance, 30f);
-				DecisionIsAttacker decisionIsAttacker = new DecisionIsAttacker(this._mainInfantry, decisionCloserThan, infantryHoldLine);
+
+				DecisionEnemyFormationWeaker isInfantryStronger = new DecisionEnemyFormationWeaker(this._mainInfantry, decisionCloserThan, infantryCautiousAdvance, FormationClass.Infantry, 1);
+
+				DecisionIsFormationNotNull decisionIsEnemyInfantryNotNull = new DecisionIsFormationNotNull(infantryTarget, isInfantryStronger, decisionCloserThan);
+
+				DecisionIsAttacker decisionIsAttacker = new DecisionIsAttacker(this._mainInfantry, decisionIsEnemyInfantryNotNull, infantryHoldLine);
 
 				DecisionIsFormationNotNull decisionInfantryNotNull = new DecisionIsFormationNotNull(this._mainInfantry, decisionIsAttacker, infantryDontExist);
 
@@ -108,7 +120,7 @@ namespace CunningLords.Tactics
 
 				DecisionIsFormationNotNull IsInfantryNotNullII = new DecisionIsFormationNotNull(this._mainInfantry, IsInfantryEngagedII, rightCavalryCharge);
 
-				DecisionClosestEnemyCloserThan IsRightCavalryDevensiveAttacking = new DecisionClosestEnemyCloserThan(this._rightCavalry, leftCavalryCharge, leftCavalryFlank, 50f);
+				DecisionClosestEnemyCloserThan IsRightCavalryDevensiveAttacking = new DecisionClosestEnemyCloserThan(this._rightCavalry, rightCavalryCharge, rightCavalryFlank, 50f);
 
 				DecisionEnemyFormationWeaker isRightCavalryStronger = new DecisionEnemyFormationWeaker(this._rightCavalry, IsRightCavalryDevensiveAttacking, rightCavalryCavalryProtectFlank, FormationClass.Cavalry, 2);
 

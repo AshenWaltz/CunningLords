@@ -19,12 +19,13 @@ namespace CunningLords.Behaviors
 
         public FormationAI.BehaviorSide FlankSide;
 
-        private BehaviorProtectAroundAnchor.BehaviorState protectFlankSate = BehaviorProtectAroundAnchor.BehaviorState.HoldingFlank;
+        //private BehaviorProtectAroundAnchor.BehaviorState protectFlankSate = BehaviorProtectAroundAnchor.BehaviorState.HoldingFlank;
         public BehaviorProtectAroundAnchor(Formation formation) : base(formation)
         {
             this.mainFormation = formation.Team.Formations.FirstOrDefault((Formation f) => f.FormationIndex == FormationClass.Infantry);
         }
 
+        /*
         protected override void CalculateCurrentOrder()
         {
         }
@@ -106,7 +107,7 @@ namespace CunningLords.Behaviors
                         anchorPoint = this.mainFormation.CurrentPosition + (this.mainFormation.Width * Utils.PerpRight(infantryDirection));
                     }
                 }
-            }*/
+            }//comment ends here
 
             if (this.FlankSide == FormationAI.BehaviorSide.Left)
             {
@@ -190,7 +191,7 @@ namespace CunningLords.Behaviors
             this.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
         }
 
-        protected override void TickOccasionally()
+        public override void TickOccasionally()
         {
             ExecuteActions();
         }
@@ -212,6 +213,6 @@ namespace CunningLords.Behaviors
             Charging,
             // Token: 0x04000018 RID: 24
             Returning
-        }
+        }*/
     }
 }

@@ -22,6 +22,7 @@ namespace CunningLords.Behaviors
         {
         }
 
+        /*
         protected override void CalculateCurrentOrder()
         {
         }
@@ -65,7 +66,7 @@ namespace CunningLords.Behaviors
             this.Formation.RidingOrder = this.config.ridingOrder;
         }
 
-        protected override void TickOccasionally()
+        public override void TickOccasionally()
         {
             ExecuteActions();
         }
@@ -78,5 +79,6 @@ namespace CunningLords.Behaviors
         {
             return 1f;
         }
+        */
     }
 }

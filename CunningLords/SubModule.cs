@@ -23,7 +23,7 @@ namespace CunningLords
                 () =>
                 {
                     ScreenManager.PushScreen(new CunningLordsOptionScreen());
-                }, () => false));
+                }, () => (false, new TextObject("Interface Example"))));
         }
 	}
 }

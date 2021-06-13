@@ -34,7 +34,7 @@ namespace CunningLords.Interaction
 
                     WorldPosition position = f.QuerySystem.MedianPosition;
                     position.SetVec2(escapeVector);
-                    f.MovementOrder = MovementOrder.MovementOrderMove(position);
+                    f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
                     f.FacingOrder = FacingOrder.FacingOrderLookAtDirection(f.Direction.Normalized());
                 }
             }
@@ -56,7 +56,7 @@ namespace CunningLords.Interaction
 
                     WorldPosition position = f.QuerySystem.MedianPosition;
                     position.SetVec2(escapeVector);
-                    f.MovementOrder = MovementOrder.MovementOrderMove(position);
+                    f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
                     f.FacingOrder = FacingOrder.FacingOrderLookAtDirection(f.Direction.Normalized());
                 }
                 else if (f.FormationIndex == FormationClass.Ranged)
@@ -65,7 +65,7 @@ namespace CunningLords.Interaction
 
                     WorldPosition position = f.QuerySystem.MedianPosition;
                     position.SetVec2(escapeVector);
-                    f.MovementOrder = MovementOrder.MovementOrderMove(position);
+                    f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
                     f.FacingOrder = FacingOrder.FacingOrderLookAtDirection(f.Direction.Normalized());
                 }
                 else if (f.FormationIndex == FormationClass.HorseArcher)
@@ -74,7 +74,7 @@ namespace CunningLords.Interaction
 
                     WorldPosition position = f.QuerySystem.MedianPosition;
                     position.SetVec2(escapeVector);
-                    f.MovementOrder = MovementOrder.MovementOrderMove(position);
+                    f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
                     f.FacingOrder = FacingOrder.FacingOrderLookAtDirection(f.Direction.Normalized());
                 }
             }
@@ -158,37 +158,37 @@ namespace CunningLords.Interaction
                 if (f.FormationIndex == FormationClass.Ranged && f.FormationIndex != mainFormation.FormationIndex)
                 {
                     WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].ArchersXOffset, deserialized[index].ArchersYOffset);
-                    f.MovementOrder = MovementOrder.MovementOrderMove(position);
+                    f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
                 }
                 else if (f.FormationIndex == FormationClass.Cavalry && f.FormationIndex != mainFormation.FormationIndex)
                 {
                     WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].CavalryXOffset, deserialized[index].CavalryYOffset);
-                    f.MovementOrder = MovementOrder.MovementOrderMove(position);
+                    f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
                 }
                 else if (f.FormationIndex == FormationClass.HorseArcher && f.FormationIndex != mainFormation.FormationIndex)
                 {
                     WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].HorseArchersXOffset, deserialized[index].HorseArchersYOffset);
-                    f.MovementOrder = MovementOrder.MovementOrderMove(position);
+                    f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
                 }
                 else if (f.FormationIndex == FormationClass.Skirmisher && f.FormationIndex != mainFormation.FormationIndex)
                 {
                     WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].SkirmisherXOffset, deserialized[index].SkirmisherYOffset);
-                    f.MovementOrder = MovementOrder.MovementOrderMove(position);
+                    f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
                 }
                 else if (f.FormationIndex == FormationClass.HeavyInfantry && f.FormationIndex != mainFormation.FormationIndex)
                 {
                     WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].HeavyInfantryXOffset, deserialized[index].HeavyInfantryYOffset);
-                    f.MovementOrder = MovementOrder.MovementOrderMove(position);
+                    f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
                 }
                 else if (f.FormationIndex == FormationClass.LightCavalry && f.FormationIndex != mainFormation.FormationIndex)
                 {
                     WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].LightCavalryXOffset, deserialized[index].LightCavalryYOffset);
-                    f.MovementOrder = MovementOrder.MovementOrderMove(position);
+                    f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
                 }
                 else if (f.FormationIndex == FormationClass.HeavyCavalry && f.FormationIndex != mainFormation.FormationIndex)
                 {
                     WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].HeavyCavalryXOffset, deserialized[index].HeavyCavalryYOffset);
-                    f.MovementOrder = MovementOrder.MovementOrderMove(position);
+                    f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
                 }
             }
         }
@@ -337,7 +337,7 @@ namespace CunningLords.Interaction
             switch (order)
             {
                 case OrderType.Charge:
-                    formation.MovementOrder = MovementOrder.MovementOrderCharge;
+                    formation.SetMovementOrder(MovementOrder.MovementOrderCharge);
                     break;
                 case OrderType.ChargeWithTarget:
                 case OrderType.FollowMe:
@@ -352,10 +352,10 @@ namespace CunningLords.Interaction
                 case OrderType.RideFree:
                 case OrderType.None:
                 case OrderType.StandYourGround:
-                    formation.MovementOrder = MovementOrder.MovementOrderStop;
+                    formation.SetMovementOrder(MovementOrder.MovementOrderStop);
                     break;
                 case OrderType.Retreat:
-                    formation.MovementOrder = MovementOrder.MovementOrderRetreat;
+                    formation.SetMovementOrder(MovementOrder.MovementOrderRetreat);
                     break;
                 case OrderType.AdvanceTenPaces:
                     //formation.MovementOrder.Advance(formation, 7f); //Crashes
@@ -364,13 +364,13 @@ namespace CunningLords.Interaction
                     //formation.MovementOrder.FallBack(formation, 7f); //Crashes
                     break;
                 case OrderType.Advance:
-                    formation.MovementOrder = MovementOrder.MovementOrderAdvance;
+                    formation.SetMovementOrder(MovementOrder.MovementOrderAdvance);
                     break;
                 case OrderType.FallBack:
-                    formation.MovementOrder = MovementOrder.MovementOrderFallBack;
+                    formation.SetMovementOrder(MovementOrder.MovementOrderFallBack);
                     break;
                 default:
-                    formation.MovementOrder = MovementOrder.MovementOrderStop;
+                    formation.SetMovementOrder(MovementOrder.MovementOrderStop);
                     break;
 
                 //Meter complexidade nisto, extender para 8 formações

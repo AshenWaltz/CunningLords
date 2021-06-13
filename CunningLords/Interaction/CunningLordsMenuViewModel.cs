@@ -308,7 +308,7 @@ namespace CunningLords.Interaction
                 array[13] = new MissionBoundaryCrossingHandler();
                 array[14] = new BattleMissionAgentInteractionLogic();
                 array[15] = new FieldBattleController();
-                array[16] = new AgentFadeOutLogic();
+                //array[16] = new AgentFadeOutLogic();
                 array[17] = new AgentMoraleInteractionLogic();
                 array[18] = new AssignPlayerRoleInTeamMissionController(isPlayerGeneral, isPlayerSergeant, false, isPlayerSergeant ? Enumerable.Repeat<string>(character.StringId, 1).ToList<string>() : new List<string>(), FormationClass.NumberOfRegularFormations);
                 array[19] = new CreateBodyguardMissionBehavior((isPlayerAttacker & isPlayerGeneral) ? character.GetName().ToString() : ((isPlayerAttacker & isPlayerSergeant) ? playerSideGeneralCharacter.GetName().ToString() : null), (!isPlayerAttacker & isPlayerGeneral) ? character.GetName().ToString() : ((!isPlayerAttacker & isPlayerSergeant) ? playerSideGeneralCharacter.GetName().ToString() : null), null, null, true);
@@ -330,7 +330,7 @@ namespace CunningLords.Interaction
             MissionInitializerRecord rec = new MissionInitializerRecord(PlayerEncounter.GetBattleSceneForMapPosition(MobileParty.MainParty.Position2D));
             rec.TerrainType = (int)Campaign.Current.MapSceneWrapper.GetFaceTerrainType(MobileParty.MainParty.CurrentNavigationFace);
             rec.DamageToPlayerMultiplier = Campaign.Current.Models.DifficultyModel.GetDamageToPlayerMultiplier();
-            rec.DamageToFriendsMultiplier = Campaign.Current.Models.DifficultyModel.GetDamageToFriendsMultiplier();
+            //rec.DamageToFriendsMultiplier = Campaign.Current.Models.DifficultyModel.GetDamageToFriendsMultiplier();
             rec.NeedsRandomTerrain = false;
             rec.PlayingInCampaignMode = true;
             rec.RandomTerrainSeed = MBRandom.RandomInt(10000);
@@ -387,7 +387,7 @@ namespace CunningLords.Interaction
                 array[7] = new AgentBattleAILogic();
                 array[8] = new MissionAgentSpawnLogic(troopSuppliers, playerSide);
                 array[9] = new BaseMissionTroopSpawnHandler();
-                array[10] = new AgentFadeOutLogic();
+                //array[10] = new AgentFadeOutLogic();
                 array[11] = new BattleObserverMissionLogic();
                 array[12] = new BattleAgentLogic();
                 array[13] = new MountAgentLogic();

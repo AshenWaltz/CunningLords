@@ -110,6 +110,7 @@
     <Compile Include="BehaviorTreelogic\TaskSlowAdvance.cs" />
     <Compile Include="BehaviorTreelogic\TaskStop.cs" />
     <Compile Include="BehaviorTreelogic\TaskProximityCharge.cs" />
+    <Compile Include="DecisionTreeLogic\ActionCautiousAdvance.cs" />
     <Compile Include="DecisionTreeLogic\ActionCavalryScreen.cs" />
     <Compile Include="DecisionTreeLogic\ActionCharge.cs" />
     <Compile Include="DecisionTreeLogic\ActionDontExist.cs" />
@@ -147,7 +148,9 @@
     <Compile Include="Patches\Utils.cs" />
     <Compile Include="SubModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tactics\DTTacticLevelThreeBattania.cs" />
     <Compile Include="Tactics\DTTacticLevelThreeEmpire.cs" />
+    <Compile Include="Tactics\DTTacticLevelThreeVlandia.cs" />
     <Compile Include="Tactics\DTTacticLevelTwoBattania.cs" />
     <Compile Include="Tactics\DTTacticLevelTwoEmpire.cs" />
     <Compile Include="Tactics\DTTacticLevelTwoKhuzait.cs" />

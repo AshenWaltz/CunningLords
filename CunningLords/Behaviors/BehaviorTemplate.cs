@@ -45,7 +45,7 @@ namespace CunningLords.Behaviors
             this.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
         }
 
-        protected override void TickOccasionally()
+        public override void TickOccasionally()
         {
             ExecuteActions();
         }

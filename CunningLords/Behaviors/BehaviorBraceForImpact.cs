@@ -20,7 +20,7 @@ namespace CunningLords.Behaviors
         {
             this.mainFormation = formation.Team.Formations.FirstOrDefault((Formation f) => f.FormationIndex == FormationClass.Infantry);
         }
-
+        /*
         protected override void CalculateCurrentOrder()
         {
         }
@@ -85,6 +85,6 @@ namespace CunningLords.Behaviors
         protected override float GetAiWeight()
         {
             return 1f;
-        }
+        }*/
     }
 }

@@ -76,7 +76,7 @@ namespace CunningLords.Patches
         {
             static void Postfix(Mission __instance)
             {
-                //Utils.OnStartPositioning(__instance);
+                MissionOverride.FrameCounter = 0;
             }
         }
     }
