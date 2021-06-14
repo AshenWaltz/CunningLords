@@ -502,6 +502,43 @@ namespace CunningLords.Patches
             }
         }
 
+        public static Formation GetClosestAlliedFormation(Formation formation)
+        {
+            if (formation != null)
+            {
+                BattleSideEnum enemySide = formation.Team.Side;
+
+                List<Team> palliedTeams = (from t in Mission.Current.Teams where t.Side == enemySide select t).ToList<Team>();
+
+                List<Tuple<Formation, float>> distances = new List<Tuple<Formation, float>>();
+
+                float min = 10000;
+
+                Formation closestFormation = null;
+
+                foreach (Team t in palliedTeams)
+                {
+                    foreach (Formation f in t.Formations)
+                    {
+                        if (formation.FormationIndex != f.FormationIndex)
+                        {
+                            float dist = formation.QuerySystem.AveragePosition.Distance(f.QuerySystem.AveragePosition);
+                            if (dist < min)
+                            {
+                                min = dist;
+                                closestFormation = f;
+                            }
+                        }
+                    }
+                }
+                return closestFormation;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public static Formation GetAlliedFormationsofType(Formation formation, FormationClass formationClass)
         {
             Formation result = null;

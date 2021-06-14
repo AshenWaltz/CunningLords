@@ -55,9 +55,11 @@ namespace CunningLords.Patches
             {
                 Hero hero = ____encounteredParty.MobileParty.LeaderHero;
                 int tactics = -1;
+                String culture = "";
                 if (hero != null)
                 {
                     tactics = hero.GetSkillValue(DefaultSkills.Tactics);
+                    culture = hero.Culture.Name.ToString();
                 }
                 //GameDataForAI.tacticsSkill = tactics; see communication!!!!
                 InformationManager.DisplayMessage(new InformationMessage("Encountered enemy with " + tactics + " tactics skill"));

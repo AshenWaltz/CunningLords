@@ -123,6 +123,7 @@
     <Compile Include="DecisionTreeLogic\ActionSkirmish.cs" />
     <Compile Include="DecisionTreeLogic\ActionSparseSkirmish.cs" />
     <Compile Include="DecisionTreeLogic\Decision.cs" />
+    <Compile Include="DecisionTreeLogic\DecisionClosestAlliedCloserThan.cs" />
     <Compile Include="DecisionTreeLogic\DecisionClosestEnemyCloserThan.cs" />
     <Compile Include="DecisionTreeLogic\DecisionCycleCharge.cs" />
     <Compile Include="DecisionTreeLogic\DecisionEnemyFormationWeaker.cs" />
@@ -148,8 +149,11 @@
     <Compile Include="Patches\Utils.cs" />
     <Compile Include="SubModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tactics\DTTacticLevelThreeAserai.cs" />
     <Compile Include="Tactics\DTTacticLevelThreeBattania.cs" />
     <Compile Include="Tactics\DTTacticLevelThreeEmpire.cs" />
+    <Compile Include="Tactics\DTTacticLevelThreeKhuzait.cs" />
+    <Compile Include="Tactics\DTTacticlevelThreeSturgia.cs" />
     <Compile Include="Tactics\DTTacticLevelThreeVlandia.cs" />
     <Compile Include="Tactics\DTTacticLevelTwoBattania.cs" />
     <Compile Include="Tactics\DTTacticLevelTwoEmpire.cs" />
