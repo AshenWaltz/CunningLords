@@ -11,5 +11,7 @@ namespace CunningLords.Interaction
         public bool AIActive;
 
         public int TacticSill;
+
+        public string Culture;
     }
 }

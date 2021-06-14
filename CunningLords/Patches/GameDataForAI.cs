@@ -25,7 +25,7 @@ namespace CunningLords.Patches
     {
         public int tacticsSkill;
 
-        public static void writeToData(int tactics)
+        public static void writeToData(int tactics, string culture)
         {
             string path = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
 
@@ -39,6 +39,7 @@ namespace CunningLords.Patches
             }
 
             data.TacticSill = tactics;
+            data.Culture = culture;
 
             var serializer = new JsonSerializer();
             using (var sw = new StreamWriter(finalPath))
@@ -55,16 +56,16 @@ namespace CunningLords.Patches
             {
                 Hero hero = ____encounteredParty.MobileParty.LeaderHero;
                 int tactics = -1;
-                String culture = "";
+                string culture = "";
                 if (hero != null)
                 {
                     tactics = hero.GetSkillValue(DefaultSkills.Tactics);
                     culture = hero.Culture.Name.ToString();
                 }
                 //GameDataForAI.tacticsSkill = tactics; see communication!!!!
-                InformationManager.DisplayMessage(new InformationMessage("Encountered enemy with " + tactics + " tactics skill"));
+                InformationManager.DisplayMessage(new InformationMessage("Encountered an " + culture + " enemy with " + tactics + " tactics skill"));
 
-                GameDataForAI.writeToData(tactics);
+                GameDataForAI.writeToData(tactics, culture);
             }
         }
 
@@ -74,18 +75,20 @@ namespace CunningLords.Patches
             private static void Postfix(CustomBattleCombatant[] __result)
             {
                 int tactics = -1;
+                string culture = "";
                 foreach (var result in __result)
                 {
                     if (result.Side != MissionOverride.PlayerBattleSide)
                     {
                         var character = result.Characters.First();
                         tactics = character.GetSkillValue(DefaultSkills.Tactics);
-                        InformationManager.DisplayMessage(new InformationMessage("Party Leader " + result.Name + " has " + tactics + " tactics skill"));
+                        culture = character.Culture.Name.ToString();
+                        InformationManager.DisplayMessage(new InformationMessage("Party Leader " + result.Name + " has " + tactics + " tactics skill and is " + culture));
                     }
 
                 }
 
-                GameDataForAI.writeToData(tactics);
+                GameDataForAI.writeToData(tactics, culture);
             }
         }
     }
