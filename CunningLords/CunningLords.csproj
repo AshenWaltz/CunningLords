@@ -153,7 +153,7 @@
     <Compile Include="Tactics\DTTacticLevelThreeBattania.cs" />
     <Compile Include="Tactics\DTTacticLevelThreeEmpire.cs" />
     <Compile Include="Tactics\DTTacticLevelThreeKhuzait.cs" />
-    <Compile Include="Tactics\DTTacticlevelThreeSturgia.cs" />
+    <Compile Include="Tactics\DTTacticLevelThreeSturgia.cs" />
     <Compile Include="Tactics\DTTacticLevelThreeVlandia.cs" />
     <Compile Include="Tactics\DTTacticLevelTwoBattania.cs" />
     <Compile Include="Tactics\DTTacticLevelTwoEmpire.cs" />

@@ -114,7 +114,12 @@ namespace CunningLords.Patches
                                 //team.AddTacticOption(new DTTacticLevelTwoSturgia(team));
                                 //team.AddTacticOption(new DTTacticLevelTwoAserai(team));
                                 //team.AddTacticOption(new DTTacticLevelTwoKhuzait(team));
-                                team.AddTacticOption(new DTTacticLevelThreeEmpire(team));
+                                //team.AddTacticOption(new DTTacticLevelThreeEmpire(team));
+                                //team.AddTacticOption(new DTTacticLevelThreeBattania(team));
+                                //team.AddTacticOption(new DTTacticLevelThreeVlandia(team));
+                                //team.AddTacticOption(new DTTacticLevelThreeSturgia(team));
+                                //team.AddTacticOption(new DTTacticLevelThreeAserai(team));
+                                team.AddTacticOption(new DTTacticLevelThreeKhuzait(team));
                             }
                             else //Excelent tactic level. Not only do I know my culture and my army, but I also recognize the strengths and weaknesses of my enemies
                             {
