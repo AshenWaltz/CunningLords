@@ -341,6 +341,8 @@ namespace CunningLords.Interaction
                     break;
                 case OrderType.ChargeWithTarget:
                 case OrderType.FollowMe:
+                    formation.SetMovementOrder(MovementOrder.MovementOrderFollow(formation.Team.Leader));
+                    break;
                 case OrderType.FollowEntity:
                 case OrderType.GuardMe:
                 case OrderType.Attach:
@@ -357,12 +359,6 @@ namespace CunningLords.Interaction
                 case OrderType.Retreat:
                     formation.SetMovementOrder(MovementOrder.MovementOrderRetreat);
                     break;
-                case OrderType.AdvanceTenPaces:
-                    //formation.MovementOrder.Advance(formation, 7f); //Crashes
-                    break;
-                case OrderType.FallBackTenPaces:
-                    //formation.MovementOrder.FallBack(formation, 7f); //Crashes
-                    break;
                 case OrderType.Advance:
                     formation.SetMovementOrder(MovementOrder.MovementOrderAdvance);
                     break;
@@ -372,11 +368,6 @@ namespace CunningLords.Interaction
                 default:
                     formation.SetMovementOrder(MovementOrder.MovementOrderStop);
                     break;
-
-                //Meter complexidade nisto, extender para 8 formações
-                //Tentar ver mais sobre ordens
-                //Começar a interface de campanha
-                //Olhar para sandbox battle
             }
         }
     }

@@ -22,25 +22,6 @@ namespace CunningLords.Patches
         public static bool missionAiActive = false;
         public static BattleSideEnum PlayerBattleSide { get; set; } = BattleSideEnum.None;
 
-        [HarmonyPatch(typeof(TeamAIComponent))]
-        [HarmonyPatch("MakeDecision")]
-        class TeamAIOverride
-        {
-            //Make Decision original logic
-            // 1. lists all avilable tactics
-            // 2. Checks if current state of mission is continue, if there are tactics available or if there are teams
-            // 3. checks if there are enemy teams. If not, attributes tactic charge if it has it, if not, return first tactic
-            // 4. Verify if defense is applicable - Check this function for more data on Teams
-            // 5. See which tactics has the highest weight. Current tactic is multiplied by 1.5.
-
-            //ToDo
-
-            static void Postfix(TeamAIComponent __instance)
-            {
-
-            }
-        }
-
         [HarmonyPatch(typeof(MissionCombatantsLogic))]
         [HarmonyPatch("EarlyStart")]
         //This class is used to load tactics into the AI Teams, the tactics themselves determine the behaviour of each Formation within a Team
@@ -70,255 +51,82 @@ namespace CunningLords.Patches
                         foreach (Team team in enemyTeams)
                         {
                             int tacticSkill = data.TacticSill;
-                            /*bool hasGeneral = (team.GeneralAgent != null);
-                            //bool hasGeneral = MobileParty.MainParty.
-                            int tacticsSkill = -1;
-                            if (hasGeneral)
-                            {
-                                tacticsSkill = team.GeneralAgent.Character.GetSkillValue(DefaultSkills.Tactics);
-                                InformationManager.DisplayMessage(new InformationMessage("General tactic skill: " + tacticsSkill.ToString()));
-                            }
-                            else
-                            {
-                                InformationManager.DisplayMessage(new InformationMessage("General is null"));
-                            }*/
+                            string culture = data.Culture;
                            
                             if (/*hasGeneral ||*/ (tacticSkill <= 25)) //nearly no tactic level. Just charge and hope
                             {
                                 InformationManager.DisplayMessage(new InformationMessage("nearly no tactic level"));
 
                                 team.ClearTacticOptions();
-                                team.AddTacticOption(new TacticRecklessCharge(team));
+                                team.AddTacticOption(new DTTacticLevelZero(team));
                             }
                             else if ((tacticSkill > 25) && (tacticSkill < 75)) //Minimal tactic level. there is somewhat of a plan
                             {
-                                InformationManager.DisplayMessage(new InformationMessage("Minimal tactic level"));
-                                if (team.Side == BattleSideEnum.Attacker)
-                                {
-                                    team.ClearTacticOptions();
-                                    team.AddTacticOption(new TacticDefaultDefense(team));
-                                }
-                                else if (team.Side == BattleSideEnum.Defender)
-                                {
-                                    team.ClearTacticOptions();
-                                    team.AddTacticOption(new TacticDefaultDefense(team));
-                                }
+                                team.ClearTacticOptions();
+                                team.AddTacticOption(new DTTacticLevelOne(team));
                             }
                             else if ((tacticSkill > 75) && (tacticSkill <= 200)) //Good tactic level. I know my culture and my army. I know how to use them
                             {
                                 InformationManager.DisplayMessage(new InformationMessage("Good tactic level"));
                                 team.ClearTacticOptions();
-                                //team.AddTacticOption(new DTTacticLevelTwoEmpire(team));
-                                //team.AddTacticOption(new DTTacticLevelTwoBattania(team));
-                                //team.AddTacticOption(new DTTacticLevelTwoVlandia(team));
-                                //team.AddTacticOption(new DTTacticLevelTwoSturgia(team));
-                                //team.AddTacticOption(new DTTacticLevelTwoAserai(team));
-                                //team.AddTacticOption(new DTTacticLevelTwoKhuzait(team));
-                                //team.AddTacticOption(new DTTacticLevelThreeEmpire(team));
-                                //team.AddTacticOption(new DTTacticLevelThreeBattania(team));
-                                //team.AddTacticOption(new DTTacticLevelThreeVlandia(team));
-                                //team.AddTacticOption(new DTTacticLevelThreeSturgia(team));
-                                //team.AddTacticOption(new DTTacticLevelThreeAserai(team));
-                                team.AddTacticOption(new DTTacticLevelThreeKhuzait(team));
+                                switch (culture)
+                                {
+                                    case "Empire":
+                                        team.AddTacticOption(new DTTacticLevelTwoEmpire(team));
+                                        break;
+                                    case "Battania":
+                                        team.AddTacticOption(new DTTacticLevelTwoBattania(team));
+                                        break;
+                                    case "Vlandia":
+                                        team.AddTacticOption(new DTTacticLevelTwoVlandia(team));
+                                        break;
+                                    case "Sturgia":
+                                        team.AddTacticOption(new DTTacticLevelTwoSturgia(team));
+                                        break;
+                                    case "Aserai":
+                                        team.AddTacticOption(new DTTacticLevelTwoAserai(team));
+                                        break;
+                                    case "Khuzait":
+                                        team.AddTacticOption(new DTTacticLevelTwoKhuzait(team));
+                                        break;
+                                    default:
+                                        team.AddTacticOption(new DTTacticLevelTwoEmpire(team));
+                                        break;
+                                }
                             }
                             else //Excelent tactic level. Not only do I know my culture and my army, but I also recognize the strengths and weaknesses of my enemies
                             {
                                 InformationManager.DisplayMessage(new InformationMessage("Excelent tactic level"));
-                                if (team.Side == BattleSideEnum.Attacker)
+                                team.ClearTacticOptions();
+                                switch (culture)
                                 {
-                                    team.ClearTacticOptions();
-                                    team.AddTacticOption(new TacticDefaultDefense(team));
-                                }
-                                else if (team.Side == BattleSideEnum.Defender)
-                                {
-                                    team.ClearTacticOptions();
-                                    team.AddTacticOption(new TacticDefaultDefense(team));
+                                    case "Empire":
+                                        team.AddTacticOption(new DTTacticLevelThreeEmpire(team));
+                                        break;
+                                    case "Battania":
+                                        team.AddTacticOption(new DTTacticLevelThreeBattania(team));
+                                        break;
+                                    case "Vlandia":
+                                        team.AddTacticOption(new DTTacticLevelThreeVlandia(team));
+                                        break;
+                                    case "Sturgia":
+                                        team.AddTacticOption(new DTTacticLevelThreeSturgia(team));
+                                        break;
+                                    case "Aserai":
+                                        team.AddTacticOption(new DTTacticLevelThreeAserai(team));
+                                        break;
+                                    case "Khuzait":
+                                        team.AddTacticOption(new DTTacticLevelThreeKhuzait(team));
+                                        break;
+                                    default:
+                                        team.AddTacticOption(new DTTacticLevelTwoEmpire(team));
+                                        break;
                                 }
                             }
-
-
-                            /*if (team.Side == BattleSideEnum.Attacker)
-                            {
-                                team.ClearTacticOptions();
-                                //team.AddTacticOption(new TacticFullScaleAttack(team));
-                                team.AddTacticOption(new TacticDefaultDefense(team));
-                            }
-                            else if (team.Side == BattleSideEnum.Defender)
-                            {
-                                team.ClearTacticOptions();
-                                //team.AddTacticOption(new TacticDefensiveEngagement(team));
-                                team.AddTacticOption(new TacticDefaultDefense(team));
-                            }*/
                         }
                     }
                 }
             }
-        }
-
-        
-        [HarmonyPatch(typeof(TacticFullScaleAttack))]
-        class OverrideTacticFullScaleAttack
-        {
-            [HarmonyPostfix]
-            [HarmonyPatch("Advance")]
-            static void PostfixAdvance(ref Formation ____mainInfantry, ref Formation ____archers, 
-                ref Formation ____rightCavalry, ref Formation ____leftCavalry)
-            {
-                bool infantryNotNull = ____mainInfantry != null;
-                bool archersNotNull = ____archers != null;
-                bool rightCavalryNotNull = ____rightCavalry != null;
-                bool leftCavalryNotNull = ____leftCavalry != null;
-
-                if (infantryNotNull)
-                {
-                    ____mainInfantry.AI.ResetBehaviorWeights();
-                    ____mainInfantry.AI.SetBehaviorWeight<BehaviorStop>(2f);
-                }
-
-                if (archersNotNull)
-                {
-                    ____archers.AI.ResetBehaviorWeights();
-                    ____archers.AI.SetBehaviorWeight<BehaviorStop>(2f);
-                }
-
-                if (rightCavalryNotNull)
-                {
-                    ____rightCavalry.AI.ResetBehaviorWeights();
-                    ____rightCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
-                }
-
-                if (leftCavalryNotNull)
-                {
-                    ____leftCavalry.AI.ResetBehaviorWeights();
-                    ____leftCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
-                }
-            }
-
-            [HarmonyPostfix]
-            [HarmonyPatch("Attack")]
-            static void PostfixAttack(ref Formation ____mainInfantry, ref Formation ____archers,
-                ref Formation ____rightCavalry, ref Formation ____leftCavalry)
-            {
-                bool infantryNotNull = ____mainInfantry != null;
-                bool archersNotNull = ____archers != null;
-                bool rightCavalryNotNull = ____rightCavalry != null;
-                bool leftCavalryNotNull = ____leftCavalry != null;
-
-                if (infantryNotNull)
-                {
-                    ____mainInfantry.AI.ResetBehaviorWeights();
-                    ____mainInfantry.AI.SetBehaviorWeight<BehaviorStop>(2f);
-                }
-
-                if (archersNotNull)
-                {
-                    ____archers.AI.ResetBehaviorWeights();
-                    ____archers.AI.SetBehaviorWeight<BehaviorStop>(2f);
-                }
-
-                if (rightCavalryNotNull)
-                {
-                    ____rightCavalry.AI.ResetBehaviorWeights();
-                    ____rightCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
-                }
-
-                if (leftCavalryNotNull)
-                {
-                    ____leftCavalry.AI.ResetBehaviorWeights();
-                    ____leftCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
-                }
-            }
-        }
-
-        
-        [HarmonyPatch(typeof(TacticDefensiveEngagement))]
-        class OverrideTacticDefensiveEngagement
-        {
-
-            private static int tickCounter = 0;
-
-            [HarmonyPostfix]
-            [HarmonyPatch("Defend")]
-            private static void PostfixDefend(ref Formation ____mainInfantry, ref Formation ____archers,
-                ref Formation ____rightCavalry, ref Formation ____leftCavalry)
-            {
-                bool infantryNotNull = ____mainInfantry != null;
-                bool archersNotNull = ____archers != null;
-                bool rightCavalryNotNull = ____rightCavalry != null;
-                bool leftCavalryNotNull = ____leftCavalry != null;
-
-                if (infantryNotNull)
-                {
-                    ____mainInfantry.AI.ResetBehaviorWeights();
-                    ____mainInfantry.AI.SetBehaviorWeight<BehaviorStop>(2f);
-                }
-
-                if (archersNotNull)
-                {
-                    ____archers.AI.ResetBehaviorWeights();
-                    ____archers.AI.SetBehaviorWeight<BehaviorStop>(2f);
-                }
-
-                if (rightCavalryNotNull)
-                {
-                    ____rightCavalry.AI.ResetBehaviorWeights();
-                    ____rightCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
-                }
-
-                if (leftCavalryNotNull)
-                {
-                    ____leftCavalry.AI.ResetBehaviorWeights();
-                    ____leftCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
-                }
-            }
-
-            [HarmonyPostfix]
-            [HarmonyPatch("Engage")]
-            private static void PostfixEngage(ref Formation ____mainInfantry, ref Formation ____archers,
-                ref Formation ____rightCavalry, ref Formation ____leftCavalry)
-            {
-                bool infantryNotNull = ____mainInfantry != null;
-                bool archersNotNull = ____archers != null;
-                bool rightCavalryNotNull = ____rightCavalry != null;
-                bool leftCavalryNotNull = ____leftCavalry != null;
-
-                if (infantryNotNull)
-                {
-                    ____mainInfantry.AI.ResetBehaviorWeights();
-                    ____mainInfantry.AI.SetBehaviorWeight<BehaviorStop>(2f);
-                }
-
-                if (archersNotNull)
-                {
-                    ____archers.AI.ResetBehaviorWeights();
-                    ____archers.AI.SetBehaviorWeight<BehaviorStop>(2f);
-                }
-
-                if (rightCavalryNotNull)
-                {
-                    ____rightCavalry.AI.ResetBehaviorWeights();
-                    ____rightCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
-                }
-
-                if (leftCavalryNotNull)
-                {
-                    ____leftCavalry.AI.ResetBehaviorWeights();
-                    ____leftCavalry.AI.SetBehaviorWeight<BehaviorStop>(2f);
-                }
-            }
-
-            [HarmonyPostfix]
-            [HarmonyPatch("TickOccasionally")]
-            protected static internal void PostfixTickOccasionally(TacticDefensiveEngagement __instance)
-            {
-                /*tickCounter++;
-
-                if ((tickCounter/1000) == 0) 
-                {
-                    __instance.Engage();
-                }*/
-            }
-
         }
     }
 }

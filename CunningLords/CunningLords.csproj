@@ -149,6 +149,7 @@
     <Compile Include="Patches\Utils.cs" />
     <Compile Include="SubModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tactics\DTTacticLevelOne.cs" />
     <Compile Include="Tactics\DTTacticLevelThreeAserai.cs" />
     <Compile Include="Tactics\DTTacticLevelThreeBattania.cs" />
     <Compile Include="Tactics\DTTacticLevelThreeEmpire.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="Tactics\DTTacticLevelTwoSturgia.cs" />
     <Compile Include="Tactics\DTTacticLevelTwoVlandia.cs" />
     <Compile Include="Tactics\DTTacticLevelTwoAserai.cs" />
+    <Compile Include="Tactics\DTTacticLevelZero.cs" />
     <Compile Include="Tactics\TacticLevelTwoBattania.cs" />
     <Compile Include="Tactics\TacticLevelTwoEmpire.cs" />
     <Compile Include="Tactics\TacticLevelTwoSturgia.cs" />

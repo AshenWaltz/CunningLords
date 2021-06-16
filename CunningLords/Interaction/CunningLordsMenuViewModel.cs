@@ -88,8 +88,6 @@ namespace CunningLords.Interaction
                 "Charge",
                 "Follow Me",
                 "Hold",
-                "Skirmish",
-                "Flank",
                 "Advance",
                 "FallBack"
             };
@@ -534,17 +532,9 @@ namespace CunningLords.Interaction
             }
             else if (value == 3)
             {
-                return OrderType.AdvanceTenPaces;
-            }
-            else if (value == 4)
-            {
-                return OrderType.FallBackTenPaces;
-            }
-            else if (value == 5)
-            {
                 return OrderType.Advance;
             }
-            else if (value == 6)
+            else if (value == 4)
             {
                 return OrderType.FallBack;
             }
@@ -561,14 +551,10 @@ namespace CunningLords.Interaction
                     return 1;
                 case OrderType.StandYourGround:
                     return 2;
-                case OrderType.AdvanceTenPaces:
-                    return 3;
-                case OrderType.FallBackTenPaces:
-                    return 4;
                 case OrderType.Advance:
-                    return 5;
+                    return 3;
                 case OrderType.FallBack:
-                    return 6;
+                    return 4;
                 default:
                     return 0;
             }
