@@ -341,7 +341,14 @@ namespace CunningLords.Interaction
                     break;
                 case OrderType.ChargeWithTarget:
                 case OrderType.FollowMe:
-                    formation.SetMovementOrder(MovementOrder.MovementOrderFollow(formation.Team.Leader));
+                    if (formation.Team.Leader != null)
+                    {
+                        formation.SetMovementOrder(MovementOrder.MovementOrderFollow(formation.Team.Leader));
+                    }
+                    else
+                    {
+                        formation.SetMovementOrder(MovementOrder.MovementOrderStop);
+                    }
                     break;
                 case OrderType.FollowEntity:
                 case OrderType.GuardMe:
