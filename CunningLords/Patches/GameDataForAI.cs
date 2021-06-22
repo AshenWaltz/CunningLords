@@ -82,7 +82,8 @@ namespace CunningLords.Patches
                     {
                         var character = result.Characters.First();
                         tactics = character.GetSkillValue(DefaultSkills.Tactics);
-                        culture = character.Culture.Name.ToString();
+                        //culture = character.Culture.Name.ToString();
+                        culture = result.BasicCulture.ToString();
                         InformationManager.DisplayMessage(new InformationMessage("Party Leader " + result.Name + " has " + tactics + " tactics skill and is " + culture));
                     }
 

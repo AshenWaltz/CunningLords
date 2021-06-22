@@ -40,19 +40,19 @@ namespace CunningLords.DecisionTreeLogic
 
             if (currentFrame == (this.lastFrame + 1) && currentFrame < (this.startFrame + this.engageDuration))
             {
-                InformationManager.DisplayMessage(new InformationMessage("charging"));
+                //InformationManager.DisplayMessage(new InformationMessage("charging"));
                 this.lastFrame = currentFrame;
                 return this.trueNode;
             }
             else if (currentFrame == (this.lastFrame + 1) && currentFrame >= (this.startFrame + this.engageDuration) && currentFrame < (this.startFrame + this.engageDuration + this.engageDuration))
             {
-                InformationManager.DisplayMessage(new InformationMessage("pulling back"));
+                //InformationManager.DisplayMessage(new InformationMessage("pulling back"));
                 this.lastFrame = currentFrame;
                 return this.falseNode;
             }
             else
             {
-                InformationManager.DisplayMessage(new InformationMessage("else" + currentFrame.ToString()));
+                //InformationManager.DisplayMessage(new InformationMessage("else" + currentFrame.ToString()));
                 this.startFrame = currentFrame;
                 this.lastFrame = currentFrame;
                 return this.trueNode;
