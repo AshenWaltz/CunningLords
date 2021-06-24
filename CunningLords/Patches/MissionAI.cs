@@ -52,8 +52,14 @@ namespace CunningLords.Patches
                         {
                             int tacticSkill = data.TacticSill;
                             string culture = data.Culture;
-                           
-                            if (/*hasGeneral ||*/ (tacticSkill <= 25)) //nearly no tactic level. Just charge and hope
+                            if (CampaignInteraction.isCustomBattle)
+                            {
+                                InformationManager.DisplayMessage(new InformationMessage("Custom Battle"));
+
+                                team.ClearTacticOptions();
+                                team.AddTacticOption(new DTTacticHold(team));
+                            }  
+                            else if (/*hasGeneral ||*/ (tacticSkill <= 25)) //nearly no tactic level. Just charge and hope
                             {
                                 InformationManager.DisplayMessage(new InformationMessage("nearly no tactic level"));
 

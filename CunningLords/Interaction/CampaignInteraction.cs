@@ -19,6 +19,8 @@ namespace CunningLords.Interaction
 
         public static bool isCampaign = false;
 
+        public static bool isCustomBattle = false;
+
         [HarmonyPatch(typeof(Campaign))]
         [HarmonyPatch("RealTick")]
         class CampaignHourlyTickOverride
@@ -33,6 +35,7 @@ namespace CunningLords.Interaction
                 }
                 if (Input.IsKeyDown(InputKey.LeftAlt) && Input.IsKeyDown(InputKey.R) && !CampaignInteraction._inMenu)
                 {
+                    CampaignInteraction.isCustomBattle = true;
                     CunningLordsMenuViewModel vm = new CunningLordsMenuViewModel();
                     vm.StartMission();
                 }
@@ -42,6 +45,27 @@ namespace CunningLords.Interaction
             }
         }
 
-        //Campaign.MapSate
-    }
+        [HarmonyPatch(typeof(PlayerEncounter))]
+        [HarmonyPatch("UpdateInternal")]
+        class UpdateInternalOverride
+        {
+            static void Postfix(PlayerEncounter __instance)
+            {
+                if (CampaignInteraction.isCustomBattle)
+                {
+                    if (PlayerEncounter.Current != null)
+                    {
+                        if (PlayerEncounter.Current.EncounterState == PlayerEncounterState.Wait)
+                        {
+                            PlayerEncounter.Finish(false);
+                        }
+                    }
+
+                    CampaignInteraction.isCustomBattle = false;
+                }
+                
+            }
+        }
+            //Campaign.MapSate
+        }
 }

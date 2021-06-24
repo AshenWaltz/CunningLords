@@ -188,6 +188,7 @@ namespace CunningLords.Interaction
         {
             Clan clan = Clan.All.First();
             Hero bestAvailableCommander = clan.Heroes.First();
+            bestAvailableCommander.HitPoints = 50;
             MobileParty mobileParty = MobilePartyHelper.SpawnLordParty(bestAvailableCommander, new Vec2(Hero.MainHero.GetPosition().x, Hero.MainHero.GetPosition().z), 1f);
             mobileParty.InitializeMobileParty(
                         GetEnemyParty(),
@@ -205,7 +206,7 @@ namespace CunningLords.Interaction
             TroopRoster troopRoster = new TroopRoster(PartyBase.MainParty);
 
             CharacterObject characterObject = CharacterObject.Find("imperial_veteran_infantryman");
-            if (characterObject != null)
+            /*if (characterObject != null)
             {
                 troopRoster.AddToCounts(characterObject, 2, false, 0, 0, true, -1);
 
@@ -213,7 +214,7 @@ namespace CunningLords.Interaction
             else
             {
                 InformationManager.DisplayMessage(new InformationMessage("CustomTroopRoster id not found."));
-            }
+            }*/
 
             return troopRoster;
         }

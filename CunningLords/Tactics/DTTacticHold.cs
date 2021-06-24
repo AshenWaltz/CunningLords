@@ -9,11 +9,10 @@ using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using CunningLords.DecisionTreeLogic;
 using CunningLords.Patches;
-
 namespace CunningLords.Tactics
 {
-	class DTTacticLevelZero : TacticComponent
-	{
+    class DTTacticHold : TacticComponent
+    {
 		private bool _hasBattleBeenJoined;
 
 		private int _AIControlledFormationCount;
@@ -29,7 +28,7 @@ namespace CunningLords.Tactics
 
 		public Utils util;
 
-		public DTTacticLevelZero(Team team) : base(team)
+		public DTTacticHold(Team team) : base(team)
 		{
 			_hasBattleBeenJoined = false;
 			_AIControlledFormationCount = base.Formations.Count((Formation f) => f.IsAIControlled);
@@ -57,44 +56,34 @@ namespace CunningLords.Tactics
 			else if (base.AreFormationsCreated && this.tickCounter == 0)
 			{
 				//Infantry
-				ActionCharge infantryCharge = new ActionCharge(this._mainInfantry);
+				ActionHoldLine infantryHoldLine = new ActionHoldLine(this._mainInfantry);
 				ActionDontExist infantryDontExist = new ActionDontExist(this._mainInfantry);
 
-				DecisionIsAttacker decisionIsIfantryAttacker = new DecisionIsAttacker(this._mainInfantry, infantryCharge, infantryCharge);
-
-				DecisionIsFormationNotNull decisionInfantryNotNull = new DecisionIsFormationNotNull(this._mainInfantry, decisionIsIfantryAttacker, infantryDontExist);
+				DecisionIsFormationNotNull decisionInfantryNotNull = new DecisionIsFormationNotNull(this._mainInfantry, infantryHoldLine, infantryDontExist);
 
 				//Archers
-				ActionCharge archerCharge = new ActionCharge(this._archers);
+				ActionHoldLine archerHoldLine = new ActionHoldLine(this._archers);
 				ActionDontExist archerDontExist = new ActionDontExist(this._archers);
 
-				DecisionIsAttacker decisionIsArcherAttacker = new DecisionIsAttacker(this._archers, archerCharge, archerCharge);
-
-				DecisionIsFormationNotNull decisionArchersNotNull = new DecisionIsFormationNotNull(this._archers, decisionIsArcherAttacker, archerDontExist);
+				DecisionIsFormationNotNull decisionArchersNotNull = new DecisionIsFormationNotNull(this._archers, archerHoldLine, archerDontExist);
 
 				//Left Cavalry
-				ActionCharge leftCavalryCharge = new ActionCharge(this._leftCavalry);
+				ActionHoldLine leftCavalryCharge = new ActionHoldLine(this._leftCavalry);
 				ActionDontExist leftCavalryDontExist = new ActionDontExist(this._leftCavalry);
 
-				DecisionIsAttacker decisionLeftCavalryIsAttacker = new DecisionIsAttacker(this._leftCavalry, leftCavalryCharge, leftCavalryCharge);
-
-				DecisionIsFormationNotNull IsLeftCavalryNotNull = new DecisionIsFormationNotNull(this._leftCavalry, decisionLeftCavalryIsAttacker, leftCavalryDontExist);
+				DecisionIsFormationNotNull IsLeftCavalryNotNull = new DecisionIsFormationNotNull(this._leftCavalry, leftCavalryCharge, leftCavalryDontExist);
 
 				//Right Cavalry
-				ActionCharge rightCavalryCharge = new ActionCharge(this._rightCavalry);
+				ActionHoldLine rightCavalryCharge = new ActionHoldLine(this._rightCavalry);
 				ActionDontExist rightCavalryDontExist = new ActionDontExist(this._rightCavalry);
 
-				DecisionIsAttacker decisionRightCavalryIsAttacker = new DecisionIsAttacker(this._rightCavalry, rightCavalryCharge, rightCavalryCharge);
-
-				DecisionIsFormationNotNull IsrightCavalryCavalryNotNull = new DecisionIsFormationNotNull(this._rightCavalry, decisionRightCavalryIsAttacker, rightCavalryDontExist);
+				DecisionIsFormationNotNull IsrightCavalryCavalryNotNull = new DecisionIsFormationNotNull(this._rightCavalry, rightCavalryCharge, rightCavalryDontExist);
 
 				//Horse Archers
-				ActionCharge horseArcherCharge = new ActionCharge(this._rangedCavalry);
+				ActionHoldLine horseArcherCharge = new ActionHoldLine(this._rangedCavalry);
 				ActionDontExist horseArcherDontExist = new ActionDontExist(this._rangedCavalry);
 
-				DecisionIsAttacker decisionEnemiesCloserThan = new DecisionIsAttacker(this._rangedCavalry, horseArcherCharge, horseArcherCharge);
-
-				DecisionIsFormationNotNull IsHorseArchersNotNull = new DecisionIsFormationNotNull(this._rangedCavalry, decisionEnemiesCloserThan, horseArcherDontExist);
+				DecisionIsFormationNotNull IsHorseArchersNotNull = new DecisionIsFormationNotNull(this._rangedCavalry, horseArcherCharge, horseArcherDontExist);
 
 				//Final Trees
 				this.infantryTree = decisionInfantryNotNull;
