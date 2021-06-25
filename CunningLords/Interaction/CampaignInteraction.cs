@@ -40,6 +40,7 @@ namespace CunningLords.Interaction
                     vm.StartMission();
                 }
 
+                //CampaignInteraction.isCustomBattle = false;
                 MissionOverride.FrameCounter = 0;
                 CampaignInteraction.isCampaign = true;
             }

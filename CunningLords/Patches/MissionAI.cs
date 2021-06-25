@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using System.Reflection;
 using CunningLords.Interaction;
 using TaleWorlds.CampaignSystem;
+using CunningLords.DecisionTreeLogic;
 
 namespace CunningLords.Patches
 {
@@ -52,9 +53,56 @@ namespace CunningLords.Patches
                         {
                             int tacticSkill = data.TacticSill;
                             string culture = data.Culture;
+                            InformationManager.DisplayMessage(new InformationMessage("PASSOU AQUI!!!"));
                             if (CampaignInteraction.isCustomBattle)
                             {
                                 InformationManager.DisplayMessage(new InformationMessage("Custom Battle"));
+
+                                string path2 = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
+
+                                string finalPath2 = Path.Combine(path2, "ModuleData", "DecisionTree.json");
+
+                                DecisionTreeJson DTJson = new DecisionTreeJson();
+
+                                DecisionTreeJsonNode DTRoot = new DecisionTreeJsonNode();
+                                DTRoot.name = "FormationNotNull";
+                                DTRoot.trueNode = new DecisionTreeJsonNode()
+                                {
+                                    name = "IsAttacker",
+                                    trueNode = new DecisionTreeJsonNode()
+                                    {
+                                        name = "Charge",
+                                        trueNode = null,
+                                        falseNode = null
+                                    },
+                                    falseNode = new DecisionTreeJsonNode()
+                                    {
+                                        name = "HoldPosition",
+                                        trueNode = null,
+                                        falseNode = null
+                                    }
+                                };
+                                DTRoot.falseNode = new DecisionTreeJsonNode()
+                                {
+                                    name = "FormationDoesntExist",
+                                    trueNode = null,
+                                    falseNode = null
+                                };
+
+                                DTJson.NodeList.Add("FormationNotNull");
+                                DTJson.NodeList.Add("IsAttacker");
+                                DTJson.NodeList.Add("Charge");
+                                DTJson.NodeList.Add("HoldPosition");
+                                DTJson.NodeList.Add("FormationDoesntExist");
+                                DTJson.Root = DTRoot;
+
+                                var serializer = new JsonSerializer();
+                                using (var sw = new StreamWriter(finalPath2))
+                                using (JsonWriter writer = new JsonTextWriter(sw))
+                                {
+                                    serializer.Serialize(writer, DTJson);
+                                }
+
 
                                 team.ClearTacticOptions();
                                 team.AddTacticOption(new DTTacticHold(team));

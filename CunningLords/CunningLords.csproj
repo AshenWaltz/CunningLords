@@ -129,6 +129,9 @@
     <Compile Include="DecisionTreeLogic\DecisionEnemyFormationWeaker.cs" />
     <Compile Include="DecisionTreeLogic\DecisionIsAttacker.cs" />
     <Compile Include="DecisionTreeLogic\DecisionIsFormationNotNull.cs" />
+    <Compile Include="DecisionTreeLogic\DecisionTreeGenerator.cs" />
+    <Compile Include="DecisionTreeLogic\DecisionTreeJson.cs" />
+    <Compile Include="DecisionTreeLogic\DecisionTreeJsonNode.cs" />
     <Compile Include="DecisionTreeLogic\DecisionTreeNode.cs" />
     <Compile Include="DecisionTreeLogic\ActionAdvance.cs" />
     <Compile Include="Interaction\CampaignInteraction.cs" />

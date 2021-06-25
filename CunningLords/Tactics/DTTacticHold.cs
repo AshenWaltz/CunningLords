@@ -9,6 +9,7 @@ using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using CunningLords.DecisionTreeLogic;
 using CunningLords.Patches;
+
 namespace CunningLords.Tactics
 {
     class DTTacticHold : TacticComponent
