@@ -13,6 +13,7 @@ using System.IO;
 using Path = System.IO.Path;
 using Newtonsoft.Json;
 using System.Reflection;
+using CunningLords.DecisionTreeLogic;
 
 namespace CunningLords.Patches
 {
@@ -21,6 +22,10 @@ namespace CunningLords.Patches
         public static BattleSideEnum PlayerBattleSide {get; set; } = BattleSideEnum.None;
 
         public static int FrameCounter = 0;
+
+        public static bool IsPlanActive = false;
+
+        private static DecisionTreeGenerator Generator = null;
 
         [HarmonyPatch(typeof(Mission))]
         [HarmonyPatch("OnTick")]
@@ -39,34 +44,18 @@ namespace CunningLords.Patches
 
                 if (MissionOverride.FrameCounter == 0)
                 {
-                    /*StartingOrderData orders = new StartingOrderData()
-                    {
-                        InfantryOrder = OrderType.Advance,
-                        ArcherOrder = OrderType.Advance,
-                        CavalryOrder = OrderType.Advance,
-                        HorseArcherOrder = OrderType.Advance,
-                        SkirmisherOrder = OrderType.Advance,
-                        HeavyInfantryOrder = OrderType.Advance,
-                        LightCavalryOrder = OrderType.Advance,
-                        HeavyCavalryOrder = OrderType.Advance
-                    };
-
-                    string path = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
-
-                    string finalPath = Path.Combine(path, "ModuleData", "startdata.json");
-
-                    var serializer = new JsonSerializer();
-                    using (var sw = new StreamWriter(finalPath))
-                    using (JsonWriter writer = new JsonTextWriter(sw))
-                    {
-                        serializer.Serialize(writer, orders);
-                    }*/
-
+                    MissionOverride.IsPlanActive = false;
+                    MissionOverride.Generator = null;
                     Utils.OnStartOrders(__instance);
-                    //MissionOverride.FrameCounter++;
                 }
                 MissionOverride.FrameCounter++;
                 Utils.ManageInputKeys(__instance);
+
+                if (MissionOverride.IsPlanActive && __instance.MainAgent != null)
+                {
+                    MissionOverride.Generator = new DecisionTreeGenerator();
+                    MissionOverride.Generator.Run();
+                }
             }
         }
 

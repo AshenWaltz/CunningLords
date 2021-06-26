@@ -10,6 +10,13 @@ namespace CunningLords.DecisionTreeLogic
     {
         public List<String> NodeList = new List<string>();
 
-        public DecisionTreeJsonNode Root = null;
+        public DecisionTreeJsonNode RootInfantry = null;
+        public DecisionTreeJsonNode RootArchers = null;
+        public DecisionTreeJsonNode RootCavalry = null;
+        public DecisionTreeJsonNode RootHorseArchers = null;
+        public DecisionTreeJsonNode RootSkirmishers = null;
+        public DecisionTreeJsonNode RootHeavyInfantry = null;
+        public DecisionTreeJsonNode RootLightCavalry = null;
+        public DecisionTreeJsonNode RootHeavyCavalry = null;
     }
 }

@@ -94,7 +94,13 @@ namespace CunningLords.Patches
                                 DTJson.NodeList.Add("Charge");
                                 DTJson.NodeList.Add("HoldPosition");
                                 DTJson.NodeList.Add("FormationDoesntExist");
-                                DTJson.Root = DTRoot;
+                                DTJson.RootInfantry = DTRoot;
+                                DTJson.RootArchers = DTRoot;
+                                DTJson.RootCavalry = DTRoot;
+                                DTJson.RootSkirmishers = DTRoot;
+                                DTJson.RootHeavyInfantry = DTRoot;
+                                DTJson.RootLightCavalry = DTRoot;
+                                DTJson.RootHeavyCavalry = DTRoot;
 
                                 var serializer = new JsonSerializer();
                                 using (var sw = new StreamWriter(finalPath2))
