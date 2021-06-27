@@ -13,7 +13,7 @@ using System.IO;
 using Path = System.IO.Path;
 using Newtonsoft.Json;
 using System.Reflection;
-using CunningLords.DecisionTreeLogic;
+using CunningLords.PlanDefinition;
 
 namespace CunningLords.Patches
 {
@@ -25,7 +25,7 @@ namespace CunningLords.Patches
 
         public static bool IsPlanActive = false;
 
-        private static DecisionTreeGenerator Generator = null;
+        private static PlanGenerator Generator = null;
 
         [HarmonyPatch(typeof(Mission))]
         [HarmonyPatch("OnTick")]
@@ -45,7 +45,7 @@ namespace CunningLords.Patches
                 if (MissionOverride.FrameCounter == 0)
                 {
                     MissionOverride.IsPlanActive = false;
-                    MissionOverride.Generator = null;
+                    MissionOverride.Generator = new PlanGenerator();
                     Utils.OnStartOrders(__instance);
                 }
                 MissionOverride.FrameCounter++;
@@ -53,7 +53,6 @@ namespace CunningLords.Patches
 
                 if (MissionOverride.IsPlanActive && __instance.MainAgent != null)
                 {
-                    MissionOverride.Generator = new DecisionTreeGenerator();
                     MissionOverride.Generator.Run();
                 }
             }

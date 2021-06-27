@@ -13,6 +13,7 @@ using System.IO;
 using Path = System.IO.Path;
 using Newtonsoft.Json;
 using System.Reflection;
+using System.Collections;
 
 namespace CunningLords.DecisionTreeLogic
 {
@@ -36,6 +37,22 @@ namespace CunningLords.DecisionTreeLogic
             {
                 JsonSerializer serializer = new JsonSerializer();
                 data = (DecisionTreeJson)serializer.Deserialize(file, typeof(DecisionTreeJson));
+            }
+
+            Stack treeStack= new Stack();
+
+            //DecisionTreeNode node = data.RootInfantry;
+        }
+
+        public bool isLeaf(DecisionTreeJsonNode node) 
+        {
+            if (node.trueNode == null && node.falseNode == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

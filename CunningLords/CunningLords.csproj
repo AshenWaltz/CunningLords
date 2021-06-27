@@ -150,6 +150,10 @@
     <Compile Include="Patches\MissionAI.cs" />
     <Compile Include="Patches\MissionOverride.cs" />
     <Compile Include="Patches\Utils.cs" />
+    <Compile Include="PlanDefinition\Plan.cs" />
+    <Compile Include="PlanDefinition\PlanGenerator.cs" />
+    <Compile Include="PlanDefinition\PlanOrderEnum.cs" />
+    <Compile Include="PlanDefinition\PlanStateEnum.cs" />
     <Compile Include="SubModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tactics\DTTacticHold.cs" />

@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 using System.Reflection;
 using CunningLords.Interaction;
 using TaleWorlds.CampaignSystem;
-using CunningLords.DecisionTreeLogic;
+using CunningLords.PlanDefinition;
 
 namespace CunningLords.Patches
 {
@@ -58,57 +58,27 @@ namespace CunningLords.Patches
                             {
                                 InformationManager.DisplayMessage(new InformationMessage("Custom Battle"));
 
-                                string path2 = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
+                                /*string path2 = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
 
                                 string finalPath2 = Path.Combine(path2, "ModuleData", "DecisionTree.json");
 
-                                DecisionTreeJson DTJson = new DecisionTreeJson();
+                                Plan plan = new Plan();
 
-                                DecisionTreeJsonNode DTRoot = new DecisionTreeJsonNode();
-                                DTRoot.name = "FormationNotNull";
-                                DTRoot.trueNode = new DecisionTreeJsonNode()
-                                {
-                                    name = "IsAttacker",
-                                    trueNode = new DecisionTreeJsonNode()
-                                    {
-                                        name = "Charge",
-                                        trueNode = null,
-                                        falseNode = null
-                                    },
-                                    falseNode = new DecisionTreeJsonNode()
-                                    {
-                                        name = "HoldPosition",
-                                        trueNode = null,
-                                        falseNode = null
-                                    }
-                                };
-                                DTRoot.falseNode = new DecisionTreeJsonNode()
-                                {
-                                    name = "FormationDoesntExist",
-                                    trueNode = null,
-                                    falseNode = null
-                                };
-
-                                DTJson.NodeList.Add("FormationNotNull");
-                                DTJson.NodeList.Add("IsAttacker");
-                                DTJson.NodeList.Add("Charge");
-                                DTJson.NodeList.Add("HoldPosition");
-                                DTJson.NodeList.Add("FormationDoesntExist");
-                                DTJson.RootInfantry = DTRoot;
-                                DTJson.RootArchers = DTRoot;
-                                DTJson.RootCavalry = DTRoot;
-                                DTJson.RootSkirmishers = DTRoot;
-                                DTJson.RootHeavyInfantry = DTRoot;
-                                DTJson.RootLightCavalry = DTRoot;
-                                DTJson.RootHeavyCavalry = DTRoot;
 
                                 var serializer = new JsonSerializer();
                                 using (var sw = new StreamWriter(finalPath2))
                                 using (JsonWriter writer = new JsonTextWriter(sw))
                                 {
-                                    serializer.Serialize(writer, DTJson);
+                                    serializer.Serialize(writer, plan);
                                 }
 
+                                Plan planFromJson;
+
+                                using (StreamReader file = File.OpenText(finalPath))
+                                {
+                                    JsonSerializer serializer2 = new JsonSerializer();
+                                    planFromJson = (Plan)serializer2.Deserialize(file, typeof(Plan));
+                                }*/
 
                                 team.ClearTacticOptions();
                                 team.AddTacticOption(new DTTacticHold(team));

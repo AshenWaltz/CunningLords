@@ -140,22 +140,16 @@ namespace CunningLords.Patches
                     //IC.ApplyPosition(mission);
                     IC.ApplyPosition(mission, 2);
                 }
-                if (mission != null)
+                else if (Input.IsKeyDown(InputKey.PageUp))
                 {
-                    if (Input.IsKeyDown(InputKey.T) && Input.IsKeyDown(InputKey.LeftControl))
+                    MissionOverride.IsPlanActive = !MissionOverride.IsPlanActive;
+                    if (MissionOverride.IsPlanActive)
                     {
-                        if (MissionOverride.IsPlanActive)
-                        {
-                            MissionOverride.IsPlanActive = !MissionOverride.IsPlanActive;
-                            if (MissionOverride.IsPlanActive)
-                            {
-                                InformationManager.DisplayMessage(new InformationMessage("Battle Plan Has been Activated"));
-                            }
-                            else
-                            {
-                                InformationManager.DisplayMessage(new InformationMessage("Battle Plan Has been Deactivated"));
-                            }
-                        }
+                        InformationManager.DisplayMessage(new InformationMessage("Battle Plan Has been Activated"));
+                    }
+                    else
+                    {
+                        InformationManager.DisplayMessage(new InformationMessage("Battle Plan Has been Deactivated"));
                     }
                 }
             }
