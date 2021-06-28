@@ -55,6 +55,14 @@ namespace CunningLords.Patches
                 {
                     MissionOverride.Generator.Run();
                 }
+
+                if (!MissionOverride.IsPlanActive && __instance.MainAgent != null)
+                {
+                    foreach (Formation f in __instance.MainAgent.Team.Formations)
+                    {
+                        f.IsAIControlled = false;
+                    }
+                }
             }
         }
 

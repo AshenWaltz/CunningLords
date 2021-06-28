@@ -8,7 +8,7 @@ namespace CunningLords.PlanDefinition
 {
     public enum PlanOrderEnum
     {
-        charge,
+        Charge,
         HoldPosition,
         Flank,
         Skirmish,

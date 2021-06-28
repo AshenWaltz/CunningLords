@@ -140,7 +140,7 @@ namespace CunningLords.Patches
                     //IC.ApplyPosition(mission);
                     IC.ApplyPosition(mission, 2);
                 }
-                else if (Input.IsKeyDown(InputKey.PageUp))
+                else if (Input.IsKeyPressed(InputKey.PageUp))
                 {
                     MissionOverride.IsPlanActive = !MissionOverride.IsPlanActive;
                     if (MissionOverride.IsPlanActive)
