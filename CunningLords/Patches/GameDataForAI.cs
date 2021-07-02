@@ -63,7 +63,7 @@ namespace CunningLords.Patches
                     culture = hero.Culture.Name.ToString();
                 }
                 //GameDataForAI.tacticsSkill = tactics; see communication!!!!
-                InformationManager.DisplayMessage(new InformationMessage("Encountered an " + culture + " enemy with " + tactics + " tactics skill"));
+                //InformationManager.DisplayMessage(new InformationMessage("Encountered an " + culture + " enemy with " + tactics + " tactics skill"));
 
                 GameDataForAI.writeToData(tactics, culture);
             }
@@ -84,7 +84,7 @@ namespace CunningLords.Patches
                         tactics = character.GetSkillValue(DefaultSkills.Tactics);
                         //culture = character.Culture.Name.ToString();
                         culture = result.BasicCulture.ToString();
-                        InformationManager.DisplayMessage(new InformationMessage("Party Leader " + result.Name + " has " + tactics + " tactics skill and is " + culture));
+                        //InformationManager.DisplayMessage(new InformationMessage("Party Leader " + result.Name + " has " + tactics + " tactics skill and is " + culture));
                     }
 
                 }

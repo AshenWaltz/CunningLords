@@ -186,7 +186,14 @@ namespace CunningLords.Interaction
 
         public void StartMission()
         {
+            Clan playerClan = Hero.MainHero.Clan;
             Clan clan = Clan.All.First();
+
+            /*if (playerClan.Leader == clan.Leader)
+            {
+                clan = Clan.All.Skip(1).First();
+            }*/
+
             Hero bestAvailableCommander = clan.Heroes.First();
             bestAvailableCommander.HitPoints = 50;
             MobileParty mobileParty = MobilePartyHelper.SpawnLordParty(bestAvailableCommander, new Vec2(Hero.MainHero.GetPosition().x, Hero.MainHero.GetPosition().z), 1f);
@@ -257,7 +264,7 @@ namespace CunningLords.Interaction
             set
             {
                 this._booleanValue = !BooleanValue;
-                InformationManager.DisplayMessage(new InformationMessage("Bool is currently " + this._booleanValue.ToString() + "!"));
+                //InformationManager.DisplayMessage(new InformationMessage("Bool is currently " + this._booleanValue.ToString() + "!"));
             }
         }
 

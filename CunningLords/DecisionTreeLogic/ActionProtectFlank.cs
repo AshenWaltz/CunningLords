@@ -20,7 +20,7 @@ namespace CunningLords.DecisionTreeLogic
 
         public override void makeDecision()
         {
-            InformationManager.DisplayMessage(new InformationMessage(this.formation.FormationIndex.ToString() + " PROTECT FLANK!"));
+            //InformationManager.DisplayMessage(new InformationMessage(this.formation.FormationIndex.ToString() + " PROTECT FLANK!"));
             this.formation.AI.ResetBehaviorWeights();
             this.formation.AI.SetBehaviorWeight<BehaviorProtectFlank>(2f).FlankSide = this.flankSide;
         }

@@ -17,7 +17,7 @@ namespace CunningLords.DecisionTreeLogic
 
         public override void makeDecision()
         {
-            InformationManager.DisplayMessage(new InformationMessage(this.formation.FormationIndex.ToString() + " FLANK!"));
+            //InformationManager.DisplayMessage(new InformationMessage(this.formation.FormationIndex.ToString() + " FLANK!"));
             this.formation.AI.ResetBehaviorWeights();
             this.formation.AI.SetBehaviorWeight<BehaviorFlank>(2f);
         }

@@ -17,7 +17,7 @@ namespace CunningLords.DecisionTreeLogic
 
         public override void makeDecision()
         {
-            InformationManager.DisplayMessage(new InformationMessage(this.formation.FormationIndex.ToString() + " SCREENED SKIRMISH!"));
+            //InformationManager.DisplayMessage(new InformationMessage(this.formation.FormationIndex.ToString() + " SCREENED SKIRMISH!"));
             this.formation.AI.ResetBehaviorWeights();
             this.formation.AI.SetBehaviorWeight<BehaviorSkirmish>(2f);
         }

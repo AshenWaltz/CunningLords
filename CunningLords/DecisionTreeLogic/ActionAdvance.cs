@@ -17,7 +17,7 @@ namespace CunningLords.DecisionTreeLogic
 
         public override void makeDecision()
         {
-            InformationManager.DisplayMessage(new InformationMessage(this.formation.FormationIndex.ToString() + " ADVANCE!"));
+            //InformationManager.DisplayMessage(new InformationMessage(this.formation.FormationIndex.ToString() + " ADVANCE!"));
             this.formation.AI.ResetBehaviorWeights();
             this.formation.AI.SetBehaviorWeight<BehaviorAdvance>(2f);
         }

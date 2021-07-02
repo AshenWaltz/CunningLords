@@ -17,7 +17,7 @@ namespace CunningLords.DecisionTreeLogic
 
         public override void makeDecision()
         {
-            InformationManager.DisplayMessage(new InformationMessage(this.formation.FormationIndex.ToString() + " HORSE ARCHER SKIRMISH!"));
+            //InformationManager.DisplayMessage(new InformationMessage(this.formation.FormationIndex.ToString() + " HORSE ARCHER SKIRMISH!"));
             this.formation.AI.ResetBehaviorWeights();
             this.formation.AI.SetBehaviorWeight<BehaviorHorseArcherSkirmish>(2f);
         }

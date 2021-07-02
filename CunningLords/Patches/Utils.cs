@@ -87,69 +87,72 @@ namespace CunningLords.Patches
 
         public static void ManageInputKeys(Mission mission)
         {
-            if(mission != null && Input.IsKeyDown(InputKey.LeftControl))
-            {
-                if (Input.IsKeyDown(InputKey.F9))
-                {
-                    //Utils.PrintRelevantData(mission);
-                    InputCommands IC = new InputCommands();
-                    //IC.ApplyActiontoFormation(mission);
-                    //IC.ApplyPosition(mission);
-                    IC.SaveOffsets(mission, 0);
-                }
-                else if (Input.IsKeyDown(InputKey.F10))
-                {
-                    //Utils.PrintRelevantData(mission);
-                    InputCommands IC = new InputCommands();
-                    //IC.ApplyActiontoFormation(mission);
-                    //IC.ApplyPosition(mission);
-                    IC.SaveOffsets(mission, 1);
-                }
-                else if (Input.IsKeyDown(InputKey.F11))
-                {
-                    //Utils.PrintRelevantData(mission);
-                    InputCommands IC = new InputCommands();
-                    //IC.ApplyActiontoFormation(mission);
-                    //IC.ApplyPosition(mission);
-                    IC.SaveOffsets(mission, 2);
-                }
-            }
             if(mission != null)
             {
-                if (Input.IsKeyDown(InputKey.F9))
+                if (Input.IsKeyDown(InputKey.LeftControl))
                 {
-                    //Utils.PrintRelevantData(mission);
-                    InputCommands IC = new InputCommands();
-                    //IC.ApplyActiontoFormation(mission);
-                    //IC.ApplyPosition(mission);
-                    IC.ApplyPosition(mission, 0);
-                }
-                else if (Input.IsKeyDown(InputKey.F10))
-                {
-                    //Utils.PrintRelevantData(mission);
-                    InputCommands IC = new InputCommands();
-                    //IC.ApplyActiontoFormation(mission);
-                    //IC.ApplyPosition(mission);
-                    IC.ApplyPosition(mission, 1);
-                }
-                else if (Input.IsKeyDown(InputKey.F11))
-                {
-                    //Utils.PrintRelevantData(mission);
-                    InputCommands IC = new InputCommands();
-                    //IC.ApplyActiontoFormation(mission);
-                    //IC.ApplyPosition(mission);
-                    IC.ApplyPosition(mission, 2);
-                }
-                else if (Input.IsKeyPressed(InputKey.PageUp))
-                {
-                    MissionOverride.IsPlanActive = !MissionOverride.IsPlanActive;
-                    if (MissionOverride.IsPlanActive)
+                    if (Input.IsKeyPressed(InputKey.F9))
                     {
-                        InformationManager.DisplayMessage(new InformationMessage("Battle Plan Has been Activated"));
+                        //Utils.PrintRelevantData(mission);
+                        InputCommands IC = new InputCommands();
+                        //IC.ApplyActiontoFormation(mission);
+                        //IC.ApplyPosition(mission);
+                        IC.SaveOffsets(mission, 0);
                     }
-                    else
+                    else if (Input.IsKeyPressed(InputKey.F10))
                     {
-                        InformationManager.DisplayMessage(new InformationMessage("Battle Plan Has been Deactivated"));
+                        //Utils.PrintRelevantData(mission);
+                        InputCommands IC = new InputCommands();
+                        //IC.ApplyActiontoFormation(mission);
+                        //IC.ApplyPosition(mission);
+                        IC.SaveOffsets(mission, 1);
+                    }
+                    else if (Input.IsKeyPressed(InputKey.F11))
+                    {
+                        //Utils.PrintRelevantData(mission);
+                        InputCommands IC = new InputCommands();
+                        //IC.ApplyActiontoFormation(mission);
+                        //IC.ApplyPosition(mission);
+                        IC.SaveOffsets(mission, 2);
+                    }
+                }
+                else
+                {
+                    if (Input.IsKeyPressed(InputKey.F9))
+                    {
+                        //Utils.PrintRelevantData(mission);
+                        InputCommands IC = new InputCommands();
+                        //IC.ApplyActiontoFormation(mission);
+                        //IC.ApplyPosition(mission);
+                        IC.ApplyPosition(mission, 0);
+                    }
+                    else if (Input.IsKeyPressed(InputKey.F10))
+                    {
+                        //Utils.PrintRelevantData(mission);
+                        InputCommands IC = new InputCommands();
+                        //IC.ApplyActiontoFormation(mission);
+                        //IC.ApplyPosition(mission);
+                        IC.ApplyPosition(mission, 1);
+                    }
+                    else if (Input.IsKeyPressed(InputKey.F11))
+                    {
+                        //Utils.PrintRelevantData(mission);
+                        InputCommands IC = new InputCommands();
+                        //IC.ApplyActiontoFormation(mission);
+                        //IC.ApplyPosition(mission);
+                        IC.ApplyPosition(mission, 2);
+                    }
+                    else if (Input.IsKeyPressed(InputKey.PageUp))
+                    {
+                        MissionOverride.IsPlanActive = !MissionOverride.IsPlanActive;
+                        if (MissionOverride.IsPlanActive)
+                        {
+                            InformationManager.DisplayMessage(new InformationMessage("Battle Plan Has been Activated"));
+                        }
+                        else
+                        {
+                            InformationManager.DisplayMessage(new InformationMessage("Battle Plan Has been Deactivated"));
+                        }
                     }
                 }
             }

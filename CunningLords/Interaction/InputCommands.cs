@@ -191,6 +191,7 @@ namespace CunningLords.Interaction
                     f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
                 }
             }
+            InformationManager.DisplayMessage(new InformationMessage("Load index " + index.ToString()));
         }
 
         public Formation GetFormationPriority(Mission mission)

@@ -84,6 +84,8 @@ namespace CunningLords.PlanDefinition
         {
             PlanStateEnum state = GetMissionState();
 
+            InformationManager.DisplayMessage(new InformationMessage(state.ToString()));
+
             if (Mission.Current != null)
             {
                 if (Mission.Current.MainAgent != null)
@@ -298,17 +300,32 @@ namespace CunningLords.PlanDefinition
 
                     foreach(Formation f in Mission.Current.MainAgent.Team.Formations)
                     {
-                        Formation closesteFormation = f.QuerySystem.ClosestEnemyFormation.Formation;
-
-                        float distance = f.QuerySystem.AveragePosition.Distance(closesteFormation.QuerySystem.AveragePosition);
-
-                        if (distance < 30.0f)
+                        Formation closestsFormation;
+                        if (f.QuerySystem.ClosestEnemyFormation != null)
                         {
-                            return PlanStateEnum.Engage;
+                            closestsFormation = f.QuerySystem.ClosestEnemyFormation.Formation;
+                        }
+                        else
+                        {
+                            return PlanStateEnum.Prepare;
                         }
 
-                        alliedCasualityRatio += f.QuerySystem.CasualtyRatio;
-                        numberOfFormations++;
+                        if (closestsFormation != null)
+                        {
+                            float distance = f.QuerySystem.AveragePosition.Distance(closestsFormation.QuerySystem.AveragePosition);
+
+                            if (distance < 30.0f)
+                            {
+                                return PlanStateEnum.Engage;
+                            }
+
+                            alliedCasualityRatio += f.QuerySystem.CasualtyRatio;
+                            numberOfFormations++;
+                        }
+                        else
+                        {
+                            return PlanStateEnum.Prepare;
+                        } 
                     }
 
                     List<Team> enemyTeams = (from t in Mission.Current.Teams where t.Side != Mission.Current.MainAgent.Team.Side select t).ToList<Team>();
@@ -319,17 +336,24 @@ namespace CunningLords.PlanDefinition
 
                     foreach (Team te in enemyTeams)
                     {
-                        foreach(Formation fe in te.Formations)
+                        if (te != null)
                         {
-                            enemyCasualityRatio += fe.QuerySystem.CasualtyRatio;
-                            numberOfEnemyFormations++;
+                            foreach (Formation fe in te.Formations)
+                            {
+                                enemyCasualityRatio += fe.QuerySystem.CasualtyRatio;
+                                numberOfEnemyFormations++;
+                            }
+                        }
+                        else
+                        {
+                            return PlanStateEnum.Prepare;
                         }
                     }
 
                     float averageCasualities = alliedCasualityRatio / numberOfFormations;
 
                     float averageEnemyCasualities = enemyCasualityRatio / numberOfEnemyFormations;
-
+                    /*
                     if (averageCasualities > averageEnemyCasualities)
                     {
                         return PlanStateEnum.Losing;
@@ -337,7 +361,7 @@ namespace CunningLords.PlanDefinition
                     else
                     {
                         return PlanStateEnum.Winning;
-                    }
+                    }*/
                 } 
             }
 

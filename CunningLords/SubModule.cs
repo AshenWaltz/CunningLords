@@ -19,11 +19,11 @@ namespace CunningLords
 			base.OnSubModuleLoad();
 
             Module.CurrentModule.AddInitialStateOption(new InitialStateOption("TestMainMenuOption",
-                new TextObject("Interface Example"), 3,
+                new TextObject("Cunning Lords Options"), 3,
                 () =>
                 {
                     ScreenManager.PushScreen(new CunningLordsOptionScreen());
-                }, () => (false, new TextObject("Interface Example"))));
+                }, () => (false, new TextObject("Cunning Lords Options"))));
         }
 	}
 }

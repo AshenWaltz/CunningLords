@@ -53,10 +53,9 @@ namespace CunningLords.Patches
                         {
                             int tacticSkill = data.TacticSill;
                             string culture = data.Culture;
-                            InformationManager.DisplayMessage(new InformationMessage("PASSOU AQUI!!!"));
                             if (CampaignInteraction.isCustomBattle)
                             {
-                                InformationManager.DisplayMessage(new InformationMessage("Custom Battle"));
+                                //InformationManager.DisplayMessage(new InformationMessage("Custom Battle"));
 
                                 /*string path2 = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
 
@@ -85,7 +84,7 @@ namespace CunningLords.Patches
                             }  
                             else if (/*hasGeneral ||*/ (tacticSkill <= 25)) //nearly no tactic level. Just charge and hope
                             {
-                                InformationManager.DisplayMessage(new InformationMessage("nearly no tactic level"));
+                                //InformationManager.DisplayMessage(new InformationMessage("nearly no tactic level"));
 
                                 team.ClearTacticOptions();
                                 team.AddTacticOption(new DTTacticLevelZero(team));
@@ -97,7 +96,7 @@ namespace CunningLords.Patches
                             }
                             else if ((tacticSkill > 75) && (tacticSkill <= 200)) //Good tactic level. I know my culture and my army. I know how to use them
                             {
-                                InformationManager.DisplayMessage(new InformationMessage("Good tactic level"));
+                                //InformationManager.DisplayMessage(new InformationMessage("Good tactic level"));
                                 team.ClearTacticOptions();
                                 switch (culture)
                                 {
@@ -126,7 +125,7 @@ namespace CunningLords.Patches
                             }
                             else //Excelent tactic level. Not only do I know my culture and my army, but I also recognize the strengths and weaknesses of my enemies
                             {
-                                InformationManager.DisplayMessage(new InformationMessage("Excelent tactic level"));
+                                //InformationManager.DisplayMessage(new InformationMessage("Excelent tactic level"));
                                 team.ClearTacticOptions();
                                 switch (culture)
                                 {

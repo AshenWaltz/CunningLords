@@ -119,6 +119,14 @@ namespace CunningLords.Tactics
 
 				DecisionIsFormationNotNull IsHorseArchersNotNull = new DecisionIsFormationNotNull(this._rangedCavalry, horseAcherSkirmish, horseArcherDontExist);
 
+				//Prepare
+				//Ranged
+				//Charge
+				//Melee
+				//Winning
+				//Losing
+				//Rout/Pursuit
+
 				//Final Trees
 				this.infantryTree = decisionInfantryNotNull;
 				this.archersTree = decisionArchersNotNull;
