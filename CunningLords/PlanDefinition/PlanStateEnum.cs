@@ -9,6 +9,7 @@ namespace CunningLords.PlanDefinition
     public enum PlanStateEnum
     {
         Prepare,
+        Ranged,
         Engage,
         Winning,
         Losing

@@ -26,6 +26,10 @@ namespace CunningLords.PlanDefinition
         public Formation lightCavalry;
         public Formation heavyCavalry;
 
+        private int engageCounterStart = -1;
+
+        private bool isEngaged = false;
+
         public PlanGenerator()
         {
             string path = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
@@ -102,6 +106,10 @@ namespace CunningLords.PlanDefinition
                                 {
                                     ApplyBehavior(f, plan.infantryPhasePrepare);
                                 }
+                                else if (state == PlanStateEnum.Ranged)
+                                {
+                                    ApplyBehavior(f, plan.infantryPhaseRanged);
+                                }
                                 else if(state == PlanStateEnum.Engage)
                                 {
                                     ApplyBehavior(f, plan.infantryPhaseEngage);
@@ -119,6 +127,10 @@ namespace CunningLords.PlanDefinition
                                 if (state == PlanStateEnum.Prepare)
                                 {
                                     ApplyBehavior(f, plan.archersPhasePrepare);
+                                }
+                                else if (state == PlanStateEnum.Ranged)
+                                {
+                                    ApplyBehavior(f, plan.archersPhaseRanged);
                                 }
                                 else if (state == PlanStateEnum.Engage)
                                 {
@@ -138,6 +150,10 @@ namespace CunningLords.PlanDefinition
                                 {
                                     ApplyBehavior(f, plan.cavalryPhasePrepare);
                                 }
+                                else if (state == PlanStateEnum.Ranged)
+                                {
+                                    ApplyBehavior(f, plan.cavalryPhaseRanged);
+                                }
                                 else if (state == PlanStateEnum.Engage)
                                 {
                                     ApplyBehavior(f, plan.cavalryPhaseEngage);
@@ -155,6 +171,10 @@ namespace CunningLords.PlanDefinition
                                 if (state == PlanStateEnum.Prepare)
                                 {
                                     ApplyBehavior(f, plan.horseArchersPhasePrepare);
+                                }
+                                else if (state == PlanStateEnum.Ranged)
+                                {
+                                    ApplyBehavior(f, plan.horseArchersPhaseRanged);
                                 }
                                 else if (state == PlanStateEnum.Engage)
                                 {
@@ -174,6 +194,10 @@ namespace CunningLords.PlanDefinition
                                 {
                                     ApplyBehavior(f, plan.skirmishersPhasePrepare);
                                 }
+                                else if (state == PlanStateEnum.Ranged)
+                                {
+                                    ApplyBehavior(f, plan.skirmishersPhaseRanged);
+                                }
                                 else if (state == PlanStateEnum.Engage)
                                 {
                                     ApplyBehavior(f, plan.skirmishersPhaseEngage);
@@ -192,6 +216,10 @@ namespace CunningLords.PlanDefinition
                                 {
                                     ApplyBehavior(f, plan.heavyInfantryPhasePrepare);
                                 }
+                                else if (state == PlanStateEnum.Ranged)
+                                {
+                                    ApplyBehavior(f, plan.heavyInfantryPhaseRanged);
+                                }
                                 else if (state == PlanStateEnum.Engage)
                                 {
                                     ApplyBehavior(f, plan.heavyInfantryPhaseEngage);
@@ -208,37 +236,45 @@ namespace CunningLords.PlanDefinition
                             case FormationClass.LightCavalry:
                                 if (state == PlanStateEnum.Prepare)
                                 {
-                                    ApplyBehavior(f, plan.LightCavalryPhasePrepare);
+                                    ApplyBehavior(f, plan.lightCavalryPhasePrepare);
+                                }
+                                else if (state == PlanStateEnum.Ranged)
+                                {
+                                    ApplyBehavior(f, plan.lightCavalryPhaseRanged);
                                 }
                                 else if (state == PlanStateEnum.Engage)
                                 {
-                                    ApplyBehavior(f, plan.LightCavalryPhaseEngage);
+                                    ApplyBehavior(f, plan.lightCavalryPhaseEngage);
                                 }
                                 else if (state == PlanStateEnum.Winning)
                                 {
-                                    ApplyBehavior(f, plan.LightCavalryPhaseWinning);
+                                    ApplyBehavior(f, plan.lightCavalryPhaseWinning);
                                 }
                                 else if (state == PlanStateEnum.Losing)
                                 {
-                                    ApplyBehavior(f, plan.LightCavalryPhaseLosing);
+                                    ApplyBehavior(f, plan.lightCavalryPhaseLosing);
                                 }
                                 break;
                             case FormationClass.HeavyCavalry:
                                 if (state == PlanStateEnum.Prepare)
                                 {
-                                    ApplyBehavior(f, plan.HeavyCavalryPhasePrepare);
+                                    ApplyBehavior(f, plan.heavyCavalryPhasePrepare);
+                                }
+                                else if (state == PlanStateEnum.Ranged)
+                                {
+                                    ApplyBehavior(f, plan.heavyCavalryPhaseRanged);
                                 }
                                 else if (state == PlanStateEnum.Engage)
                                 {
-                                    ApplyBehavior(f, plan.HeavyCavalryPhaseEngage);
+                                    ApplyBehavior(f, plan.heavyCavalryPhaseEngage);
                                 }
                                 else if (state == PlanStateEnum.Winning)
                                 {
-                                    ApplyBehavior(f, plan.HeavyCavalryPhaseWinning);
+                                    ApplyBehavior(f, plan.heavyCavalryPhaseWinning);
                                 }
                                 else if (state == PlanStateEnum.Losing)
                                 {
-                                    ApplyBehavior(f, plan.HeavyCavalryPhaseLosing);
+                                    ApplyBehavior(f, plan.heavyCavalryPhaseLosing);
                                 }
                                 break;
                         }
@@ -298,70 +334,88 @@ namespace CunningLords.PlanDefinition
 
                     int numberOfFormations = 0;
 
-                    foreach(Formation f in Mission.Current.MainAgent.Team.Formations)
+                    if (!isEngaged)
                     {
-                        Formation closestsFormation;
-                        if (f.QuerySystem.ClosestEnemyFormation != null)
+                        foreach (Formation f in Mission.Current.MainAgent.Team.Formations)
                         {
-                            closestsFormation = f.QuerySystem.ClosestEnemyFormation.Formation;
-                        }
-                        else
-                        {
-                            return PlanStateEnum.Prepare;
-                        }
-
-                        if (closestsFormation != null)
-                        {
-                            float distance = f.QuerySystem.AveragePosition.Distance(closestsFormation.QuerySystem.AveragePosition);
-
-                            if (distance < 30.0f)
+                            Formation closestsFormation;
+                            if (f.QuerySystem.ClosestEnemyFormation != null)
                             {
-                                return PlanStateEnum.Engage;
+                                closestsFormation = f.QuerySystem.ClosestEnemyFormation.Formation;
+                            }
+                            else
+                            {
+                                return PlanStateEnum.Prepare;
                             }
 
-                            alliedCasualityRatio += f.QuerySystem.CasualtyRatio;
-                            numberOfFormations++;
-                        }
-                        else
-                        {
-                            return PlanStateEnum.Prepare;
-                        } 
-                    }
-
-                    List<Team> enemyTeams = (from t in Mission.Current.Teams where t.Side != Mission.Current.MainAgent.Team.Side select t).ToList<Team>();
-
-                    float enemyCasualityRatio = 0.0f;
-
-                    int numberOfEnemyFormations = 0;
-
-                    foreach (Team te in enemyTeams)
-                    {
-                        if (te != null)
-                        {
-                            foreach (Formation fe in te.Formations)
+                            if (closestsFormation != null)
                             {
-                                enemyCasualityRatio += fe.QuerySystem.CasualtyRatio;
-                                numberOfEnemyFormations++;
+                                float distance = f.QuerySystem.AveragePosition.Distance(closestsFormation.QuerySystem.AveragePosition);
+
+                                if (distance < 20.0f)
+                                {
+                                    if (engageCounterStart == -1 && isEngaged == false)
+                                    {
+                                        engageCounterStart = MissionOverride.FrameCounter;
+                                        isEngaged = true;
+                                    }
+                                    return PlanStateEnum.Engage;
+                                }
+                                else if (distance >= 20.0f && distance < 60.0f)
+                                {
+                                    return PlanStateEnum.Ranged;
+                                }
+
+                                alliedCasualityRatio += f.QuerySystem.CasualtyRatio;
+                                numberOfFormations++;
+                            }
+                            else
+                            {
+                                return PlanStateEnum.Prepare;
                             }
                         }
+                    }
+                    else if (isEngaged && (MissionOverride.FrameCounter - engageCounterStart) > 5000)
+                    {
+                        List<Team> enemyTeams = (from t in Mission.Current.Teams where t.Side != Mission.Current.MainAgent.Team.Side select t).ToList<Team>();
+
+                        float enemyCasualityRatio = 0.0f;
+
+                        int numberOfEnemyFormations = 0;
+
+                        foreach (Team te in enemyTeams)
+                        {
+                            if (te != null)
+                            {
+                                foreach (Formation fe in te.Formations)
+                                {
+                                    enemyCasualityRatio += fe.QuerySystem.CasualtyRatio;
+                                    numberOfEnemyFormations++;
+                                }
+                            }
+                            else
+                            {
+                                return PlanStateEnum.Prepare;
+                            }
+                        }
+
+                        float averageCasualities = alliedCasualityRatio / numberOfFormations;
+
+                        float averageEnemyCasualities = enemyCasualityRatio / numberOfEnemyFormations;
+                        
+                        if (averageCasualities > averageEnemyCasualities)
+                        {
+                            return PlanStateEnum.Losing;
+                        }
                         else
                         {
-                            return PlanStateEnum.Prepare;
+                            return PlanStateEnum.Winning;
                         }
-                    }
-
-                    float averageCasualities = alliedCasualityRatio / numberOfFormations;
-
-                    float averageEnemyCasualities = enemyCasualityRatio / numberOfEnemyFormations;
-                    /*
-                    if (averageCasualities > averageEnemyCasualities)
-                    {
-                        return PlanStateEnum.Losing;
                     }
                     else
                     {
-                        return PlanStateEnum.Winning;
-                    }*/
+                        return PlanStateEnum.Prepare;
+                    }
                 } 
             }
 
