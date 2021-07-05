@@ -137,6 +137,8 @@ namespace CunningLords.Tactics
 				this.HorseArchersTree.makeDecision();
 			}
 
+			//InformationManager.DisplayMessage(new InformationMessage("TICK TACTIC"));
+
 			base.TickOccasionally();
 		}
 

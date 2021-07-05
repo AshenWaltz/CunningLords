@@ -45,6 +45,8 @@ namespace CunningLords.Patches
                 {
                     //MissionAI.PlayerBattleSide = __instance.Mission.MainAgent.Team.Side; //Crashes
 
+                    //InformationManager.DisplayMessage(new InformationMessage("tactic Level:" + data.TacticSill.ToString()));
+
                     List<Team> enemyTeams = Utils.GetAllEnemyTeams(__instance.Mission);
 
                     if (__instance.Mission.MissionTeamAIType == Mission.MissionTeamAITypeEnum.FieldBattle)

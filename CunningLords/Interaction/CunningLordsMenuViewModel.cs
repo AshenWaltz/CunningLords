@@ -195,6 +195,11 @@ namespace CunningLords.Interaction
             }*/
 
             Hero bestAvailableCommander = clan.Heroes.First();
+
+            if (bestAvailableCommander == Hero.MainHero)
+            {
+                bestAvailableCommander = clan.Heroes.Skip(1).First();
+            }
             bestAvailableCommander.HitPoints = 50;
             MobileParty mobileParty = MobilePartyHelper.SpawnLordParty(bestAvailableCommander, new Vec2(Hero.MainHero.GetPosition().x, Hero.MainHero.GetPosition().z), 1f);
             mobileParty.InitializeMobileParty(
