@@ -91,7 +91,7 @@ namespace CunningLords.Patches
             {
                 if (Input.IsKeyDown(InputKey.LeftControl))
                 {
-                    if (Input.IsKeyPressed(InputKey.F9))
+                    if (Input.IsKeyPressed(InputKey.F10))
                     {
                         //Utils.PrintRelevantData(mission);
                         InputCommands IC = new InputCommands();
@@ -99,7 +99,7 @@ namespace CunningLords.Patches
                         //IC.ApplyPosition(mission);
                         IC.SaveOffsets(mission, 0);
                     }
-                    else if (Input.IsKeyPressed(InputKey.F10))
+                    else if (Input.IsKeyPressed(InputKey.F11))
                     {
                         //Utils.PrintRelevantData(mission);
                         InputCommands IC = new InputCommands();
@@ -107,7 +107,7 @@ namespace CunningLords.Patches
                         //IC.ApplyPosition(mission);
                         IC.SaveOffsets(mission, 1);
                     }
-                    else if (Input.IsKeyPressed(InputKey.F11))
+                    else if (Input.IsKeyPressed(InputKey.F12))
                     {
                         //Utils.PrintRelevantData(mission);
                         InputCommands IC = new InputCommands();
@@ -118,7 +118,7 @@ namespace CunningLords.Patches
                 }
                 else
                 {
-                    if (Input.IsKeyPressed(InputKey.F9))
+                    if (Input.IsKeyPressed(InputKey.F10))
                     {
                         //Utils.PrintRelevantData(mission);
                         InputCommands IC = new InputCommands();
@@ -126,7 +126,7 @@ namespace CunningLords.Patches
                         //IC.ApplyPosition(mission);
                         IC.ApplyPosition(mission, 0);
                     }
-                    else if (Input.IsKeyPressed(InputKey.F10))
+                    else if (Input.IsKeyPressed(InputKey.F11))
                     {
                         //Utils.PrintRelevantData(mission);
                         InputCommands IC = new InputCommands();
@@ -134,7 +134,7 @@ namespace CunningLords.Patches
                         //IC.ApplyPosition(mission);
                         IC.ApplyPosition(mission, 1);
                     }
-                    else if (Input.IsKeyPressed(InputKey.F11))
+                    else if (Input.IsKeyPressed(InputKey.F12))
                     {
                         //Utils.PrintRelevantData(mission);
                         InputCommands IC = new InputCommands();
