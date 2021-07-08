@@ -21,6 +21,12 @@ namespace CunningLords.Interaction
 
         public static bool isCustomBattle = false;
 
+        public static int healthPreTest = 50;
+
+        public static bool hadMission = false;
+
+        public static Hero characterToHeal = null;
+
         [HarmonyPatch(typeof(Campaign))]
         [HarmonyPatch("RealTick")]
         class CampaignHourlyTickOverride
@@ -43,6 +49,12 @@ namespace CunningLords.Interaction
                 //CampaignInteraction.isCustomBattle = false;
                 MissionOverride.FrameCounter = 0;
                 CampaignInteraction.isCampaign = true;
+
+                /*if (characterToHeal != null && hadMission)
+                {
+                    characterToHeal.HitPoints = healthPreTest;
+                    hadMission = false;
+                }*/
             }
         }
 

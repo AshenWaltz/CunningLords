@@ -200,6 +200,10 @@ namespace CunningLords.Interaction
             {
                 bestAvailableCommander = clan.Heroes.Skip(1).First();
             }
+            /*CampaignInteraction.healthPreTest = bestAvailableCommander.HitPoints;
+            CampaignInteraction.hadMission = true;
+            CampaignInteraction.characterToHeal = bestAvailableCommander;*/
+
             bestAvailableCommander.HitPoints = 50;
             MobileParty mobileParty = MobilePartyHelper.SpawnLordParty(bestAvailableCommander, new Vec2(Hero.MainHero.GetPosition().x, Hero.MainHero.GetPosition().z), 1f);
             mobileParty.InitializeMobileParty(
