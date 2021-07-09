@@ -27,7 +27,7 @@ namespace CunningLords.DecisionTreeLogic
 
         public DecisionTreeGenerator()
         {
-            string path = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
+            /*string path = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
 
             string finalPath = Path.Combine(path, "ModuleData", "DecisionTree.json");
 
@@ -41,7 +41,7 @@ namespace CunningLords.DecisionTreeLogic
 
             Stack treeStack= new Stack();
 
-            //DecisionTreeNode node = data.RootInfantry;
+            //DecisionTreeNode node = data.RootInfantry;*/
         }
 
         public bool isLeaf(DecisionTreeJsonNode node) 
