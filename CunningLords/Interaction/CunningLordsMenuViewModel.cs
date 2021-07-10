@@ -62,6 +62,7 @@ namespace CunningLords.Interaction
             this._cancelText = new TextObject("{=ATCancel}Cancel", null).ToString();
             this._pressButton1 = new TextObject("{=ATPressButton1}PressButton1", null).ToString();
             this._tab1Text = new TextObject("{=ATTab1Text}Main Interface", null).ToString();
+            this._planTabText = new TextObject("{=ATPlanTabText}Plan Definition", null).ToString();
             this._tab2Text = new TextObject("{=ATTab2Text}Sub Interface", null).ToString();
             this._sliderText = new TextObject("{=ATSlideText}Slider Example", null).ToString();
             this._sliderValue = 10.0f;
@@ -171,6 +172,11 @@ namespace CunningLords.Interaction
             ScreenManager.PopScreen();
         }
 
+        private void GoToPlanDefinition()
+        {
+            ScreenManager.PushScreen(new CunningLordsPlanDefinitionScreen());
+        }
+
         private void ExecuteMissionStart()
         {
             if (Game.Current != null)
@@ -262,6 +268,15 @@ namespace CunningLords.Interaction
             }
         }
 
+        [DataSourceProperty]
+        public string PlanTabText
+        {
+            get
+            {
+                return this._planTabText;
+            }
+        }
+
 
         [DataSourceProperty]
         public bool BooleanValue
@@ -334,6 +349,7 @@ namespace CunningLords.Interaction
         private float _sliderValue;
         private string _sliderValueText;
         private bool _booleanValue;
+        private string _planTabText;
 
 
         public OrderType GetOrderType(int value)

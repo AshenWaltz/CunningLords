@@ -152,6 +152,10 @@ namespace CunningLords.Interaction
 
         public CunningLordsPlanViewModel()
         {
+            this._doneText = new TextObject("{=ATDone}Done", null).ToString();
+            this._cancelText = new TextObject("{=ATCancel}Cancel", null).ToString();
+            this._planTabText = new TextObject("{=ATPlanTabText}Plan Definition", null).ToString();
+
             string path = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
 
             string finalPath = Path.Combine(path, "ModuleData", "Decisiontree.json");
@@ -363,6 +367,28 @@ namespace CunningLords.Interaction
 
         }
 
+        private string _doneText;
+        private string _cancelText;
+        private string _planTabText;
+
+        [DataSourceProperty]
+        public string CancelText
+        {
+            get
+            {
+                return this._cancelText;
+            }
+        }
+
+        [DataSourceProperty]
+        public string DoneText
+        {
+            get
+            {
+                return this._doneText;
+            }
+        }
+
         private void ExecuteDone()
         {
             Plan orders = new Plan()
@@ -372,16 +398,46 @@ namespace CunningLords.Interaction
                 infantryPhaseEngage = GetOrderType(InfantryEngage.SelectedIndex),
                 infantryPhaseWinning = GetOrderType(InfantryWinning.SelectedIndex),
                 infantryPhaseLosing = GetOrderType(InfantryLosing.SelectedIndex),
-                infantryPhasePrepare = GetOrderType(InfantryPrepare.SelectedIndex),
-                infantryPhaseRanged = GetOrderType(InfantryRanged.SelectedIndex),
-                infantryPhaseEngage = GetOrderType(InfantryEngage.SelectedIndex),
-                infantryPhaseWinning = GetOrderType(InfantryWinning.SelectedIndex),
-                infantryPhaseLosing = GetOrderType(InfantryLosing.SelectedIndex),
+                archersPhasePrepare = GetOrderType(ArchersPrepare.SelectedIndex),
+                archersPhaseRanged = GetOrderType(ArchersRanged.SelectedIndex),
+                archersPhaseEngage = GetOrderType(ArchersEngage.SelectedIndex),
+                archersPhaseWinning = GetOrderType(ArchersWinning.SelectedIndex),
+                archersPhaseLosing = GetOrderType(ArchersLosing.SelectedIndex),
+                cavalryPhasePrepare = GetOrderType(CavalryPrepare.SelectedIndex),
+                cavalryPhaseRanged = GetOrderType(CavalryRanged.SelectedIndex),
+                cavalryPhaseEngage = GetOrderType(CavalryEngage.SelectedIndex),
+                cavalryPhaseWinning = GetOrderType(CavalryWinning.SelectedIndex),
+                cavalryPhaseLosing = GetOrderType(CavalryLosing.SelectedIndex),
+                horseArchersPhasePrepare = GetOrderType(HorseArchersPrepare.SelectedIndex),
+                horseArchersPhaseRanged = GetOrderType(HorseArchersRanged.SelectedIndex),
+                horseArchersPhaseEngage = GetOrderType(HorseArchersEngage.SelectedIndex),
+                horseArchersPhaseWinning = GetOrderType(HorseArchersWinning.SelectedIndex),
+                horseArchersPhaseLosing = GetOrderType(HorseArchersLosing.SelectedIndex),
+                skirmishersPhasePrepare = GetOrderType(SkirmishersPrepare.SelectedIndex),
+                skirmishersPhaseRanged = GetOrderType(SkirmishersRanged.SelectedIndex),
+                skirmishersPhaseEngage = GetOrderType(SkirmishersEngage.SelectedIndex),
+                skirmishersPhaseWinning = GetOrderType(SkirmishersWinning.SelectedIndex),
+                skirmishersPhaseLosing = GetOrderType(SkirmishersLosing.SelectedIndex),
+                heavyInfantryPhasePrepare = GetOrderType(HeavyInfantryPrepare.SelectedIndex),
+                heavyInfantryPhaseRanged = GetOrderType(HeavyInfantryRanged.SelectedIndex),
+                heavyInfantryPhaseEngage = GetOrderType(HeavyInfantryEngage.SelectedIndex),
+                heavyInfantryPhaseWinning = GetOrderType(HeavyInfantryWinning.SelectedIndex),
+                heavyInfantryPhaseLosing = GetOrderType(HeavyInfantryLosing.SelectedIndex),
+                lightCavalryPhasePrepare = GetOrderType(LightCavalryPrepare.SelectedIndex),
+                lightCavalryPhaseRanged = GetOrderType(LightCavalryRanged.SelectedIndex),
+                lightCavalryPhaseEngage = GetOrderType(LightCavalryEngage.SelectedIndex),
+                lightCavalryPhaseWinning = GetOrderType(LightCavalryWinning.SelectedIndex),
+                lightCavalryPhaseLosing = GetOrderType(LightCavalryLosing.SelectedIndex),
+                heavyCavalryPhasePrepare = GetOrderType(LightCavalryPrepare.SelectedIndex),
+                heavyCavalryPhaseRanged = GetOrderType(HeavyCavalryRanged.SelectedIndex),
+                heavyCavalryPhaseEngage = GetOrderType(HeavyCavalryEngage.SelectedIndex),
+                heavyCavalryPhaseWinning = GetOrderType(HeavyCavalryWinning.SelectedIndex),
+                heavyCavalryPhaseLosing = GetOrderType(HeavyCavalryLosing.SelectedIndex)
             };
 
             string path = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
 
-            string finalPath = Path.Combine(path, "ModuleData", "startdata.json");
+            string finalPath = Path.Combine(path, "ModuleData", "Decisiontree.json");
 
             var serializer = new JsonSerializer();
             using (var sw = new StreamWriter(finalPath))
@@ -390,6 +446,12 @@ namespace CunningLords.Interaction
                 serializer.Serialize(writer, orders);
             }
 
+            ScreenManager.PopScreen();
+        }
+
+        private void ExecuteCancel()
+        {
+            CampaignInteraction._inMenu = false;
             ScreenManager.PopScreen();
         }
 

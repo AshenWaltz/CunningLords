@@ -139,6 +139,7 @@
     <Compile Include="Interaction\CunningLordsConfigData.cs" />
     <Compile Include="Interaction\CunningLordsMenuViewModel.cs" />
     <Compile Include="Interaction\CunningLordsOptionScreen.cs" />
+    <Compile Include="Interaction\CunningLordsPlanDefinitionScreen.cs" />
     <Compile Include="Interaction\CunningLordsPlanViewModel.cs" />
     <Compile Include="Interaction\CunningLordsTroopSupplier.cs" />
     <Compile Include="Interaction\InputCommands.cs" />

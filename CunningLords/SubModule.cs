@@ -24,6 +24,13 @@ namespace CunningLords
                 {
                     ScreenManager.PushScreen(new CunningLordsOptionScreen());
                 }, () => (false, new TextObject("Cunning Lords Options"))));
+
+            /*Module.CurrentModule.AddInitialStateOption(new InitialStateOption("TestMainMenuPlanOption",
+                new TextObject("Cunning Lords Plan Defenition"), 3,
+                () =>
+                {
+                    ScreenManager.PushScreen(new CunningLordsPlanDefinitionScreen());
+                }, () => (false, new TextObject("Cunning Lords Plan Defenition"))));*/
         }
 	}
 }
