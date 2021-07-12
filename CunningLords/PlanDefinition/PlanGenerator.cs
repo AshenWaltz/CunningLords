@@ -30,6 +30,8 @@ namespace CunningLords.PlanDefinition
 
         private bool isEngaged = false;
 
+        private PlanStateEnum previousState = PlanStateEnum.Prepare;
+
         public PlanGenerator()
         {
             string path = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
@@ -88,8 +90,12 @@ namespace CunningLords.PlanDefinition
         {
             PlanStateEnum state = GetMissionState();
 
-            InformationManager.DisplayMessage(new InformationMessage(state.ToString()));
-
+            if (this.previousState != state)
+            {
+                InformationManager.DisplayMessage(new InformationMessage("Mission has entered " + state.ToString() + " State"));
+                this.previousState = state;
+            }
+            
             if (Mission.Current != null)
             {
                 if (Mission.Current.MainAgent != null)
@@ -375,13 +381,19 @@ namespace CunningLords.PlanDefinition
                             }
                         }
                     }
-                    else if (isEngaged && (MissionOverride.FrameCounter - engageCounterStart) > 5000)
+                    else if (isEngaged && (MissionOverride.FrameCounter - engageCounterStart) > 2500)
                     {
                         List<Team> enemyTeams = (from t in Mission.Current.Teams where t.Side != Mission.Current.MainAgent.Team.Side select t).ToList<Team>();
+
+                        List<Team> alliedTeams = (from t in Mission.Current.Teams where t.Side == Mission.Current.MainAgent.Team.Side select t).ToList<Team>();
 
                         float enemyCasualityRatio = 0.0f;
 
                         int numberOfEnemyFormations = 0;
+
+                        float enemyPowerRatio = 0.0f;
+
+                        float alliedPowerRatio = 0.0f;
 
                         foreach (Team te in enemyTeams)
                         {
@@ -392,6 +404,19 @@ namespace CunningLords.PlanDefinition
                                     enemyCasualityRatio += fe.QuerySystem.CasualtyRatio;
                                     numberOfEnemyFormations++;
                                 }
+                                enemyPowerRatio += te.QuerySystem.TeamPower;
+                            }
+                            else
+                            {
+                                return PlanStateEnum.Prepare;
+                            }
+                        }
+
+                        foreach (Team te in alliedTeams)
+                        {
+                            if (te != null)
+                            {
+                                alliedPowerRatio += te.QuerySystem.TeamPower;
                             }
                             else
                             {
@@ -402,8 +427,25 @@ namespace CunningLords.PlanDefinition
                         float averageCasualities = alliedCasualityRatio / numberOfFormations;
 
                         float averageEnemyCasualities = enemyCasualityRatio / numberOfEnemyFormations;
-                        
-                        if (averageCasualities > averageEnemyCasualities)
+
+                        /*if (averageCasualities > averageEnemyCasualities)
+                        {
+                            return PlanStateEnum.Losing;
+                        }
+                        else
+                        {
+                            return PlanStateEnum.Winning;
+                        }*/
+
+                        float averageAlliedPower = alliedPowerRatio / alliedTeams.Count;
+
+                        float averageEnemyPower = enemyPowerRatio / enemyTeams.Count;
+
+                        //InformationManager.DisplayMessage(new InformationMessage("ALLIED: " + averageAlliedPower.ToString()));
+
+                        //InformationManager.DisplayMessage(new InformationMessage("ENEMY: " + averageEnemyPower.ToString()));
+
+                        if (averageEnemyPower > averageAlliedPower)
                         {
                             return PlanStateEnum.Losing;
                         }
