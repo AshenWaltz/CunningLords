@@ -52,7 +52,7 @@ namespace CunningLords.Tactics
 			}
 			else if (base.AreFormationsCreated && this.tickCounter == 0)
 			{
-				InformationManager.DisplayMessage(new InformationMessage("Level 3 Empire"));
+				//InformationManager.DisplayMessage(new InformationMessage("Level 3 Empire"));
 
 				//Infantry
 				ActionCharge infantryCharge = new ActionCharge(this._mainInfantry);

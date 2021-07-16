@@ -36,7 +36,7 @@ namespace CunningLords.Interaction
                 if (Input.IsKeyDown(InputKey.LeftAlt) && Input.IsKeyDown(InputKey.E) && !CampaignInteraction._inMenu)
                 {
                     CampaignInteraction._inMenu = true;
-                    InformationManager.DisplayMessage(new InformationMessage("PRESSED!"));
+                    //InformationManager.DisplayMessage(new InformationMessage("PRESSED!"));
                     ScreenManager.PushScreen(new CunningLordsOptionScreen());
                 }
                 if (Input.IsKeyDown(InputKey.LeftAlt) && Input.IsKeyDown(InputKey.R) && !CampaignInteraction._inMenu)

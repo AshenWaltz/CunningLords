@@ -56,7 +56,7 @@ namespace CunningLords.Tactics
 			}
 			else if (base.AreFormationsCreated && this.tickCounter == 0)
 			{
-				InformationManager.DisplayMessage(new InformationMessage("Level 2 Sturgia"));
+				//InformationManager.DisplayMessage(new InformationMessage("Level 2 Sturgia"));
 
 				//Infantry
 				ActionCharge infantryCharge = new ActionCharge(this._mainInfantry);
