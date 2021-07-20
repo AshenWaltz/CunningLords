@@ -73,6 +73,40 @@ namespace CunningLords.Patches
             static void Postfix(Mission __instance)
             {
                 MissionOverride.FrameCounter = 0;
+
+
+
+
+                string path = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
+
+                string finalPath = Path.Combine(path, "ModuleData", "configData.json");
+
+                CunningLordsConfigData data;
+                using (StreamReader file = File.OpenText(finalPath))
+                {
+                    JsonSerializer deserializer = new JsonSerializer();
+                    data = (CunningLordsConfigData)deserializer.Deserialize(file, typeof(CunningLordsConfigData));
+                }
+
+                GameMetricsController GMC= new GameMetricsController();
+
+                GMC.WriteToJson(GameMetricEnum.TotalBattles);
+
+                if (CampaignInteraction.isCustomBattle)
+                {
+                    GMC.WriteToJson(GameMetricEnum.NumberOfTestBattles);
+                }
+                else
+                {
+                    if (data.AIActive)
+                    {
+                        GMC.WriteToJson(GameMetricEnum.BattlesUsingAI);
+                    }
+                    else
+                    {
+                        GMC.WriteToJson(GameMetricEnum.BattlesUsingNative);
+                    }
+                }
             }
         }
     }

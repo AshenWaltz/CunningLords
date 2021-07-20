@@ -334,7 +334,7 @@ namespace CunningLords.Interaction
                 {
                     serializer.Serialize(writer, data);
                 }
-                InformationManager.DisplayMessage(new InformationMessage("AI is " + data.AIActive.ToString() + "!"));
+                //InformationManager.DisplayMessage(new InformationMessage("AI is " + data.AIActive.ToString() + "!"));
             }
         }
 

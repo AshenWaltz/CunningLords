@@ -149,8 +149,12 @@
     <Compile Include="Interaction\TextViewModel.cs" />
     <Compile Include="Patches\Commands.cs" />
     <Compile Include="Patches\GameDataForAI.cs" />
+    <Compile Include="Patches\GameMetricEnum.cs" />
+    <Compile Include="Patches\GameMetrics.cs" />
+    <Compile Include="Patches\GameMetricsController.cs" />
     <Compile Include="Patches\MissionAI.cs" />
     <Compile Include="Patches\MissionOverride.cs" />
+    <Compile Include="Patches\TestBattleEndScreen.cs" />
     <Compile Include="Patches\Utils.cs" />
     <Compile Include="PlanDefinition\Plan.cs" />
     <Compile Include="PlanDefinition\PlanGenerator.cs" />
@@ -173,6 +177,7 @@
     <Compile Include="Tactics\DTTacticLevelTwoVlandia.cs" />
     <Compile Include="Tactics\DTTacticLevelTwoAserai.cs" />
     <Compile Include="Tactics\DTTacticLevelZero.cs" />
+    <Compile Include="Tactics\TacticHoldGeneric.cs" />
     <Compile Include="Tactics\TacticLevelTwoBattania.cs" />
     <Compile Include="Tactics\TacticLevelTwoEmpire.cs" />
     <Compile Include="Tactics\TacticLevelTwoSturgia.cs" />

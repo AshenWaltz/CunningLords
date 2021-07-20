@@ -98,6 +98,9 @@ namespace CunningLords.Patches
                         //IC.ApplyActiontoFormation(mission);
                         //IC.ApplyPosition(mission);
                         IC.SaveOffsets(mission, 0);
+
+                        GameMetricsController GMC = new GameMetricsController();
+                        GMC.WriteToJson(GameMetricEnum.NumberOfLoadoutSaves);
                     }
                     else if (Input.IsKeyPressed(InputKey.F11))
                     {
@@ -106,6 +109,9 @@ namespace CunningLords.Patches
                         //IC.ApplyActiontoFormation(mission);
                         //IC.ApplyPosition(mission);
                         IC.SaveOffsets(mission, 1);
+
+                        GameMetricsController GMC = new GameMetricsController();
+                        GMC.WriteToJson(GameMetricEnum.NumberOfLoadoutSaves);
                     }
                     else if (Input.IsKeyPressed(InputKey.F12))
                     {
@@ -114,6 +120,9 @@ namespace CunningLords.Patches
                         //IC.ApplyActiontoFormation(mission);
                         //IC.ApplyPosition(mission);
                         IC.SaveOffsets(mission, 2);
+
+                        GameMetricsController GMC = new GameMetricsController();
+                        GMC.WriteToJson(GameMetricEnum.NumberOfLoadoutSaves);
                     }
                 }
                 else
@@ -125,6 +134,9 @@ namespace CunningLords.Patches
                         //IC.ApplyActiontoFormation(mission);
                         //IC.ApplyPosition(mission);
                         IC.ApplyPosition(mission, 0);
+
+                        GameMetricsController GMC = new GameMetricsController();
+                        GMC.WriteToJson(GameMetricEnum.NumberOfLoadoutLoads);
                     }
                     else if (Input.IsKeyPressed(InputKey.F11))
                     {
@@ -133,6 +145,9 @@ namespace CunningLords.Patches
                         //IC.ApplyActiontoFormation(mission);
                         //IC.ApplyPosition(mission);
                         IC.ApplyPosition(mission, 1);
+
+                        GameMetricsController GMC = new GameMetricsController();
+                        GMC.WriteToJson(GameMetricEnum.NumberOfLoadoutLoads);
                     }
                     else if (Input.IsKeyPressed(InputKey.F12))
                     {
@@ -141,6 +156,9 @@ namespace CunningLords.Patches
                         //IC.ApplyActiontoFormation(mission);
                         //IC.ApplyPosition(mission);
                         IC.ApplyPosition(mission, 2);
+
+                        GameMetricsController GMC = new GameMetricsController();
+                        GMC.WriteToJson(GameMetricEnum.NumberOfLoadoutLoads);
                     }
                     else if (Input.IsKeyPressed(InputKey.PageUp))
                     {
@@ -148,6 +166,10 @@ namespace CunningLords.Patches
                         if (MissionOverride.IsPlanActive)
                         {
                             InformationManager.DisplayMessage(new InformationMessage("Battle Plan Has been Activated"));
+
+
+                            GameMetricsController GMC = new GameMetricsController();
+                            GMC.WriteToJson(GameMetricEnum.NumberOfPlansActivated);
                         }
                         else
                         {

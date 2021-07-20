@@ -41,6 +41,18 @@ namespace CunningLords.Patches
                     data = (CunningLordsConfigData)deserializer.Deserialize(file, typeof(CunningLordsConfigData));
                 }
 
+                if (CampaignInteraction.isCustomBattle)
+                {
+                    List<Team> enemyTeams = Utils.GetAllEnemyTeams(__instance.Mission);
+
+                    foreach (Team team in enemyTeams)
+                    {
+                        team.ClearTacticOptions();
+                        team.AddTacticOption(new DTTacticHold(team));
+
+                    }
+                }
+
                 if (data.AIActive)
                 {
                     //MissionAI.PlayerBattleSide = __instance.Mission.MainAgent.Team.Side; //Crashes
@@ -55,36 +67,8 @@ namespace CunningLords.Patches
                         {
                             int tacticSkill = data.TacticSill;
                             string culture = data.Culture;
-                            if (CampaignInteraction.isCustomBattle)
-                            {
-                                //InformationManager.DisplayMessage(new InformationMessage("Custom Battle"));
-
-                                /*string path2 = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
-
-                                string finalPath2 = Path.Combine(path2, "ModuleData", "DecisionTree.json");
-
-                                Plan plan = new Plan();
-
-
-                                var serializer = new JsonSerializer();
-                                using (var sw = new StreamWriter(finalPath2))
-                                using (JsonWriter writer = new JsonTextWriter(sw))
-                                {
-                                    serializer.Serialize(writer, plan);
-                                }
-
-                                Plan planFromJson;
-
-                                using (StreamReader file = File.OpenText(finalPath))
-                                {
-                                    JsonSerializer serializer2 = new JsonSerializer();
-                                    planFromJson = (Plan)serializer2.Deserialize(file, typeof(Plan));
-                                }*/
-
-                                team.ClearTacticOptions();
-                                team.AddTacticOption(new DTTacticHold(team));
-                            }  
-                            else if (/*hasGeneral ||*/ (tacticSkill <= 25)) //nearly no tactic level. Just charge and hope
+                            
+                            if (/*hasGeneral ||*/ (tacticSkill <= 25)) //nearly no tactic level. Just charge and hope
                             {
                                 //InformationManager.DisplayMessage(new InformationMessage("nearly no tactic level"));
 
