@@ -52,90 +52,92 @@ namespace CunningLords.Patches
 
                     }
                 }
-
-                if (data.AIActive)
+                else
                 {
-                    //MissionAI.PlayerBattleSide = __instance.Mission.MainAgent.Team.Side; //Crashes
-
-                    //InformationManager.DisplayMessage(new InformationMessage("tactic Level:" + data.TacticSill.ToString()));
-
-                    List<Team> enemyTeams = Utils.GetAllEnemyTeams(__instance.Mission);
-
-                    if (__instance.Mission.MissionTeamAIType == Mission.MissionTeamAITypeEnum.FieldBattle)
+                    if (data.AIActive)
                     {
-                        foreach (Team team in enemyTeams)
-                        {
-                            int tacticSkill = data.TacticSill;
-                            string culture = data.Culture;
-                            
-                            if (/*hasGeneral ||*/ (tacticSkill <= 25)) //nearly no tactic level. Just charge and hope
-                            {
-                                //InformationManager.DisplayMessage(new InformationMessage("nearly no tactic level"));
+                        //MissionAI.PlayerBattleSide = __instance.Mission.MainAgent.Team.Side; //Crashes
 
-                                team.ClearTacticOptions();
-                                team.AddTacticOption(new DTTacticLevelZero(team));
-                            }
-                            else if ((tacticSkill > 25) && (tacticSkill < 75)) //Minimal tactic level. there is somewhat of a plan
+                        //InformationManager.DisplayMessage(new InformationMessage("tactic Level:" + data.TacticSill.ToString()));
+
+                        List<Team> enemyTeams = Utils.GetAllEnemyTeams(__instance.Mission);
+
+                        if (__instance.Mission.MissionTeamAIType == Mission.MissionTeamAITypeEnum.FieldBattle)
+                        {
+                            foreach (Team team in enemyTeams)
                             {
-                                team.ClearTacticOptions();
-                                team.AddTacticOption(new DTTacticLevelOne(team));
-                            }
-                            else if ((tacticSkill > 75) && (tacticSkill <= 200)) //Good tactic level. I know my culture and my army. I know how to use them
-                            {
-                                //InformationManager.DisplayMessage(new InformationMessage("Good tactic level"));
-                                team.ClearTacticOptions();
-                                switch (culture)
+                                int tacticSkill = data.TacticSill;
+                                string culture = data.Culture;
+
+                                if (/*hasGeneral ||*/ (tacticSkill <= 25)) //nearly no tactic level. Just charge and hope
                                 {
-                                    case "Empire":
-                                        team.AddTacticOption(new DTTacticLevelTwoEmpire(team));
-                                        break;
-                                    case "Battania":
-                                        team.AddTacticOption(new DTTacticLevelTwoBattania(team));
-                                        break;
-                                    case "Vlandia":
-                                        team.AddTacticOption(new DTTacticLevelTwoVlandia(team));
-                                        break;
-                                    case "Sturgia":
-                                        team.AddTacticOption(new DTTacticLevelTwoSturgia(team));
-                                        break;
-                                    case "Aserai":
-                                        team.AddTacticOption(new DTTacticLevelTwoAserai(team));
-                                        break;
-                                    case "Khuzait":
-                                        team.AddTacticOption(new DTTacticLevelTwoKhuzait(team));
-                                        break;
-                                    default:
-                                        team.AddTacticOption(new DTTacticLevelTwoEmpire(team));
-                                        break;
+                                    //InformationManager.DisplayMessage(new InformationMessage("nearly no tactic level"));
+
+                                    team.ClearTacticOptions();
+                                    team.AddTacticOption(new DTTacticLevelZero(team));
                                 }
-                            }
-                            else //Excelent tactic level. Not only do I know my culture and my army, but I also recognize the strengths and weaknesses of my enemies
-                            {
-                                //InformationManager.DisplayMessage(new InformationMessage("Excelent tactic level"));
-                                team.ClearTacticOptions();
-                                switch (culture)
+                                else if ((tacticSkill > 25) && (tacticSkill < 75)) //Minimal tactic level. there is somewhat of a plan
                                 {
-                                    case "Empire":
-                                        team.AddTacticOption(new DTTacticLevelThreeEmpire(team));
-                                        break;
-                                    case "Battania":
-                                        team.AddTacticOption(new DTTacticLevelThreeBattania(team));
-                                        break;
-                                    case "Vlandia":
-                                        team.AddTacticOption(new DTTacticLevelThreeVlandia(team));
-                                        break;
-                                    case "Sturgia":
-                                        team.AddTacticOption(new DTTacticLevelThreeSturgia(team));
-                                        break;
-                                    case "Aserai":
-                                        team.AddTacticOption(new DTTacticLevelThreeAserai(team));
-                                        break;
-                                    case "Khuzait":
-                                        team.AddTacticOption(new DTTacticLevelThreeKhuzait(team));
-                                        break;
-                                    default:
-                                        team.AddTacticOption(new DTTacticLevelTwoEmpire(team));
-                                        break;
+                                    team.ClearTacticOptions();
+                                    team.AddTacticOption(new DTTacticLevelOne(team));
+                                }
+                                else if ((tacticSkill > 75) && (tacticSkill <= 200)) //Good tactic level. I know my culture and my army. I know how to use them
+                                {
+                                    //InformationManager.DisplayMessage(new InformationMessage("Good tactic level"));
+                                    team.ClearTacticOptions();
+                                    switch (culture)
+                                    {
+                                        case "Empire":
+                                            team.AddTacticOption(new DTTacticLevelTwoEmpire(team));
+                                            break;
+                                        case "Battania":
+                                            team.AddTacticOption(new DTTacticLevelTwoBattania(team));
+                                            break;
+                                        case "Vlandia":
+                                            team.AddTacticOption(new DTTacticLevelTwoVlandia(team));
+                                            break;
+                                        case "Sturgia":
+                                            team.AddTacticOption(new DTTacticLevelTwoSturgia(team));
+                                            break;
+                                        case "Aserai":
+                                            team.AddTacticOption(new DTTacticLevelTwoAserai(team));
+                                            break;
+                                        case "Khuzait":
+                                            team.AddTacticOption(new DTTacticLevelTwoKhuzait(team));
+                                            break;
+                                        default:
+                                            team.AddTacticOption(new DTTacticLevelTwoEmpire(team));
+                                            break;
+                                    }
+                                }
+                                else //Excelent tactic level. Not only do I know my culture and my army, but I also recognize the strengths and weaknesses of my enemies
+                                {
+                                    //InformationManager.DisplayMessage(new InformationMessage("Excelent tactic level"));
+                                    team.ClearTacticOptions();
+                                    switch (culture)
+                                    {
+                                        case "Empire":
+                                            team.AddTacticOption(new DTTacticLevelThreeEmpire(team));
+                                            break;
+                                        case "Battania":
+                                            team.AddTacticOption(new DTTacticLevelThreeBattania(team));
+                                            break;
+                                        case "Vlandia":
+                                            team.AddTacticOption(new DTTacticLevelThreeVlandia(team));
+                                            break;
+                                        case "Sturgia":
+                                            team.AddTacticOption(new DTTacticLevelThreeSturgia(team));
+                                            break;
+                                        case "Aserai":
+                                            team.AddTacticOption(new DTTacticLevelThreeAserai(team));
+                                            break;
+                                        case "Khuzait":
+                                            team.AddTacticOption(new DTTacticLevelThreeKhuzait(team));
+                                            break;
+                                        default:
+                                            team.AddTacticOption(new DTTacticLevelTwoEmpire(team));
+                                            break;
+                                    }
                                 }
                             }
                         }

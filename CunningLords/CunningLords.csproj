@@ -134,6 +134,11 @@
     <Compile Include="DecisionTreeLogic\DecisionTreeJsonNode.cs" />
     <Compile Include="DecisionTreeLogic\DecisionTreeNode.cs" />
     <Compile Include="DecisionTreeLogic\ActionAdvance.cs" />
+    <Compile Include="Interaction\BattleTestCustomView\BattleTestEmptyView.cs" />
+    <Compile Include="Interaction\BattleTestCustomView\BattleTestView.cs" />
+    <Compile Include="Interaction\BattleTestCustomView\BattleTestViewModel.cs" />
+    <Compile Include="Interaction\BattleTestMissionManager.cs" />
+    <Compile Include="Interaction\BattleTestMissionView.cs" />
     <Compile Include="Interaction\CampaignInteraction.cs" />
     <Compile Include="Interaction\CunningLordsAgentOrigin.cs" />
     <Compile Include="Interaction\CunningLordsConfigData.cs" />

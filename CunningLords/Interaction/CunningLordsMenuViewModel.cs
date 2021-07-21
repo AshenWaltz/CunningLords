@@ -220,7 +220,8 @@ namespace CunningLords.Interaction
             PlayerEncounter.Start();
             PlayerEncounter.Current.SetupFields(PartyBase.MainParty, mobileParty.Party);
             PlayerEncounter.StartBattle();
-            CampaignMission.OpenBattleMission(PlayerEncounter.GetBattleSceneForMapPosition(MobileParty.MainParty.Position2D));
+            //CampaignMission.OpenBattleMission(PlayerEncounter.GetBattleSceneForMapPosition(MobileParty.MainParty.Position2D));
+            BattleTestMissionManager.OpenBattleTestMission(PlayerEncounter.GetBattleSceneForMapPosition(MobileParty.MainParty.Position2D));
         }
 
         private TroopRoster GetEnemyParty()
