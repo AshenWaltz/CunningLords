@@ -47,6 +47,18 @@ namespace CunningLords.Patches
                     MissionOverride.IsPlanActive = false;
                     MissionOverride.Generator = new PlanGenerator();
                     Utils.OnStartOrders(__instance);
+
+                    if (CampaignInteraction.isCustomBattle)
+                    {
+                        Mission m = Mission.Current;
+
+                        Team playerTeam = Mission.Current.MainAgent.Team;
+
+                        foreach (Formation f in playerTeam.Formations)
+                        {
+                            f.FiringOrder = FiringOrder.FiringOrderHoldYourFire;
+                        }
+                    }
                 }
                 MissionOverride.FrameCounter++;
                 Utils.ManageInputKeys(__instance);
