@@ -52,7 +52,7 @@ namespace CunningLords.PlanDefinition
 
                     foreach (Formation f in playerTeam.Formations)
                     {
-                        f.IsAIControlled = true;
+                        //f.IsAIControlled = true;
                         switch (f.FormationIndex)
                         {
                             case FormationClass.Infantry:
@@ -104,7 +104,7 @@ namespace CunningLords.PlanDefinition
 
                     foreach (Formation f in playerTeam.Formations)
                     {
-                        f.IsAIControlled = true;
+                        //f.IsAIControlled = true;
                         switch (f.FormationIndex)
                         {
                             case FormationClass.Infantry:

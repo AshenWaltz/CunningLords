@@ -27,6 +27,8 @@ namespace CunningLords.Patches
 
         private static PlanGenerator Generator = null;
 
+        private static int PlanCounter = 0;
+
         [HarmonyPatch(typeof(Mission))]
         [HarmonyPatch("OnTick")]
         class OnTickOverride
@@ -65,6 +67,16 @@ namespace CunningLords.Patches
 
                 if (MissionOverride.IsPlanActive && __instance.MainAgent != null)
                 {
+                    if (MissionOverride.PlanCounter == 0)
+                    {
+                        foreach (Formation f in __instance.MainAgent.Team.Formations)
+                        {
+                            f.IsAIControlled = true;
+                        }
+
+                        MissionOverride.PlanCounter++;
+                    }
+
                     MissionOverride.Generator.Run();
                 }
 
@@ -74,6 +86,8 @@ namespace CunningLords.Patches
                     {
                         f.IsAIControlled = false;
                     }
+
+                    MissionOverride.PlanCounter = 0;
                 }
             }
         }

@@ -159,6 +159,7 @@
     <Compile Include="Patches\GameMetricsController.cs" />
     <Compile Include="Patches\MissionAI.cs" />
     <Compile Include="Patches\MissionOverride.cs" />
+    <Compile Include="Patches\OrderControllerOverride.cs" />
     <Compile Include="Patches\TestBattleEndScreen.cs" />
     <Compile Include="Patches\Utils.cs" />
     <Compile Include="PlanDefinition\Plan.cs" />
