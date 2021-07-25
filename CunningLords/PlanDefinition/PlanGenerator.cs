@@ -10,6 +10,7 @@ using System.Reflection;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.Core;
 using CunningLords.Patches;
+using CunningLords.Behaviors;
 
 namespace CunningLords.PlanDefinition
 {
@@ -306,8 +307,16 @@ namespace CunningLords.PlanDefinition
                     f.AI.SetBehaviorWeight<BehaviorFlank>(2f);
                     break;
                 case PlanOrderEnum.Skirmish:
-                    f.AI.ResetBehaviorWeights();
-                    f.AI.SetBehaviorWeight<BehaviorSkirmish>(2f);
+                    if(f.FormationIndex == FormationClass.HorseArcher)
+                    {
+                        f.AI.ResetBehaviorWeights();
+                        f.AI.SetBehaviorWeight<BehaviorHorseArcherSkirmish>(2f);
+                    }
+                    else
+                    {
+                        f.AI.ResetBehaviorWeights();
+                        f.AI.SetBehaviorWeight<BehaviorSkirmishMode>(2f);
+                    }
                     break;
                 case PlanOrderEnum.HideBehind:
                     f.AI.ResetBehaviorWeights();

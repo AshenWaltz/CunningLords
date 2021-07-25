@@ -41,7 +41,7 @@ namespace CunningLords.BehaviorTreelogic
             {
                 this.formation.AI.ResetBehaviorWeights();
                 BehaviorSkirmishMode behavior = this.formation.AI.SetBehaviorWeight<BehaviorSkirmishMode>(1f);
-                behavior.Formation = this.formation;
+                //behavior.Formation = this.formation;
                 return BTReturnEnum.succeeded;
             }
             else
