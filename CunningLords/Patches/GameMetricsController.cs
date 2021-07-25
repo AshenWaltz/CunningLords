@@ -49,6 +49,9 @@ namespace CunningLords.Patches
                 case GameMetricEnum.NumberOfPlansActivated:
                     data.NumberOfPlansActivated++;
                     break;
+                case GameMetricEnum.NumberOfFieldBattleOrders:
+                    data.NumberOfFieldBattleOrders++;
+                    break;
             }
 
             if (data.TakeMetrics)

@@ -34,15 +34,22 @@ namespace CunningLords.Patches
                     formation.IsAIControlled = false;
                 }
 
+                if (Mission.Current.MissionTeamAIType == Mission.MissionTeamAITypeEnum.FieldBattle)
+                {
+                    GameMetricsController GMC = new GameMetricsController();
+
+                    GMC.WriteToJson(GameMetricEnum.NumberOfFieldBattleOrders);
+                }
+
                 return true;
             }
         }
-
+        
         [HarmonyPatch(typeof(OrderController))]
-        [HarmonyPatch("SetOrderWithAgent")]
-        class SetOrderWithAgentOverride
+        [HarmonyPatch("SetOrderWithFormation")]
+        class SetOrderWithFormationOverride
         {
-            static bool Prefix(OrderType orderType, OrderController __instance)
+            static bool Prefix(OrderType orderType, Formation orderFormation, OrderController __instance)
             {
                 List<Formation>.Enumerator enumerator = __instance.SelectedFormations.GetEnumerator();
 
@@ -52,15 +59,22 @@ namespace CunningLords.Patches
                     formation.IsAIControlled = false;
                 }
 
+                if(Mission.Current.MissionTeamAIType == Mission.MissionTeamAITypeEnum.FieldBattle)
+                {
+                    GameMetricsController GMC = new GameMetricsController();
+
+                    GMC.WriteToJson(GameMetricEnum.NumberOfFieldBattleOrders);
+                }
+
                 return true;
             }
         }
-
+        
         [HarmonyPatch(typeof(OrderController))]
-        [HarmonyPatch("SetOrderWithFormation")]
-        class SetOrderWithFormationOverride
+        [HarmonyPatch("SetOrderWithPosition")]
+        class SetOrderWithPositionOverride
         {
-            static bool Prefix(OrderType orderType, OrderController __instance)
+            static bool Prefix(OrderType orderType, WorldPosition orderPosition, OrderController __instance)
             {
                 List<Formation>.Enumerator enumerator = __instance.SelectedFormations.GetEnumerator();
 
@@ -68,6 +82,63 @@ namespace CunningLords.Patches
                 {
                     Formation formation = enumerator.Current;
                     formation.IsAIControlled = false;
+                }
+
+                if (Mission.Current.MissionTeamAIType == Mission.MissionTeamAITypeEnum.FieldBattle)
+                {
+                    GameMetricsController GMC = new GameMetricsController();
+
+                    GMC.WriteToJson(GameMetricEnum.NumberOfFieldBattleOrders);
+                }
+
+                return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(OrderController))]
+        [HarmonyPatch("SetOrderWithTwoPositions")]
+        class SetOrderWithTwoPositionsOverride
+        {
+            static bool Prefix(OrderType orderType, WorldPosition position1, WorldPosition position2, OrderController __instance)
+            {
+                List<Formation>.Enumerator enumerator = __instance.SelectedFormations.GetEnumerator();
+
+                while (enumerator.MoveNext())
+                {
+                    Formation formation = enumerator.Current;
+                    formation.IsAIControlled = false;
+                }
+
+                if (Mission.Current.MissionTeamAIType == Mission.MissionTeamAITypeEnum.FieldBattle)
+                {
+                    GameMetricsController GMC = new GameMetricsController();
+
+                    GMC.WriteToJson(GameMetricEnum.NumberOfFieldBattleOrders);
+                }
+
+                return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(OrderController))]
+        [HarmonyPatch("SetOrderWithAgent")]
+        class SetOrderWithAgentOverride
+        {
+            static bool Prefix(OrderType orderType, Agent agent, OrderController __instance)
+            {
+                List<Formation>.Enumerator enumerator = __instance.SelectedFormations.GetEnumerator();
+
+                while (enumerator.MoveNext())
+                {
+                    Formation formation = enumerator.Current;
+                    formation.IsAIControlled = false;
+                }
+
+                if (Mission.Current.MissionTeamAIType == Mission.MissionTeamAITypeEnum.FieldBattle)
+                {
+                    GameMetricsController GMC = new GameMetricsController();
+
+                    GMC.WriteToJson(GameMetricEnum.NumberOfFieldBattleOrders);
                 }
 
                 return true;

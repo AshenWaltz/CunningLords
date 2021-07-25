@@ -24,6 +24,8 @@ namespace CunningLords.Patches
 
         public int NumberOfPlansActivated = 0;
 
+        public int NumberOfFieldBattleOrders = 0;
+
         public bool TakeMetrics = true;
     }
 }

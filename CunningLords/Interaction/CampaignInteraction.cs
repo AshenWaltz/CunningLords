@@ -33,13 +33,13 @@ namespace CunningLords.Interaction
         {
             static void Postfix(Campaign __instance)
             {
-                if (Input.IsKeyDown(InputKey.LeftAlt) && Input.IsKeyDown(InputKey.E) && !CampaignInteraction._inMenu)
+                if (Input.IsKeyDown(InputKey.LeftControl) && Input.IsKeyDown(InputKey.E) && !CampaignInteraction._inMenu)
                 {
                     CampaignInteraction._inMenu = true;
                     //InformationManager.DisplayMessage(new InformationMessage("PRESSED!"));
                     ScreenManager.PushScreen(new CunningLordsOptionScreen());
                 }
-                if (Input.IsKeyDown(InputKey.LeftAlt) && Input.IsKeyDown(InputKey.R) && !CampaignInteraction._inMenu)
+                if (Input.IsKeyDown(InputKey.LeftControl) && Input.IsKeyDown(InputKey.R) && !CampaignInteraction._inMenu)
                 {
                     CampaignInteraction.isCustomBattle = true;
                     CunningLordsMenuViewModel vm = new CunningLordsMenuViewModel();

@@ -15,6 +15,7 @@ namespace CunningLords.Patches
         NumberOfLoadoutSaves,
         NumberOfLoadoutLoads,
         NumberOfTestBattles,
-        NumberOfPlansActivated
+        NumberOfPlansActivated,
+        NumberOfFieldBattleOrders
     }
 }
