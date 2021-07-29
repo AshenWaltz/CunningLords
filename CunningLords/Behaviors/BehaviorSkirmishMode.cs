@@ -50,7 +50,7 @@ namespace CunningLords.Behaviors
 
             if (tooCloseForConfort.Count > 1) //Too close from more than 1 formation
             {
-                InformationManager.DisplayMessage(new InformationMessage(base.Formation.FormationIndex.ToString() + ": Kiting " + tooCloseForConfort.Count.ToString() + " enemies"));
+                //InformationManager.DisplayMessage(new InformationMessage(base.Formation.FormationIndex.ToString() + ": Kiting " + tooCloseForConfort.Count.ToString() + " enemies"));
 
                 foreach (Formation f in tooCloseForConfort)
                 {
@@ -67,7 +67,7 @@ namespace CunningLords.Behaviors
             }
             else if (tooCloseForConfort.Count == 1) //Too close too one formation
             {
-                InformationManager.DisplayMessage(new InformationMessage(base.Formation.FormationIndex.ToString() + ": Kiting 1 enemiy"));
+                //InformationManager.DisplayMessage(new InformationMessage(base.Formation.FormationIndex.ToString() + ": Kiting 1 enemiy"));
 
                 escapeVector = base.Formation.QuerySystem.AveragePosition - tooCloseForConfort.First().QuerySystem.AveragePosition;
 
@@ -79,7 +79,7 @@ namespace CunningLords.Behaviors
             }
             else //No formations close, must approach
             {
-                InformationManager.DisplayMessage(new InformationMessage(base.Formation.FormationIndex.ToString() + ": approach enemy"));
+                //InformationManager.DisplayMessage(new InformationMessage(base.Formation.FormationIndex.ToString() + ": approach enemy"));
 
                 escapeVector = base.Formation.QuerySystem.AveragePosition - base.Formation.QuerySystem.ClosestSignificantlyLargeEnemyFormation.MedianPosition.AsVec2;
 
