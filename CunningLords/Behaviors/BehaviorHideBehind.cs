@@ -8,77 +8,66 @@ using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using CunningLords.Patches;
-using CunningLords.BehaviorTreelogic;
 
 namespace CunningLords.Behaviors
 {
-    class BehaviorHideBehind : BehaviorDefend
+    class BehaviorHideBehind : BehaviorComponent
     {
-        public Formation Formation;
-        public BehaviorConfig config;
-        public FormationClass focus;
+        private Formation mainFormation;
 
         public BehaviorHideBehind(Formation formation) : base(formation)
         {
+            this.mainFormation = formation.Team.Formations.FirstOrDefault((Formation f) => f.FormationIndex == FormationClass.Infantry);
+            this.CalculateCurrentOrder();
         }
 
-        /*
         protected override void CalculateCurrentOrder()
         {
-        }
-
-        private void ExecuteActions()
-        {
-            Formation focusedFormation = this.Formation.Team.Formations.FirstOrDefault((Formation f) => f.FormationIndex == this.focus);
-
-            if (focusedFormation != null)
+            if (mainFormation != null)
             {
                 Vec2 escapeVector;
 
-                Vec2 focusedPosition = focusedFormation.QuerySystem.AveragePosition;
+                Vec2 focusedPosition = mainFormation.QuerySystem.AveragePosition;
 
-                Vec2 focusedDirection = focusedFormation.Direction.Normalized();
+                Vec2 focusedDirection = mainFormation.Direction.Normalized();
 
-                escapeVector = focusedPosition - (focusedDirection * 4 * (focusedFormation.Depth + focusedFormation.Depth));
+                escapeVector = focusedPosition - (focusedDirection * 4 * (mainFormation.Depth + mainFormation.Depth));
 
                 WorldPosition position = this.Formation.QuerySystem.MedianPosition;
                 position.SetVec2(escapeVector);
-                this.Formation.MovementOrder = MovementOrder.MovementOrderMove(position);
+                base.CurrentOrder = MovementOrder.MovementOrderMove(position);
 
-                this.Formation.FacingOrder = FacingOrder.FacingOrderLookAtDirection(focusedDirection);
+                this.CurrentFacingOrder = FacingOrder.FacingOrderLookAtDirection(focusedDirection);
             }
             else
             {
-                this.Formation.MovementOrder = MovementOrder.MovementOrderStop;
+                base.CurrentOrder = MovementOrder.MovementOrderStop;
 
-                this.Formation.FacingOrder = FacingOrder.FacingOrderLookAtEnemy;
+                this.CurrentFacingOrder = FacingOrder.FacingOrderLookAtEnemy;
             }
-
-            MaintainPersistentOrders();
-        }
-
-        private void MaintainPersistentOrders()
-        {
-            this.Formation.ArrangementOrder = this.config.arrangementOrder;
-            this.Formation.FiringOrder = this.config.firingOrder;
-            this.Formation.FormOrder = this.config.formOrder;
-            this.Formation.WeaponUsageOrder = this.config.weaponusageOrder;
-            this.Formation.RidingOrder = this.config.ridingOrder;
         }
 
         public override void TickOccasionally()
         {
-            ExecuteActions();
+            this.CalculateCurrentOrder();
+            base.Formation.SetMovementOrder(base.CurrentOrder);
+            base.Formation.FacingOrder = this.CurrentFacingOrder;
         }
 
         protected override void OnBehaviorActivatedAux()
         {
+            this.CalculateCurrentOrder();
+            base.Formation.SetMovementOrder(base.CurrentOrder);
+            base.Formation.FacingOrder = this.CurrentFacingOrder;
+            base.Formation.ArrangementOrder = ArrangementOrder.ArrangementOrderLoose;
+            base.Formation.FiringOrder = FiringOrder.FiringOrderFireAtWill;
+            base.Formation.FormOrder = FormOrder.FormOrderWide;
+            base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
         }
 
         protected override float GetAiWeight()
         {
             return 1f;
         }
-        */
     }
 }

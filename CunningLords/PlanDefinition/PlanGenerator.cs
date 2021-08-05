@@ -320,7 +320,7 @@ namespace CunningLords.PlanDefinition
                     break;
                 case PlanOrderEnum.HideBehind:
                     f.AI.ResetBehaviorWeights();
-                    f.AI.SetBehaviorWeight<BehaviorScreenedSkirmish>(2f);
+                    f.AI.SetBehaviorWeight<BehaviorHideBehind>(2f);
                     break;
                 case PlanOrderEnum.ProtectFlank:
                     f.AI.ResetBehaviorWeights();
@@ -454,13 +454,17 @@ namespace CunningLords.PlanDefinition
 
                         //InformationManager.DisplayMessage(new InformationMessage("ENEMY: " + averageEnemyPower.ToString()));
 
-                        if (averageEnemyPower > averageAlliedPower)
+                        if ((averageEnemyPower * 0.75) > averageAlliedPower)
                         {
                             return PlanStateEnum.Losing;
                         }
-                        else
+                        else if ((averageAlliedPower * 0.75) > averageEnemyPower)
                         {
                             return PlanStateEnum.Winning;
+                        }
+                        else
+                        {
+                            return PlanStateEnum.Engage;
                         }
                     }
                     else
