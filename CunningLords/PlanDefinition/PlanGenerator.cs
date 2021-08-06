@@ -106,184 +106,187 @@ namespace CunningLords.PlanDefinition
                     foreach (Formation f in playerTeam.Formations)
                     {
                         //f.IsAIControlled = true;
-                        switch (f.FormationIndex)
+                        if (f.PlayerOwner != null)
                         {
-                            case FormationClass.Infantry:
-                                if (state == PlanStateEnum.Prepare)
-                                {
-                                    ApplyBehavior(f, plan.infantryPhasePrepare);
-                                }
-                                else if (state == PlanStateEnum.Ranged)
-                                {
-                                    ApplyBehavior(f, plan.infantryPhaseRanged);
-                                }
-                                else if(state == PlanStateEnum.Engage)
-                                {
-                                    ApplyBehavior(f, plan.infantryPhaseEngage);
-                                }
-                                else if (state == PlanStateEnum.Winning)
-                                {
-                                    ApplyBehavior(f, plan.infantryPhaseWinning);
-                                }
-                                else if (state == PlanStateEnum.Losing)
-                                {
-                                    ApplyBehavior(f, plan.infantryPhaseLosing);
-                                }
-                                break;
-                            case FormationClass.Ranged:
-                                if (state == PlanStateEnum.Prepare)
-                                {
-                                    ApplyBehavior(f, plan.archersPhasePrepare);
-                                }
-                                else if (state == PlanStateEnum.Ranged)
-                                {
-                                    ApplyBehavior(f, plan.archersPhaseRanged);
-                                }
-                                else if (state == PlanStateEnum.Engage)
-                                {
-                                    ApplyBehavior(f, plan.archersPhaseEngage);
-                                }
-                                else if (state == PlanStateEnum.Winning)
-                                {
-                                    ApplyBehavior(f, plan.archersPhaseWinning);
-                                }
-                                else if (state == PlanStateEnum.Losing)
-                                {
-                                    ApplyBehavior(f, plan.archersPhaseLosing);
-                                }
-                                break;
-                            case FormationClass.Cavalry:
-                                if (state == PlanStateEnum.Prepare)
-                                {
-                                    ApplyBehavior(f, plan.cavalryPhasePrepare);
-                                }
-                                else if (state == PlanStateEnum.Ranged)
-                                {
-                                    ApplyBehavior(f, plan.cavalryPhaseRanged);
-                                }
-                                else if (state == PlanStateEnum.Engage)
-                                {
-                                    ApplyBehavior(f, plan.cavalryPhaseEngage);
-                                }
-                                else if (state == PlanStateEnum.Winning)
-                                {
-                                    ApplyBehavior(f, plan.cavalryPhaseWinning);
-                                }
-                                else if (state == PlanStateEnum.Losing)
-                                {
-                                    ApplyBehavior(f, plan.cavalryPhaseLosing);
-                                }
-                                break;
-                            case FormationClass.HorseArcher:
-                                if (state == PlanStateEnum.Prepare)
-                                {
-                                    ApplyBehavior(f, plan.horseArchersPhasePrepare);
-                                }
-                                else if (state == PlanStateEnum.Ranged)
-                                {
-                                    ApplyBehavior(f, plan.horseArchersPhaseRanged);
-                                }
-                                else if (state == PlanStateEnum.Engage)
-                                {
-                                    ApplyBehavior(f, plan.horseArchersPhaseEngage);
-                                }
-                                else if (state == PlanStateEnum.Winning)
-                                {
-                                    ApplyBehavior(f, plan.horseArchersPhaseWinning);
-                                }
-                                else if (state == PlanStateEnum.Losing)
-                                {
-                                    ApplyBehavior(f, plan.horseArchersPhaseLosing);
-                                }
-                                break;
-                            case FormationClass.Skirmisher:
-                                if (state == PlanStateEnum.Prepare)
-                                {
-                                    ApplyBehavior(f, plan.skirmishersPhasePrepare);
-                                }
-                                else if (state == PlanStateEnum.Ranged)
-                                {
-                                    ApplyBehavior(f, plan.skirmishersPhaseRanged);
-                                }
-                                else if (state == PlanStateEnum.Engage)
-                                {
-                                    ApplyBehavior(f, plan.skirmishersPhaseEngage);
-                                }
-                                else if (state == PlanStateEnum.Winning)
-                                {
-                                    ApplyBehavior(f, plan.skirmishersPhaseWinning);
-                                }
-                                else if (state == PlanStateEnum.Losing)
-                                {
-                                    ApplyBehavior(f, plan.skirmishersPhaseLosing);
-                                }
-                                break;
-                            case FormationClass.HeavyInfantry:
-                                if (state == PlanStateEnum.Prepare)
-                                {
-                                    ApplyBehavior(f, plan.heavyInfantryPhasePrepare);
-                                }
-                                else if (state == PlanStateEnum.Ranged)
-                                {
-                                    ApplyBehavior(f, plan.heavyInfantryPhaseRanged);
-                                }
-                                else if (state == PlanStateEnum.Engage)
-                                {
-                                    ApplyBehavior(f, plan.heavyInfantryPhaseEngage);
-                                }
-                                else if (state == PlanStateEnum.Winning)
-                                {
-                                    ApplyBehavior(f, plan.heavyInfantryPhaseWinning);
-                                }
-                                else if (state == PlanStateEnum.Losing)
-                                {
-                                    ApplyBehavior(f, plan.heavyInfantryPhaseLosing);
-                                }
-                                break;
-                            case FormationClass.LightCavalry:
-                                if (state == PlanStateEnum.Prepare)
-                                {
-                                    ApplyBehavior(f, plan.lightCavalryPhasePrepare);
-                                }
-                                else if (state == PlanStateEnum.Ranged)
-                                {
-                                    ApplyBehavior(f, plan.lightCavalryPhaseRanged);
-                                }
-                                else if (state == PlanStateEnum.Engage)
-                                {
-                                    ApplyBehavior(f, plan.lightCavalryPhaseEngage);
-                                }
-                                else if (state == PlanStateEnum.Winning)
-                                {
-                                    ApplyBehavior(f, plan.lightCavalryPhaseWinning);
-                                }
-                                else if (state == PlanStateEnum.Losing)
-                                {
-                                    ApplyBehavior(f, plan.lightCavalryPhaseLosing);
-                                }
-                                break;
-                            case FormationClass.HeavyCavalry:
-                                if (state == PlanStateEnum.Prepare)
-                                {
-                                    ApplyBehavior(f, plan.heavyCavalryPhasePrepare);
-                                }
-                                else if (state == PlanStateEnum.Ranged)
-                                {
-                                    ApplyBehavior(f, plan.heavyCavalryPhaseRanged);
-                                }
-                                else if (state == PlanStateEnum.Engage)
-                                {
-                                    ApplyBehavior(f, plan.heavyCavalryPhaseEngage);
-                                }
-                                else if (state == PlanStateEnum.Winning)
-                                {
-                                    ApplyBehavior(f, plan.heavyCavalryPhaseWinning);
-                                }
-                                else if (state == PlanStateEnum.Losing)
-                                {
-                                    ApplyBehavior(f, plan.heavyCavalryPhaseLosing);
-                                }
-                                break;
+                            switch (f.FormationIndex)
+                            {
+                                case FormationClass.Infantry:
+                                    if (state == PlanStateEnum.Prepare)
+                                    {
+                                        ApplyBehavior(f, plan.infantryPhasePrepare);
+                                    }
+                                    else if (state == PlanStateEnum.Ranged)
+                                    {
+                                        ApplyBehavior(f, plan.infantryPhaseRanged);
+                                    }
+                                    else if (state == PlanStateEnum.Engage)
+                                    {
+                                        ApplyBehavior(f, plan.infantryPhaseEngage);
+                                    }
+                                    else if (state == PlanStateEnum.Winning)
+                                    {
+                                        ApplyBehavior(f, plan.infantryPhaseWinning);
+                                    }
+                                    else if (state == PlanStateEnum.Losing)
+                                    {
+                                        ApplyBehavior(f, plan.infantryPhaseLosing);
+                                    }
+                                    break;
+                                case FormationClass.Ranged:
+                                    if (state == PlanStateEnum.Prepare)
+                                    {
+                                        ApplyBehavior(f, plan.archersPhasePrepare);
+                                    }
+                                    else if (state == PlanStateEnum.Ranged)
+                                    {
+                                        ApplyBehavior(f, plan.archersPhaseRanged);
+                                    }
+                                    else if (state == PlanStateEnum.Engage)
+                                    {
+                                        ApplyBehavior(f, plan.archersPhaseEngage);
+                                    }
+                                    else if (state == PlanStateEnum.Winning)
+                                    {
+                                        ApplyBehavior(f, plan.archersPhaseWinning);
+                                    }
+                                    else if (state == PlanStateEnum.Losing)
+                                    {
+                                        ApplyBehavior(f, plan.archersPhaseLosing);
+                                    }
+                                    break;
+                                case FormationClass.Cavalry:
+                                    if (state == PlanStateEnum.Prepare)
+                                    {
+                                        ApplyBehavior(f, plan.cavalryPhasePrepare);
+                                    }
+                                    else if (state == PlanStateEnum.Ranged)
+                                    {
+                                        ApplyBehavior(f, plan.cavalryPhaseRanged);
+                                    }
+                                    else if (state == PlanStateEnum.Engage)
+                                    {
+                                        ApplyBehavior(f, plan.cavalryPhaseEngage);
+                                    }
+                                    else if (state == PlanStateEnum.Winning)
+                                    {
+                                        ApplyBehavior(f, plan.cavalryPhaseWinning);
+                                    }
+                                    else if (state == PlanStateEnum.Losing)
+                                    {
+                                        ApplyBehavior(f, plan.cavalryPhaseLosing);
+                                    }
+                                    break;
+                                case FormationClass.HorseArcher:
+                                    if (state == PlanStateEnum.Prepare)
+                                    {
+                                        ApplyBehavior(f, plan.horseArchersPhasePrepare);
+                                    }
+                                    else if (state == PlanStateEnum.Ranged)
+                                    {
+                                        ApplyBehavior(f, plan.horseArchersPhaseRanged);
+                                    }
+                                    else if (state == PlanStateEnum.Engage)
+                                    {
+                                        ApplyBehavior(f, plan.horseArchersPhaseEngage);
+                                    }
+                                    else if (state == PlanStateEnum.Winning)
+                                    {
+                                        ApplyBehavior(f, plan.horseArchersPhaseWinning);
+                                    }
+                                    else if (state == PlanStateEnum.Losing)
+                                    {
+                                        ApplyBehavior(f, plan.horseArchersPhaseLosing);
+                                    }
+                                    break;
+                                case FormationClass.Skirmisher:
+                                    if (state == PlanStateEnum.Prepare)
+                                    {
+                                        ApplyBehavior(f, plan.skirmishersPhasePrepare);
+                                    }
+                                    else if (state == PlanStateEnum.Ranged)
+                                    {
+                                        ApplyBehavior(f, plan.skirmishersPhaseRanged);
+                                    }
+                                    else if (state == PlanStateEnum.Engage)
+                                    {
+                                        ApplyBehavior(f, plan.skirmishersPhaseEngage);
+                                    }
+                                    else if (state == PlanStateEnum.Winning)
+                                    {
+                                        ApplyBehavior(f, plan.skirmishersPhaseWinning);
+                                    }
+                                    else if (state == PlanStateEnum.Losing)
+                                    {
+                                        ApplyBehavior(f, plan.skirmishersPhaseLosing);
+                                    }
+                                    break;
+                                case FormationClass.HeavyInfantry:
+                                    if (state == PlanStateEnum.Prepare)
+                                    {
+                                        ApplyBehavior(f, plan.heavyInfantryPhasePrepare);
+                                    }
+                                    else if (state == PlanStateEnum.Ranged)
+                                    {
+                                        ApplyBehavior(f, plan.heavyInfantryPhaseRanged);
+                                    }
+                                    else if (state == PlanStateEnum.Engage)
+                                    {
+                                        ApplyBehavior(f, plan.heavyInfantryPhaseEngage);
+                                    }
+                                    else if (state == PlanStateEnum.Winning)
+                                    {
+                                        ApplyBehavior(f, plan.heavyInfantryPhaseWinning);
+                                    }
+                                    else if (state == PlanStateEnum.Losing)
+                                    {
+                                        ApplyBehavior(f, plan.heavyInfantryPhaseLosing);
+                                    }
+                                    break;
+                                case FormationClass.LightCavalry:
+                                    if (state == PlanStateEnum.Prepare)
+                                    {
+                                        ApplyBehavior(f, plan.lightCavalryPhasePrepare);
+                                    }
+                                    else if (state == PlanStateEnum.Ranged)
+                                    {
+                                        ApplyBehavior(f, plan.lightCavalryPhaseRanged);
+                                    }
+                                    else if (state == PlanStateEnum.Engage)
+                                    {
+                                        ApplyBehavior(f, plan.lightCavalryPhaseEngage);
+                                    }
+                                    else if (state == PlanStateEnum.Winning)
+                                    {
+                                        ApplyBehavior(f, plan.lightCavalryPhaseWinning);
+                                    }
+                                    else if (state == PlanStateEnum.Losing)
+                                    {
+                                        ApplyBehavior(f, plan.lightCavalryPhaseLosing);
+                                    }
+                                    break;
+                                case FormationClass.HeavyCavalry:
+                                    if (state == PlanStateEnum.Prepare)
+                                    {
+                                        ApplyBehavior(f, plan.heavyCavalryPhasePrepare);
+                                    }
+                                    else if (state == PlanStateEnum.Ranged)
+                                    {
+                                        ApplyBehavior(f, plan.heavyCavalryPhaseRanged);
+                                    }
+                                    else if (state == PlanStateEnum.Engage)
+                                    {
+                                        ApplyBehavior(f, plan.heavyCavalryPhaseEngage);
+                                    }
+                                    else if (state == PlanStateEnum.Winning)
+                                    {
+                                        ApplyBehavior(f, plan.heavyCavalryPhaseWinning);
+                                    }
+                                    else if (state == PlanStateEnum.Losing)
+                                    {
+                                        ApplyBehavior(f, plan.heavyCavalryPhaseLosing);
+                                    }
+                                    break;
+                            }
                         }
                     }
                 }

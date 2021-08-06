@@ -173,58 +173,61 @@ namespace CunningLords.Interaction
 
             foreach (Formation f in mission.MainAgent.Team.Formations)
             {
-                if (f.FormationIndex == FormationClass.Infantry)
+                if (f.PlayerOwner != null)
                 {
-                    ApplyArrangement(f, deserialized[index].InfantryArrangementOrder);
-                }
-                else if (f.FormationIndex == FormationClass.Ranged && f.FormationIndex != mainFormation.FormationIndex)
-                {
-                    WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].ArchersXOffset, deserialized[index].ArchersYOffset);
-                    f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
+                    if (f.FormationIndex == FormationClass.Infantry)
+                    {
+                        ApplyArrangement(f, deserialized[index].InfantryArrangementOrder);
+                    }
+                    else if (f.FormationIndex == FormationClass.Ranged && f.FormationIndex != mainFormation.FormationIndex)
+                    {
+                        WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].ArchersXOffset, deserialized[index].ArchersYOffset);
+                        f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
 
-                    ApplyArrangement(f, deserialized[index].ArchersArrangementOrder);
-                }
-                else if (f.FormationIndex == FormationClass.Cavalry && f.FormationIndex != mainFormation.FormationIndex)
-                {
-                    WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].CavalryXOffset, deserialized[index].CavalryYOffset);
-                    f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
+                        ApplyArrangement(f, deserialized[index].ArchersArrangementOrder);
+                    }
+                    else if (f.FormationIndex == FormationClass.Cavalry && f.FormationIndex != mainFormation.FormationIndex)
+                    {
+                        WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].CavalryXOffset, deserialized[index].CavalryYOffset);
+                        f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
 
-                    ApplyArrangement(f, deserialized[index].CavalryArrangementOrder);
-                }
-                else if (f.FormationIndex == FormationClass.HorseArcher && f.FormationIndex != mainFormation.FormationIndex)
-                {
-                    WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].HorseArchersXOffset, deserialized[index].HorseArchersYOffset);
-                    f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
+                        ApplyArrangement(f, deserialized[index].CavalryArrangementOrder);
+                    }
+                    else if (f.FormationIndex == FormationClass.HorseArcher && f.FormationIndex != mainFormation.FormationIndex)
+                    {
+                        WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].HorseArchersXOffset, deserialized[index].HorseArchersYOffset);
+                        f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
 
-                    ApplyArrangement(f, deserialized[index].HorseArchersArrangementOrder);
-                }
-                else if (f.FormationIndex == FormationClass.Skirmisher && f.FormationIndex != mainFormation.FormationIndex)
-                {
-                    WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].SkirmisherXOffset, deserialized[index].SkirmisherYOffset);
-                    f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
+                        ApplyArrangement(f, deserialized[index].HorseArchersArrangementOrder);
+                    }
+                    else if (f.FormationIndex == FormationClass.Skirmisher && f.FormationIndex != mainFormation.FormationIndex)
+                    {
+                        WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].SkirmisherXOffset, deserialized[index].SkirmisherYOffset);
+                        f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
 
-                    ApplyArrangement(f, deserialized[index].SkirmisherArrangementOrder);
-                }
-                else if (f.FormationIndex == FormationClass.HeavyInfantry && f.FormationIndex != mainFormation.FormationIndex)
-                {
-                    WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].HeavyInfantryXOffset, deserialized[index].HeavyInfantryYOffset);
-                    f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
+                        ApplyArrangement(f, deserialized[index].SkirmisherArrangementOrder);
+                    }
+                    else if (f.FormationIndex == FormationClass.HeavyInfantry && f.FormationIndex != mainFormation.FormationIndex)
+                    {
+                        WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].HeavyInfantryXOffset, deserialized[index].HeavyInfantryYOffset);
+                        f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
 
-                    ApplyArrangement(f, deserialized[index].HeavyInfantryArrangementOrder);
-                }
-                else if (f.FormationIndex == FormationClass.LightCavalry && f.FormationIndex != mainFormation.FormationIndex)
-                {
-                    WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].LightCavalryXOffset, deserialized[index].LightCavalryYOffset);
-                    f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
+                        ApplyArrangement(f, deserialized[index].HeavyInfantryArrangementOrder);
+                    }
+                    else if (f.FormationIndex == FormationClass.LightCavalry && f.FormationIndex != mainFormation.FormationIndex)
+                    {
+                        WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].LightCavalryXOffset, deserialized[index].LightCavalryYOffset);
+                        f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
 
-                    ApplyArrangement(f, deserialized[index].LightCavalryArrangementOrder);
-                }
-                else if (f.FormationIndex == FormationClass.HeavyCavalry && f.FormationIndex != mainFormation.FormationIndex)
-                {
-                    WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].HeavyCavalryXOffset, deserialized[index].HeavyCavalryYOffset);
-                    f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
+                        ApplyArrangement(f, deserialized[index].LightCavalryArrangementOrder);
+                    }
+                    else if (f.FormationIndex == FormationClass.HeavyCavalry && f.FormationIndex != mainFormation.FormationIndex)
+                    {
+                        WorldPosition position = CalculateWorldpositionsBasedOnOffset(mainFormation, mission, deserialized[index].HeavyCavalryXOffset, deserialized[index].HeavyCavalryYOffset);
+                        f.SetMovementOrder(MovementOrder.MovementOrderMove(position));
 
-                    ApplyArrangement(f, deserialized[index].HeavyCavalryArrangementOrder);
+                        ApplyArrangement(f, deserialized[index].HeavyCavalryArrangementOrder);
+                    }
                 }
             }
             InformationManager.DisplayMessage(new InformationMessage("Load index " + index.ToString()));
@@ -361,37 +364,40 @@ namespace CunningLords.Interaction
 
             foreach (Formation f in mission.MainAgent.Team.Formations)
             {
-                if (f.FormationIndex == FormationClass.Infantry)
+                if (f.PlayerOwner != null)
                 {
-                    ApplyOrderToFormation(f, data.InfantryOrder);
-                }
-                else if (f.FormationIndex == FormationClass.Ranged)
-                {
-                    ApplyOrderToFormation(f, data.ArcherOrder);
-                }
-                else if (f.FormationIndex == FormationClass.Cavalry)
-                {
-                    ApplyOrderToFormation(f, data.CavalryOrder);
-                }
-                else if (f.FormationIndex == FormationClass.HorseArcher)
-                {
-                    ApplyOrderToFormation(f, data.HorseArcherOrder);
-                }
-                else if (f.FormationIndex == FormationClass.Skirmisher)
-                {
-                    ApplyOrderToFormation(f, data.SkirmisherOrder);
-                }
-                else if (f.FormationIndex == FormationClass.HeavyInfantry)
-                {
-                    ApplyOrderToFormation(f, data.HeavyInfantryOrder);
-                }
-                else if (f.FormationIndex == FormationClass.LightCavalry)
-                {
-                    ApplyOrderToFormation(f, data.LightCavalryOrder);
-                }
-                else if (f.FormationIndex == FormationClass.HeavyCavalry)
-                {
-                    ApplyOrderToFormation(f, data.HeavyCavalryOrder);
+                    if (f.FormationIndex == FormationClass.Infantry)
+                    {
+                        ApplyOrderToFormation(f, data.InfantryOrder);
+                    }
+                    else if (f.FormationIndex == FormationClass.Ranged)
+                    {
+                        ApplyOrderToFormation(f, data.ArcherOrder);
+                    }
+                    else if (f.FormationIndex == FormationClass.Cavalry)
+                    {
+                        ApplyOrderToFormation(f, data.CavalryOrder);
+                    }
+                    else if (f.FormationIndex == FormationClass.HorseArcher)
+                    {
+                        ApplyOrderToFormation(f, data.HorseArcherOrder);
+                    }
+                    else if (f.FormationIndex == FormationClass.Skirmisher)
+                    {
+                        ApplyOrderToFormation(f, data.SkirmisherOrder);
+                    }
+                    else if (f.FormationIndex == FormationClass.HeavyInfantry)
+                    {
+                        ApplyOrderToFormation(f, data.HeavyInfantryOrder);
+                    }
+                    else if (f.FormationIndex == FormationClass.LightCavalry)
+                    {
+                        ApplyOrderToFormation(f, data.LightCavalryOrder);
+                    }
+                    else if (f.FormationIndex == FormationClass.HeavyCavalry)
+                    {
+                        ApplyOrderToFormation(f, data.HeavyCavalryOrder);
+                    }
                 }
             }
         }

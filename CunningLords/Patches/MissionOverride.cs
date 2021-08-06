@@ -84,7 +84,10 @@ namespace CunningLords.Patches
                 {
                     foreach (Formation f in __instance.MainAgent.Team.Formations)
                     {
-                        f.IsAIControlled = false;
+                        if (f.PlayerOwner != null)
+                        {
+                            f.IsAIControlled = false;
+                        }
                     }
 
                     MissionOverride.PlanCounter = 0;
