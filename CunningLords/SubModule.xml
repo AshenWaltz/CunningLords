@@ -1,14 +1,14 @@
 ﻿<Module>
   <Name value="CunningLords a Bannerlord Mod"/>
   <Id value="CunningLords"/>
-  <Version value="v1.0.0"/>
+  <Version value="v1.1.0"/>
   <SingleplayerModule value="true"/>
   <MultiplayerModule value="false"/>
   <DependedModules>
-    <DependedModule Id="Native"/>
-    <DependedModule Id="SandBoxCore"/>
-    <DependedModule Id="Sandbox"/>
-    <DependedModule Id="StoryMode" />
+    <DependedModule Id="Native" version="1.6.1"/>
+    <DependedModule Id="SandBoxCore" version="1.6.1"/>
+    <DependedModule Id="Sandbox" version="1.6.1"/>
+    <DependedModule Id="StoryMode" version="1.6.1"/>
   </DependedModules>
   <SubModules>
     <SubModule>

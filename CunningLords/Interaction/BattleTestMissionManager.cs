@@ -12,6 +12,7 @@ using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.Source.Missions;
 using TaleWorlds.MountAndBlade.Source.Missions.Handlers.Logic;
+using TaleWorlds.Localization;
 
 namespace CunningLords.Interaction
 {
@@ -63,7 +64,7 @@ namespace CunningLords.Interaction
 				Hero leaderHero = MapEvent.PlayerMapEvent.AttackerSide.LeaderParty.LeaderHero;
 				string attackerGeneralName = (leaderHero != null) ? leaderHero.Name.ToString() : null;
 				Hero leaderHero2 = MapEvent.PlayerMapEvent.DefenderSide.LeaderParty.LeaderHero;
-				array[num] = new CreateBodyguardMissionBehavior(attackerGeneralName, (leaderHero2 != null) ? leaderHero2.Name.ToString() : null, null, null, true);
+				array[num] = new CreateBodyguardMissionBehavior(new TextObject(attackerGeneralName, null), (leaderHero2 != null) ? new TextObject(leaderHero2.Name.ToString(), null) : null, null, null, true);
 				array[26] = new EquipmentControllerLeaveLogic();
 				return array;
 			}, true, true);
