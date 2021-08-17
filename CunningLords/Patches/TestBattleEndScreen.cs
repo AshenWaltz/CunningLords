@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade.ViewModelCollection.Scoreboard;
+using CunningLords.Interaction;
 
 namespace CunningLords.Patches
 {
@@ -21,9 +22,10 @@ namespace CunningLords.Patches
         {
             static void Prefix(SPScoreboardVM __instance, ref bool playerVictory)
             {
-                playerVictory = false;
-
-
+                if (CampaignInteraction.isCustomBattle)
+                {
+                    playerVictory = false;
+                }
             }
         }
     }
