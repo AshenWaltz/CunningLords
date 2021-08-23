@@ -426,7 +426,6 @@ namespace CunningLords.Interaction
                     break;
                 case OrderType.FollowEntity:
                 case OrderType.GuardMe:
-                case OrderType.Attach:
                 case OrderType.LookAtDirection:
                 case OrderType.FormCustom:
                 case OrderType.CohesionHigh:
