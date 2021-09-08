@@ -179,7 +179,8 @@ namespace CunningLords.Interaction
                 "HideBehind",
                 "ProtectFlank",
                 "Advance",
-                "CautiousAdvance"
+                "CautiousAdvance",
+                "Retreat"
             };
 
             //Infantry
@@ -475,6 +476,8 @@ namespace CunningLords.Interaction
                     return 6;
                 case PlanOrderEnum.CautiousAdvance:
                     return 7;
+                case PlanOrderEnum.Retreat:
+                    return 8;
                 default:
                     return 0;
             }
@@ -513,6 +516,10 @@ namespace CunningLords.Interaction
             else if (value == 7)
             {
                 return PlanOrderEnum.CautiousAdvance;
+            }
+            else if (value == 8)
+            {
+                return PlanOrderEnum.Retreat;
             }
             return PlanOrderEnum.HoldPosition;
         }
