@@ -363,14 +363,14 @@ namespace CunningLords.PlanDefinition
                             }
                             else
                             {
-                                return PlanStateEnum.Prepare;
+                                return this.previousState;
                             }
 
                             if (closestsFormation != null)
                             {
                                 float distance = f.QuerySystem.AveragePosition.Distance(closestsFormation.QuerySystem.AveragePosition);
 
-                                if (distance < 20.0f)
+                                if (distance < 30.0f)
                                 {
                                     if (engageCounterStart == -1 && isEngaged == false)
                                     {
@@ -379,7 +379,7 @@ namespace CunningLords.PlanDefinition
                                     }
                                     return PlanStateEnum.Engage;
                                 }
-                                else if (distance >= 20.0f && distance < 60.0f)
+                                else if (distance >= 30.0f && distance < 100.0f)
                                 {
                                     return PlanStateEnum.Ranged;
                                 }
@@ -389,7 +389,7 @@ namespace CunningLords.PlanDefinition
                             }
                             else
                             {
-                                return PlanStateEnum.Prepare;
+                                return this.previousState;
                             }
                         }
                     }
@@ -457,11 +457,11 @@ namespace CunningLords.PlanDefinition
 
                         //InformationManager.DisplayMessage(new InformationMessage("ENEMY: " + averageEnemyPower.ToString()));
 
-                        if ((averageEnemyPower * 0.75) > averageAlliedPower)
+                        if ((averageEnemyPower * 0.5) > averageAlliedPower)
                         {
                             return PlanStateEnum.Losing;
                         }
-                        else if ((averageAlliedPower * 0.75) > averageEnemyPower)
+                        else if ((averageAlliedPower * 0.5) > averageEnemyPower)
                         {
                             return PlanStateEnum.Winning;
                         }
@@ -469,6 +469,10 @@ namespace CunningLords.PlanDefinition
                         {
                             return PlanStateEnum.Engage;
                         }
+                    }
+                    else if (this.isEngaged)
+                    {
+                        return PlanStateEnum.Engage;
                     }
                     else
                     {
