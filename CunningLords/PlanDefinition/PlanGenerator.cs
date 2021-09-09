@@ -398,7 +398,9 @@ namespace CunningLords.PlanDefinition
                             {
                                 float distance = f.QuerySystem.AveragePosition.Distance(closestsFormation.QuerySystem.AveragePosition);
 
-                                if (ProximityPercentage(Mission.Current, f, 30) < 10.0f)
+                                float res = ProximityPercentage(Mission.Current, f, 30);
+
+                                if (res > 0.10f)
                                 {
                                     if (engageCounterStart == -1 && isEngaged == false)
                                     {
@@ -407,7 +409,7 @@ namespace CunningLords.PlanDefinition
                                     }
                                     return PlanStateEnum.Engage;
                                 }
-                                else if (distance >= 30.0f && distance < 100.0f)
+                                else if (distance >= 30.0f && distance < 90.0f)
                                 {
                                     return PlanStateEnum.Ranged;
                                 }
@@ -422,7 +424,7 @@ namespace CunningLords.PlanDefinition
                             }
                         }
                     }
-                    else if (isEngaged && (MissionOverride.FrameCounter - engageCounterStart) > 2500)
+                    else if (isEngaged && (MissionOverride.FrameCounter - engageCounterStart) > 1000)
                     {
                         List<Team> enemyTeams = (from t in Mission.Current.Teams where t.Side != Mission.Current.MainAgent.Team.Side select t).ToList<Team>();
 
@@ -432,6 +434,21 @@ namespace CunningLords.PlanDefinition
 
                         float alliedPowerRatio = 0.0f;
 
+                        foreach (Team te in enemyTeams)
+                        {
+                            if (te != null)
+                            {
+                                enemyPowerRatio += te.QuerySystem.TeamPower;
+                            }
+                        }
+
+                        foreach (Team te in alliedTeams)
+                        {
+                            if (te != null)
+                            {
+                                alliedPowerRatio += te.QuerySystem.TeamPower;
+                            }
+                        }
 
                         float averageAlliedPower = alliedPowerRatio / alliedTeams.Count;
 
@@ -517,8 +534,8 @@ namespace CunningLords.PlanDefinition
             List<Team> allEnemyTeams = (from t in __instance.Teams where t.Side != MissionOverride.PlayerBattleSide select t).ToList<Team>();
             bool notNullorZeroVerifier = allEnemyTeams != null && allEnemyTeams.Count > 0;
 
-            int armyNumber = 1;
-            int closestTroops = 0;
+            float armyNumber = 1.0f;
+            float closestTroops = 0.0f;
 
             if (notNullorZeroVerifier)
             {
@@ -527,14 +544,21 @@ namespace CunningLords.PlanDefinition
                     armyNumber += t.QuerySystem.MemberCount;
                     foreach (Formation f in t.FormationsIncludingSpecial)
                     {
-                        if (formation.QuerySystem.AveragePosition.Distance(f.QuerySystem.AveragePosition) < distance)
+                        float dist = formation.QuerySystem.AveragePosition.Distance(f.QuerySystem.AveragePosition);
+
+                        
+
+                        if (dist < distance)
                         {
                             closestTroops += f.CountOfUnits;
                         }
                     }
                 }
             }
-            return (closestTroops/armyNumber) * 100.0f;
+
+            float res = (closestTroops / armyNumber);
+
+            return res;
         }
 
     }
