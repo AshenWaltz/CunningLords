@@ -409,7 +409,7 @@ namespace CunningLords.PlanDefinition
                                     }
                                     return PlanStateEnum.Engage;
                                 }
-                                else if (distance >= 30.0f && distance < 90.0f)
+                                else if (distance >= 30.0f && distance < 100.0f)
                                 {
                                     return PlanStateEnum.Ranged;
                                 }
